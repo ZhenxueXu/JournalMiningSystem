@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/E:/JournalMining/src/java/inputBeans/CreatePaperTables.java</file>
+            <file>file:/E:/JournalMining/web/WEB-INF/faces-config.xml</file>
+            <file>file:/E:/JournalMining/web/input/input.xhtml</file>
+            <file>file:/E:/JournalMining/src/java/jsfBeans/PaperAuthorFacade.java</file>
+            <file>file:/E:/JournalMining/src/java/jsfBeans/PaperAddressFacade.java</file>
+            <file>file:/E:/JournalMining/web/WEB-INF/web.xml</file>
+            <file>file:/E:/JournalMining/src/java/jsfBeans/JournalInfoFacade.java</file>
+            <file>file:/E:/JournalMining/nbproject/build-impl.xml</file>
+            <file>file:/E:/JournalMining/src/java/inputBeans/UploadFileBean.java</file>
+            <file>file:/E:/JournalMining/src/conf/persistence.xml</file>
+            <file>file:/E:/JournalMining/web/WEB-INF/glassfish-resources.xml</file>
+            <file>file:/E:/JournalMining/src/java/stateless_ejbs/DataControllerFacade.java</file>
+            <file>file:/E:/JournalMining/src/java/jsfClass/JournalInfoController.java</file>
+            <file>file:/E:/JournalMining/src/java/jsfBeans/AbstractFacade.java</file>
+        </group>
+    </open-files>
+</project-private>
