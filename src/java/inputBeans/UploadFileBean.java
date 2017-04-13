@@ -16,6 +16,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -36,6 +38,7 @@ public class UploadFileBean  implements Serializable {
     private String tempStr;
     private PaperInfo paper ;
     private ReferenceInfo reference ;
+    private List<File> files = new ArrayList<File>();
 
         
     public UploadFileBean() {
@@ -64,7 +67,7 @@ public class UploadFileBean  implements Serializable {
        File result = new File(newFilePath);
        try{
            FileOutputStream fileoutstream = new FileOutputStream(result);
-           byte[] buffer = new byte[10000000];
+           byte[] buffer = new byte[100000];
            int bulk;
            InputStream inputstream = event.getFile().getInputstream();
            while(true){
@@ -78,9 +81,8 @@ public class UploadFileBean  implements Serializable {
            inputstream.close();
            FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
            FacesContext.getCurrentInstance().addMessage(null, message);
-           fileToDB(result);
-           
-           
+           files.add(result);
+             
        }catch(IOException e){
            e.printStackTrace();
            FacesMessage error = new FacesMessage("文件没有上传");
@@ -88,29 +90,28 @@ public class UploadFileBean  implements Serializable {
        } 
     }
     
-    public void fileToDB(File bfile) throws Exception{
+    public String fileToDB() throws Exception{
         BufferedReader reader =null;
-        
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet rs = null;
+        int type = 0;
+        String number = null;
+        int i = 1;
+        //数据库连接
         try {
-            InputStreamReader isr = new InputStreamReader(new FileInputStream(bfile),"UTF-8");
-            reader = new BufferedReader(isr);
-            String pattern1 = "\\d";                             //匹配文章信息
-            Pattern r1 = Pattern.compile(pattern1);
-            Matcher m1 = null ; 
-            int type = 0;
-            String number = null ;
-            int i = 0;
-            //数据库连接
-            Connection conn = null;
-            Statement stat = null;
-            ResultSet rs = null;
-            try {
-                conn = JDBCUtils.getConn();
-                conn.setAutoCommit(false);
-                stat = conn.createStatement();
-                int r_number = 0;
+            conn = JDBCUtils.getConn();
+            conn.setAutoCommit(false);
+            stat = conn.createStatement();
+            int r_number = 0;
+            for (File bfile : files) {
+                InputStreamReader isr = new InputStreamReader(new FileInputStream(bfile), "UTF-8");
+                reader = new BufferedReader(isr);
+                String pattern1 = "\\d";                             //匹配文章信息
+                Pattern r1 = Pattern.compile(pattern1);
+                Matcher m1 = null;
                 while ((tempStr = reader.readLine()) != null) {
-
+                    
                     if (tempStr.contains("参考文献如下")) {
                         r_number = 1;
                         type = 0;
@@ -119,14 +120,13 @@ public class UploadFileBean  implements Serializable {
                         type = 1;
                     }
                     if (tempStr.startsWith("[")) {     //处理参考文献
-                        splitRerence(tempStr, number, type,r_number);
+                        splitRerence(tempStr, number, type, r_number);
                         stat = reference.addSQL(stat);
                         r_number++;
                     }
-                    if(!tempStr.equals(""))
-                    {
+                    if (!tempStr.equals("")) {
                         m1 = r1.matcher(tempStr.substring(0, 1));
-                        if (m1.matches()) {      //处理文章信息 
+                        if (m1.matches()) {      //处理文章信息
                             number = "j" + i++;
                             splitInfo(tempStr, number);
                             stat = paper.addSQL(stat);
@@ -138,21 +138,15 @@ public class UploadFileBean  implements Serializable {
                 }
                 stat.executeBatch();
                 conn.commit();
-                
-            }catch(Exception e){
-                e.printStackTrace();
-            }finally{
-                JDBCUtils.close(rs, stat, conn);
+                reader.close();
             }
-           
-            reader.close();
             
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(UploadFileBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UploadFileBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.close(rs, stat, conn);
         }
-        
+        return "index";
     }  
     /*
     *论文基本信息按字段划分
