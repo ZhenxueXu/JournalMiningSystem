@@ -1,4 +1,4 @@
-
+ 
 package inputBeans;
 
 import JDBCUtils.JDBCUtils;
@@ -117,6 +117,7 @@ public class UploadFileBean  implements Serializable {
                         type = 0;
                     }
                     if (tempStr.contains("引证文献如下")) {
+                        r_number = 1;
                         type = 1;
                     }
                     if (tempStr.startsWith("[")) {     //处理参考文献
@@ -146,7 +147,7 @@ public class UploadFileBean  implements Serializable {
         } finally {
             JDBCUtils.close(rs, stat, conn);
         }
-        return "index";
+        return null;
     }  
     /*
     *论文基本信息按字段划分
@@ -162,7 +163,9 @@ public class UploadFileBean  implements Serializable {
                      case "作者":paper.setAuthors(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
                      case "单位":paper.setAffiliation(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1));break;
                      case "中文关键词":paper.setKeyword(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
+                     case "关键词":paper.setKeyword(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
                      case "中文摘要":paper.setAbstract1(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
+                     case "摘要" :paper.setAbstract1(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
                      case "基金":paper.setFund(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
                      case "来源":paper.setOrigin(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
                      case "年卷期":paper.setYear(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
@@ -175,9 +178,8 @@ public class UploadFileBean  implements Serializable {
                      case "被引频次":paper.setCitation_frequency(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
                      case "他引频次":paper.setOthersCitation(splitInfo[i+1].substring(0,splitInfo[i+1].length()-1 ));break;
                  }
-            }
-            
-            System.out.println(paper.toString());
+            }           
+            //System.out.println(paper.toString());
         }  
     }
     /*
@@ -186,36 +188,43 @@ public class UploadFileBean  implements Serializable {
     public void splitRerence(String info,String number,int type,int rnumber){
         reference = new ReferenceInfo();
         reference.setNumber(number);
-        reference.setR_number("r"+rnumber);
+        reference.setR_number("r"+ type + rnumber);
         reference.setType(type);
         int start;
         int end;
-        start = info.indexOf("]");                                           //参考文献开始位置
-        end = info.indexOf("].", start);                                     //标题结束位置，倒着解析避免国外作者名字中的小数点
-        String str = info.substring(start, end);
-        end = start + str.lastIndexOf(".");
-        reference.setAuthors(info.substring(start + 1, end).trim());
-        start = end + 1;
-        end = info.indexOf("].", start);
-        reference.setTitle(info.substring(start, end+1).trim());
-        start = end + 2;      
-        try{
+        try {
+            start = info.indexOf("]");                                           //参考文献开始位置
+            end = info.indexOf("].", start);                                     //标题结束位置，倒着解析避免国外作者名字中的小数点
+            String str = info.substring(start, end);
+            end = start + str.lastIndexOf(".");
+            reference.setAuthors(info.substring(start + 1, end).trim());
+            start = end + 1;
+            end = info.indexOf("].", start);
+            reference.setTitle(info.substring(start, end + 1).trim());
+            start = end + 2;
             end = info.indexOf(",", start);
             reference.setJournal(info.substring(start, end).trim());
-            start = end + 1;
-            end = info.indexOf(",", start);
-            reference.setYear(info.substring(start, end).trim());
-            start = info.indexOf(":", end + 1);
-            if (start > 0) {
-                end = info.lastIndexOf(".");
-                if (end - start > 1) {
-                    reference.setPages(info.substring(start + 1, end).trim());
+            try {
+                start = end + 1;
+                end = info.indexOf(",", start);
+                reference.setYear(info.substring(start, end).trim());
+                start = info.indexOf(":", end + 1);
+                if (start > 0) {
+                    end = info.lastIndexOf(".");
+                    if (end - start > 1) {
+                        reference.setPages(info.substring(start + 1, end).trim());
+                    }
                 }
+            } catch (Exception e) {
+                reference.setYear("null");
+                reference.setPages("null");
+
             }
-            
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+            System.out.println("解析错误数据第"+ number + "篇论文，第" + rnumber +"篇参考文献");
+
         }
+        
         
         System.out.println(reference.toString());
         
