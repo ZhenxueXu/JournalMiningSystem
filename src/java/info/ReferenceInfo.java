@@ -15,7 +15,7 @@ public class ReferenceInfo {
     private String journal;
     private String year;
     private String pages;
-    private String[] authorList;
+    private Set<String> authorList;
     private int type;
 
     public String getNumber() {
@@ -34,24 +34,19 @@ public class ReferenceInfo {
         this.type = type;
     }
 
-    
-    public String[] getAuthorList() {
+    public Set<String> getAuthorList() {
         setAuthorList();
         return authorList;
     }
 
     public void setAuthorList() {
-        this.authorList = authors.split(",");
-        Set temp = new HashSet()  ;
-        temp.addAll(Arrays.asList(this.authorList));
-        Object [] object= temp.toArray();
-        String[] str = new String[object.length] ;
-        for(int i=0; i<object.length;i++){
-            str[i] = object[i].toString();
+        authorList = new HashSet<String>();
+        if (authors != null && !authors.equals("")) {
+            for (String item : authors.split(",")) {
+                authorList.add(item.trim());
+            }
         }
-        this.authorList = str;
         
-       
     }
 
     public String getR_number() {
@@ -62,9 +57,6 @@ public class ReferenceInfo {
         this.r_number = r_number;
     }
     
-    
-    
-
     public String getTitle() {
         return title;
     }
@@ -104,18 +96,21 @@ public class ReferenceInfo {
     public void setPages(String pages) {
         this.pages = pages;
     }
- 
+
     @Override
     public String toString() {
-        return "ReferenceInfo{" + "title=" + title + ", authors=" + authors + ", journal=" + journal + ", year=" + year + ", pages=" + pages + '}';
+        return "ReferenceInfo{" + "title=" + title + ", number=" + number + ", r_number=" + r_number + ", authors=" + authors + ", journal=" + journal + ", year=" + year + ", pages=" + pages + ", type=" + type + '}';
     }
+ 
     
     public Statement addSQL(Statement stat) throws SQLException{
-        String sql = "insert into paper_references(j_number,r_number,r_title,r_journal,r_year,r_pages,r_type) values('" +number + "','" + r_number +"','"+title +"','" + journal + "','" + year + "','" + pages +"','" + type +"')";
-        stat.addBatch(sql);
-        for(String item : getAuthorList()){
-            sql = "insert into references_author values('"+ number + "','" + r_number + "','" + item + "')";
-            stat.addBatch(sql);    
+        if (title != null && !title.equals("") && authors != null && !authors.equals("")) {
+            String sql = "insert into paper_references(j_number,r_number,r_title,r_journal,r_year,r_pages,r_type) values('" + number + "','" + r_number + "','" + title + "','" + journal + "','" + year + "','" + pages + "','" + type + "')";
+            stat.addBatch(sql);
+            for (String item : getAuthorList()) {
+                sql = "insert into references_author values('" + number + "','" + r_number + "','" + item + "')";
+                stat.addBatch(sql);
+            }
         }
         return stat;
         
