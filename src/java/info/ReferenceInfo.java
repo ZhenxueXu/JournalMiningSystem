@@ -15,7 +15,7 @@ public class ReferenceInfo {
     private String journal;
     private String year;
     private String pages;
-    private String[] authorList;
+    private Set<String> authorList;
     private int type;
 
     public String getNumber() {
@@ -34,21 +34,19 @@ public class ReferenceInfo {
         this.type = type;
     }
 
-    public String[] getAuthorList() {
+    public Set<String> getAuthorList() {
         setAuthorList();
         return authorList;
     }
 
     public void setAuthorList() {
-        this.authorList = authors.split(",");
-        Set temp = new HashSet()  ;
-        temp.addAll(Arrays.asList(this.authorList));
-        Object [] object= temp.toArray();
-        String[] str = new String[object.length] ;
-        for(int i=0; i<object.length;i++){
-            str[i] =(String) object[i];
+        authorList = new HashSet<String>();
+        if (authors != null && !authors.equals("")) {
+            for (String item : authors.split(",")) {
+                authorList.add(item.trim());
+            }
         }
-        this.authorList = str;       
+        
     }
 
     public String getR_number() {
