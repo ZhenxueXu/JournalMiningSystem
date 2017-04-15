@@ -146,7 +146,7 @@ public class UploadFileBean  implements Serializable {
             e.printStackTrace();
         } finally {
             JDBCUtils.close(rs, stat, conn);
-        }
+        } 
         return null;
     }  
     /*
@@ -226,7 +226,7 @@ public class UploadFileBean  implements Serializable {
         }
         
         
-        System.out.println(reference.toString());
+        //System.out.println(reference.toString());
         
     }
 }
