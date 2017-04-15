@@ -226,7 +226,7 @@ public class UploadFileBean  implements Serializable {
         }
         
         
-        System.out.println(reference.toString());
+        //System.out.println(reference.toString());
         
     }
 }

@@ -164,7 +164,7 @@ public class PaperInfo {
     
     public Statement addSQL(Statement stat) throws SQLException{
         String sql;
-        sql = "insert into journal_info(j_number,j_title,j_abstract,j_citation_frequency,j_others_citation,j_pages,j_class_No,j_year) values('"+ number + "','"+ title + "','"+ abstract1 + "',"+ citation_frequency + "," + othersCitation +",'"+ pages +  "','" + classNo +  "','" + year +"')";
+        sql = "insert into journal_info(j_number,j_title,j_abstract,j_citation_frequency,j_others_citation,j_pages,j_class_No,j_year,j_orgin) values('"+ number + "','"+ title + "','"+ abstract1 + "',"+ citation_frequency + "," + othersCitation +",'"+ pages +  "','" + classNo +  "','" + year +  "','" + origin+"')";
         stat.addBatch(sql);
         for(String item : getAuthorList()){
             sql = "insert into paper_author(j_number,j_author) values('"+ number + "','" + item + "')";
