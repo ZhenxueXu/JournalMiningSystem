@@ -66,7 +66,7 @@ public class JournalAbstract {
             while (rs.next()) {
                 temp = temp + rs.getString(1) + "、";
             }
-            JName = temp.substring(0, temp.length() - 2);
+            JName = temp.substring(0, temp.length() - 1);
             sql = "select min(j_year),max(j_year)from journal_info";  //数据年限
             rs = stat.executeQuery(sql);
             if (rs.next()) {
@@ -87,7 +87,7 @@ public class JournalAbstract {
             if (rs.next()) {
                 refTimes = rs.getInt(1);
             }
-            aveRefTimes = refTimes / paperCount;
+            aveRefTimes = ((double)refTimes) / paperCount;
             //计算h指数
             sql = "select j_number, j_citation_frequency from journal_info order by j_citation_frequency DESC";
             rs = stat.executeQuery(sql);
