@@ -146,7 +146,7 @@ public class UploadFileBean  implements Serializable {
             e.printStackTrace();
         } finally {
             JDBCUtils.close(rs, stat, conn);
-        }
+        } 
         return null;
     }  
     /*

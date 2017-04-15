@@ -157,6 +157,23 @@ public class PaperInfo {
         this.othersCitation = othersCitation;
     }
     
+    public double tranformPages(String str){
+        double pages1 = 0;
+        try {
+            if (!str.equals("") && str != null) {
+                String[] digit = str.split("[+-]");
+                pages1 = Integer.valueOf(digit[1]) - Integer.valueOf(digit[0]);
+                if (digit.length >= 3) {
+                    pages1 += 0.5;
+                }
+            }
+            
+        }catch(Exception e){
+            pages1 = 0 ;
+        }
+        return pages1;
+    }
+    
     @Override
     public String toString() {
         return "PaperInfo{" + "title=" + title + ", authors=" + authors + ", affiliation=" + affiliation + ", keyword=" + keyword + ", abstract1=" + abstract1 + ", fund=" + fund + ", origin=" + origin + ", year=" + year + ", pages=" + pages + ", classNo=" + classNo + ", citation_frequency=" + citation_frequency + ", othersCitation=" + othersCitation + '}';
@@ -164,7 +181,7 @@ public class PaperInfo {
     
     public Statement addSQL(Statement stat) throws SQLException{
         String sql;
-        sql = "insert into journal_info(j_number,j_title,j_abstract,j_citation_frequency,j_others_citation,j_pages,j_class_No,j_year,j_orgin) values('"+ number + "','"+ title + "','"+ abstract1 + "',"+ citation_frequency + "," + othersCitation +",'"+ pages +  "','" + classNo +  "','" + year +  "','" + origin+"')";
+        sql = "insert into journal_info(j_number,j_title,j_abstract,j_citation_frequency,j_others_citation,j_pages,j_class_No,j_year,j_orgin,j_page2) values('"+ number + "','"+ title + "','"+ abstract1 + "',"+ citation_frequency + "," + othersCitation +",'"+ pages +  "','" + classNo +  "','" + year +  "','" + origin+"'," + tranformPages(pages) +")";
         stat.addBatch(sql);
         for(String item : getAuthorList()){
             sql = "insert into paper_author(j_number,j_author) values('"+ number + "','" + item + "')";
