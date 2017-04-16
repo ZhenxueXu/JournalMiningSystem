@@ -1,0 +1,298 @@
+html, div, map, dt, isindex, form, header, aside, section, section, article, footer {  
+    display: block;  
+} 
+ul,ol{padding-left:0; list-style-type:none;}
+body,h1,h2,h3,h4,h5,h6,p,ul,ol,form,dl,dt,dd,li{margin:0;}
+figure,menu{margin:0;padding:0}
+img{border:0;}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+    background: #F8F8F8;
+    font-size: 14px;
+}
+
+.clear {
+    clear: both;
+}
+
+.spacer {
+    height: 20px;
+}
+
+
+/* Header */
+#header {
+    height: 55px;
+    width: 100%;
+    background: #222222 url(../images/header_bg.png) repeat-x;
+}
+
+#header h1.site_title, #header h2.section_title {
+    float: left;
+    margin: 0;
+    font-size: 22px;
+    display: block;
+    width: 23%;
+    height: 55px;
+    font-weight: normal;
+    text-align: left;
+    text-indent: 1.8%;
+    line-height: 55px;
+    color: #fff;
+    text-shadow: 0 -1px 0 #000;
+}
+
+#header h1.site_title a {
+    color: #fff;
+    text-decoration: none;
+}
+
+#header h2.section_title {
+    text-align: center;
+    text-indent: 4.5%;
+    width: 68%;
+}
+
+
+.btn1 {
+    float: left;
+    width: 9%;
+}
+
+.btn1 a {
+    display: block;
+    margin-top: 12px;
+    width: 91px;
+    height: 27px;
+    background: url(../images/btn1.png) no-repeat;
+    text-align: center;
+    line-height: 29px;
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 #000;}
+
+.btn1 a:hover {
+    background-position: 0 -27px;
+}
+
+/*一级导航*/
+.nav-main{
+    /*    position: fixed;
+        z-index: 12;
+        height: 100%;
+        width: 100px;
+        color: #fff;
+    */
+
+    position:absolute;
+    float: left;
+    min-height: 90%;
+    box-shadow: 0 0 10px #BDBDBD;
+    width: 16%;
+    background: #f7f5fa;
+    margin-top: 5px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left:8px;
+    padding-right:0px;
+    border-radius: 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+.nav-main a{
+    text-decoration: none;
+
+}
+.nav-main a:hover{
+    text-decoration: none;
+}
+.nav-main a{
+    line-height: 55px;
+    font-size: 16px;
+    font-weight:500;
+    color:#888;
+    font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
+
+}
+.nav-box{
+
+
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 10px;
+    list-style: none;
+    line-height: 35px;
+    border-radius: 5px;
+    color: #888 !important;
+
+    position: relative;
+    perspective: 200px;
+    -webkit-perspective: 200px;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    height: 100%;
+    z-index:99;
+}
+.nav{
+    overflow:hidden;
+    text-align: center;
+}
+.nav-ul li a{
+
+    display: block;
+    width: 200px;
+    height: 60px;   
+    position:relative ;
+    transition: all .5s;
+    -moz-transition: all .5s;
+    -webkit-transition: all .5s;
+    -o-transition: all .5s;
+}
+.nav-ul li a:before{
+    content: '';
+    position: absolute;
+    left: -380px;
+    top: 0px;
+    width: 280px;
+    height: 100%;
+    background: #252829;
+    z-index: 1;
+    transform: skew(25deg, 0);
+    -webkit-transform: skew(25deg, 0);
+    -ms-transform: skew(25deg, 0);
+    -moz-transform: skew(25deg, 0);
+    -o-transform: skew(25deg, 0);
+    transition: all .5s;
+    -moz-transition: all .5s;
+    -webkit-transition: all .5s;
+    -o-transition: all .5s;
+}
+.nav-ul li a:hover:before{left: -40px;}
+.nav-ul li a:after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    left: 0;
+    top: 20px;
+    z-index: 1;
+}
+.nav-ul li a span{
+    display: block;
+    margin-top:11px;
+    position: relative;
+    z-index: 1;
+}
+
+
+.nav-slide{
+    overflow:hidden;
+    position: fixed;
+    left: 100%;
+    top: 40px;
+    width: 180px;
+    height: 100%;
+    background: #252829;
+
+
+    width: 83%;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+
+    transform: rotateY(120deg);
+    -webkit-transform: rotateY(120deg);
+    -moz-transform: rotateY(120deg);
+    -o-transform: rotateY(120deg);
+    -ms-transform: rotateY(120deg);
+    z-index: 99;
+    visibility: hidden;
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -ms-transform-origin: 0 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition-timing-function: cubic-bezier(.08, .72, .71, .96);
+    -webkit-transition-timing-function: cubic-bezier(.08, .72, .71, .96);
+}
+.nav-slide.hover{
+    transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    z-index: 15;
+    visibility: visible;
+}
+
+/*二级菜单*/
+.nav-slide-o li a{
+    line-height: 50px;
+    display: block;
+    padding: 0 20px;
+    font-size: 15px;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+}
+.nav-slide-o li a:before{
+    content: '';
+    position: absolute;
+    left: -230%;
+    top: 0px;
+    width: 200%;
+    height: 100%;
+    background: #2F4F4F;
+    z-index: 1;
+    transform: skew(30deg, 0);
+    -webkit-transform: skew(30deg, 0);
+    -moz-transform: skew(30deg, 0);
+    -o-transform: skew(30deg, 0);
+    -ms-transform: skew(30deg, 0);
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+}
+.nav-slide-o li a:hover{background:#A9A9A9;}
+.nav-slide-o li a:hover:before{left: -60px;}
+.nav-slide-o li a span{position: relative;z-index: 1;}
+.nav-slide-o {display: none;}
+
+.second_header{
+    position: relative;
+    float: right;
+    height: 30px;
+    box-shadow: 0 0 10px #BDBDBD;
+    width: 83%;
+    background:   #F5F5F5;
+    margin-top: 5px;
+    margin-left: 4px;
+    margin-right: 0px;
+    padding-left:0px;
+    padding-right:0px;
+    border-radius: 0px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+.second_header a{
+    line-height: 20px;
+    font-size: 16px;
+    font-weight:600;
+    color: #000000 ;
+    font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
+
+}
