@@ -14,8 +14,8 @@ import java.sql.*;
 @Named(value = "refAnalysis")
 @SessionScoped
 public class RefAnalysis implements Serializable {
-    ResultSet year_citation;   //期刊每年总被引次数
-    ResultSet citationSort;    //论文被引次数排序
+    private ResultSet year_citation;   //期刊每年总被引次数
+    private ResultSet citationSort;    //论文被引次数排序
 
     public RefAnalysis() {
     }
