@@ -1,0 +1,31 @@
+
+.main{
+    margin-top: 16%;
+    width: 60%;
+    margin-left: 28%;
+}
+.row{
+    height:80px;
+}
+.zhi{
+    font-family: "palatino linotype",palatino,serif;
+    color: #5C5C5C;
+    font-size: 21px;
+
+}
+.title{
+    font-family: "palatino linotype",palatino,serif;
+    font-size: 22px;
+    font-weight: bold;
+    color:  #408080;
+}
+.row_left{
+    width: 40%;
+    float: left;
+    /*    text-align: center;*/
+}
+.row_right{
+    width: 60%;
+    float: right;
+    /*text-align: center;*/
+}
