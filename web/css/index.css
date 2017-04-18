@@ -88,9 +88,9 @@ html, body {
         color: #fff;
     */
 
-    position:absolute;
+    position: absolute;
     float: left;
-    min-height: 90%;
+    height: 90%;
     box-shadow: 0 0 10px #BDBDBD;
     width: 16%;
     background: #f7f5fa;
@@ -271,13 +271,23 @@ html, body {
 .nav-slide-o li a:hover:before{left: -60px;}
 .nav-slide-o li a span{position: relative;z-index: 1;}
 .nav-slide-o {display: none;}
-
-.second_header{
+.content{
     position: relative;
     float: right;
+    width: 83%;
+    height: 400px;
+}
+.iframe_css{
+    position: relative;
+    right: 0px;
+    height: 100% !important;
+    left: 0px;
+}
+.second_header{
+    position: relative;
     height: 30px;
     box-shadow: 0 0 10px #BDBDBD;
-    width: 83%;
+    width: 99.5%;
     background:   #F5F5F5;
     margin-top: 5px;
     margin-left: 4px;
