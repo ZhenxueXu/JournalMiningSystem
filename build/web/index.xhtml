@@ -5,11 +5,11 @@
     <h:head>
         <title>Facelet Title</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
-         <!--<script type="text/javascript">
-                    window.onload = function () {
-                        
-                    }
-                </script>-->
+        <!--<script type="text/javascript">
+                   window.onload = function () {
+                       
+                   }
+               </script>-->
     </h:head>
     <h:body>
         Hello from Facelets
@@ -19,7 +19,13 @@
             <br/>
             <h:outputLabel value="#{journalAbstract.toString()}"/>
         </h:form>
+
+        <br />
+        <h:link outcome="/journalInfo/List" value="Show All JournalInfo Items"/>
     </h:body>
+
+
+
 
 
 

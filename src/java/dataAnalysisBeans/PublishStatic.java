@@ -25,6 +25,7 @@ public class PublishStatic implements Serializable {
     public void setAllData(){
         Connection conn = null;
         Statement stat = null ;
+        ResultSet local = null;
         String sql;
         try{
             conn = JDBCUtils.getConn();
@@ -38,7 +39,7 @@ public class PublishStatic implements Serializable {
         }catch(Exception e){
             
         }finally{
-            JDBCUtils.close(null, stat, conn);
+            JDBCUtils.close(local, stat, conn);
             
         }
     }

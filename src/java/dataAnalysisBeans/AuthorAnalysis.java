@@ -8,9 +8,13 @@
  */
 package dataAnalysisBeans;
 
+import JDBCUtils.JDBCUtils;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.sql.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,9 +23,27 @@ import java.io.Serializable;
 @Named(value = "authorAnalysis")
 @SessionScoped
 public class AuthorAnalysis implements Serializable {
+    private List<Map<String,Integer>> author_hIndex;
 
     public AuthorAnalysis() {
     }
-     String 
-             sql= "select j_author as 作者 ,count(*) a from paper_author group by j_author having count(*)>=(select  0.749*sqrt(count(*)) as 普赖斯指数 from paper_author  group by j_author order by 普赖斯指数 DESC limit 1) order by a DESC";
+    
+    public void setAllData(){
+        String sql;
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet local = null;
+        try{
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
+            sql = "call call proce_core_author";         //proce_core_author   为数据库里定义的查询候选核心作者的存储过程
+            local = stat.executeQuery(sql);
+            
+        }catch(Exception e){
+            
+        }finally{
+            JDBCUtils.close(local, stat, conn);
+        }
+        
+    }         
 }

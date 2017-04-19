@@ -23,6 +23,7 @@ public class RefAnalysis implements Serializable {
     public void setData(){
         Connection conn = null;
         Statement stat = null;
+        ResultSet local = null;
         String sql;
         try{
             conn = JDBCUtils.getConn();
@@ -36,7 +37,7 @@ public class RefAnalysis implements Serializable {
         }catch(Exception e){
             
         }finally{
-            JDBCUtils.close(null, stat, conn);
+            JDBCUtils.close(local, stat, conn);
         }       
     }
 

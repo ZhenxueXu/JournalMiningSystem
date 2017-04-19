@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateJournalInfoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JNumber}" for="JNumber" />
+                    <h:inputText id="JNumber" value="#{journalInfoController.selected.JNumber}" title="#{bundle.CreateJournalInfoTitle_JNumber}" required="true" requiredMessage="#{bundle.CreateJournalInfoRequiredMessage_JNumber}"/>
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JTitle}" for="JTitle" />
+                    <h:inputText id="JTitle" value="#{journalInfoController.selected.JTitle}" title="#{bundle.CreateJournalInfoTitle_JTitle}" />
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JAbstract}" for="JAbstract" />
+                    <h:inputTextarea rows="4" cols="30" id="JAbstract" value="#{journalInfoController.selected.JAbstract}" title="#{bundle.CreateJournalInfoTitle_JAbstract}" />
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JCitationFrequency}" for="JCitationFrequency" />
+                    <h:inputText id="JCitationFrequency" value="#{journalInfoController.selected.JCitationFrequency}" title="#{bundle.CreateJournalInfoTitle_JCitationFrequency}" />
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JOthersCitation}" for="JOthersCitation" />
+                    <h:inputText id="JOthersCitation" value="#{journalInfoController.selected.JOthersCitation}" title="#{bundle.CreateJournalInfoTitle_JOthersCitation}" />
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JPages}" for="JPages" />
+                    <h:inputText id="JPages" value="#{journalInfoController.selected.JPages}" title="#{bundle.CreateJournalInfoTitle_JPages}" />
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_jclassNo}" for="jclassNo" />
+                    <h:inputText id="jclassNo" value="#{journalInfoController.selected.jclassNo}" title="#{bundle.CreateJournalInfoTitle_jclassNo}" />
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JYear}" for="JYear" />
+                    <h:inputText id="JYear" value="#{journalInfoController.selected.JYear}" title="#{bundle.CreateJournalInfoTitle_JYear}" />
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JOrgin}" for="JOrgin" />
+                    <h:inputText id="JOrgin" value="#{journalInfoController.selected.JOrgin}" title="#{bundle.CreateJournalInfoTitle_JOrgin}" />
+                    <h:outputLabel value="#{bundle.CreateJournalInfoLabel_JPage2}" for="JPage2" />
+                    <h:inputText id="JPage2" value="#{journalInfoController.selected.JPage2}" title="#{bundle.CreateJournalInfoTitle_JPage2}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{journalInfoController.create}" value="#{bundle.CreateJournalInfoSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{journalInfoController.prepareList}" value="#{bundle.CreateJournalInfoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateJournalInfoIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
