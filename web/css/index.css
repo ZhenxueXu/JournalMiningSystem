@@ -28,8 +28,7 @@ html, body {
 #header {
     height: 55px;
     width: 100%;
-    /*background: #222222 url(../images/header_bg.png) repeat-x;*/
-    background: #252829;
+    background: #222222 url(../images/header_bg.png) repeat-x;
 }
 
 #header h1.site_title, #header h2.section_title {
@@ -91,13 +90,12 @@ html, body {
 
     position: absolute;
     float: left;
-    height: 89.5%;
+    height: 90%;
     box-shadow: 0 0 10px #BDBDBD;
     width: 16%;
-    background: #252829;
-    margin-top: 2px;
-    margin-bottom: 1px;
-    margin-left: 2px;
+    background: #f7f5fa;
+    margin-top: 5px;
+    margin-left: 0px;
     margin-right: 0px;
     padding-left:8px;
     padding-right:0px;
@@ -116,7 +114,7 @@ html, body {
     line-height: 55px;
     font-size: 16px;
     font-weight:500;
-    color:#fff;
+    color:#888;
     font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
 
 }
@@ -161,7 +159,7 @@ html, body {
     top: 0px;
     width: 280px;
     height: 100%;
-    background: #2F4F4F;
+    background: #252829;
     z-index: 1;
     transform: skew(25deg, 0);
     -webkit-transform: skew(25deg, 0);
@@ -197,7 +195,7 @@ html, body {
     left: 100%;
     top: 40px;
     width: 180px;
-    height: 80%;
+    height: 100%;
     background: #252829;
 
 
@@ -290,9 +288,9 @@ html, body {
     height: 30px;
     box-shadow: 0 0 10px #BDBDBD;
     width: 99.5%;
-    background: #3a4f54;
-    margin-top: 2px;
-    margin-left: 2px;
+    background:   #F5F5F5;
+    margin-top: 5px;
+    margin-left: 4px;
     margin-right: 0px;
     padding-left:0px;
     padding-right:0px;
@@ -301,12 +299,10 @@ html, body {
     -moz-border-radius: 5px;
 }
 .second_header a{
-    line-height: 28px;
+    line-height: 20px;
     font-size: 16px;
     font-weight:600;
-    left: 4px;
-     color: #fff;;
-    /*font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;*/
-    text-decoration: none;
-  
+    color: #000000 ;
+    font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
+
 }
