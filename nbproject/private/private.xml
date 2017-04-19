@@ -3,9 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/E:/毕业设计/JournalMiningSystem/web/index.html</file>
             <file>file:/E:/毕业设计/JournalMiningSystem/src/java/dataAnalysisBeans/RefStatic.java</file>
             <file>file:/E:/毕业设计/JournalMiningSystem/src/java/dataAnalysisBeans/AuthorAnalysis.java</file>
+=======
+            <file>file:/G:/毕业设计/JournalMiningSystem/web/css/index.css</file>
+            <file>file:/G:/毕业设计/JournalMiningSystem/web/css/abstract.css</file>
+            <file>file:/G:/毕业设计/JournalMiningSystem/web/index.html</file>
+            <file>file:/G:/毕业设计/JournalMiningSystem/src/java/dataAnalysisBeans/PublishStatic.java</file>
+            <file>file:/E:/毕业设计/JournalMiningSystem/src/java/dataAnalysisBeans/RefStatic.java</file>
+>>>>>>> parent of 17e40f4... 第一模块前端
         </group>
     </open-files>
 </project-private>
