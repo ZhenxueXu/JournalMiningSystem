@@ -77,6 +77,30 @@ CREATE TABLE IF NOT EXISTS `paper_references` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='论文-参考文献表';
 
 -- 数据导出被取消选择。
+-- 导出  过程 journal_info.proce_core_author 结构
+DELIMITER //
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proce_core_author`()
+    COMMENT '查询候选核心作者'
+BEGIN
+
+select distinct j_author as 作者
+from paper_author as A,journal_info as B
+where A.j_number = B.j_number and j_author in(
+     select j_author as 作者
+     from paper_author 
+     group by j_author 
+     having count(*)>=(
+           select  0.749*sqrt(count(*)) as 普赖斯指数 
+           from paper_author  
+           group by j_author 
+           order by 普赖斯指数 DESC limit 1
+			  )
+	  )
+order by j_author,j_citation_frequency DESC;
+
+END//
+DELIMITER ;
+
 -- 导出  表 journal_info.references_author 结构
 CREATE TABLE IF NOT EXISTS `references_author` (
   `j_number` varchar(50) NOT NULL,

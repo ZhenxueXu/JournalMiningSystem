@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<head>
+    <meta charset="utf-8"/>
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="js/echarts.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/esl.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+       var dom = document.getElementById("main");
+       var myChart = echarts.init(dom);
+       var app = {};
+       option = null;
+       option = {
+            title: {
+            text: 'Beijing AQI'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        xAxis: {
+            type:'category',
+            data: [10,20,40,60,70]
+        },
+        yAxis: {
+            splitLine: {
+                show: false
+            }
+        },
+        toolbox: {
+            left: 'center',
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        dataZoom: [{
+            startValue: '10'
+        }, {
+            type: 'inside'
+        }],
+        visualMap: {
+            min : 0,
+            max : 3000,
+           type : 'piecewise',
+           splitNumber: 6
+           
+        },
+        series: {
+            name: 'Beijing AQI',
+            type: 'line',
+            data: [20,30,40,60,70]            
+            
+        }
+    };
+                    var data = {                   
+                                  };
+                    $.ajax({
+                    type: "post",
+                    async: true, //同步执行
+                    url: "ReferencedTimes",
+                    dataType: "json", //返回数据形式为json
+                    data: data,
+                    success: function(result) {
+                        if (result) {
+                            console.log(result);
+                            //将返回的category和series对象赋值给options对象内的category和series
+                            //因为xAxis是一个数组 这里需要是xAxis[i]的形式
+                            option.xAxis = result.xAxis;
+                            
+                            option.series = result.series;
+                            myChart.hideLoading();
+                            myChart.setOption(option);
+                        }
+                    },
+                    error: function(errorMsg) {
+                        alert("图表请求数据失败啦!");
+                    }
+                });
+
+    //myChart.setOption(option);
+
+    </script>
+</body>
+</html>
