@@ -8,20 +8,131 @@
  */
 package dataAnalysisBeans;
 
+import JDBCUtils.JDBCUtils;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
- *
  * @author Think
  */
 @Named(value = "authorAnalysis")
 @SessionScoped
 public class AuthorAnalysis implements Serializable {
+    private List<Map.Entry<String,Integer>>hIndex;  //h指数
+    private Set<String> core_author;                //核心作者
+    private ResultSet publish;                      //发文量统计，格式（作者[string]，发文量[int]）
+    private ResultSet ref;                          //被引统计，格式（作者[string]，被引总计[int]）
+    private int min_h_index;                        //用于筛选核心作者的最低h指数
+    private ResultSet co_publish;
 
     public AuthorAnalysis() {
+        min_h_index = 5;
     }
-     String 
-             sql= "select j_author as 作者 ,count(*) a from paper_author group by j_author having count(*)>=(select  0.749*sqrt(count(*)) as 普赖斯指数 from paper_author  group by j_author order by 普赖斯指数 DESC limit 1) order by a DESC";
+
+    public void setMax_h_index(int min_h_index) {
+        this.min_h_index = min_h_index;
+    }
+    
+    
+    
+    public void setAllData(){
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet local = null;
+        try {
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
+            String sql;
+            //用于计算h指数
+            sql = "select j_author as 作者,paper_author.j_number as 论文编号,j_citation_frequency as 被引次数"
+                    + "from journal_info,paper_author"
+                    + "where journal_info.j_number = paper_author.j_number"
+                    + "order by 作者,被引次数 DESC";
+            local = stat.executeQuery(sql);
+            String currentAuthor = "";
+            int h_index = 0;
+            int row = 1;
+            Map<String,Integer> current = new HashMap<>();
+            while(local.next()){
+                if(!local.getString(1).equals(currentAuthor)){
+                    current.put(currentAuthor, h_index);      
+                    currentAuthor = local.getString(1);
+                    row = 1;
+                    h_index = local.getInt(3)>=row ? 1 : 0;
+                    row++;
+                }else{                   
+                    if(local.getInt(3)>=row){
+                        h_index = row ++;
+                    }
+                }
+            }
+            current.put(currentAuthor, h_index);                //放入最后一个作者
+            hIndex = new ArrayList<Map.Entry<String,Integer>>(current.entrySet());            
+            Collections.sort(hIndex,new Comparator<Map.Entry<String,Integer>>(){
+                @Override
+                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                    return o1.getValue()-o2.getValue();
+                }
+            
+            });
+            /**
+             * 在此处对输出格式进一步处理
+             * 画图数据格式处理
+             */
+            
+            sql = "call proce_core_author()";
+            local = stat.executeQuery(sql);                   //根据普赖斯公式选出的候选核心作者
+            core_author = new HashSet<>();
+            while(local.next()){
+                if(current.get(local.getString(1))>=min_h_index){
+                    core_author.add(local.getString(1));
+                }
+            }
+            
+            //--start 发文量统计---//
+            
+            sql = "select j_author as 作者, count(*) as 发文量"
+                    + "from journal_info a,paper_author b"
+                    + "where a.j_number = b.j_number"
+                    + "group by b.j_author"
+                    + "order by 发文量 desc";            
+            publish = stat.executeQuery(sql);
+            
+            //--start 被引统计 --//
+            sql = "select j_author as 作者, sum(j_citation_frequency) as 被引总计"
+                    + "from journal_info,paper_author"
+                    + "where journal_info.j_number = paper_author.j_number"
+                    + "group by paper_author.j_author"
+                    + "order by 被引总计 desc";
+            ref = stat.executeQuery(sql);
+            
+            // -- star 合作发文量 --//
+            sql = "select 合作人数 , count(*) as 发文量 from ("
+                    + "     select count(*) as 合作人数, a.j_number as 编号"
+                    + "     from journal_info a,paper_author b"
+                    + "     where a.j_number = b.j_number"
+                    + "     group by b.j_number"
+                    + "     order by 合作人数 desc) as a"
+                    + "group by 合作人数";
+            co_publish = stat.executeQuery(sql);
+            
+        }catch(Exception e){
+            
+        }finally{
+            JDBCUtils.close(local, stat, conn);
+                    
+        }
+        
+    }    
 }

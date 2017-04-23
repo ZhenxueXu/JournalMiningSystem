@@ -23,6 +23,7 @@ public class JournalAbstract {
     private int h_index;
 
     public JournalAbstract() {
+        setAllData();
     }
 
     public String getJName() {
