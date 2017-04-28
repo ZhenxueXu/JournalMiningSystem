@@ -4,95 +4,311 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-<head>
-    <meta charset="utf-8"/>
-    <title>ECharts</title>
-    <!-- 引入 echarts.js -->
-    <script src="js/echarts.js"></script>
-    <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="js/esl.js"></script>
-</head>
-<body>
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="width: 600px;height:400px;"></div>
-    <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-       var dom = document.getElementById("main");
-       var myChart = echarts.init(dom);
-       var app = {};
-       option = null;
-       option = {
-            title: {
-            text: 'Beijing AQI'
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        xAxis: {
-            type:'category',
-            data: [10,20,40,60,70]
-        },
-        yAxis: {
-            splitLine: {
-                show: false
-            }
-        },
-        toolbox: {
-            left: 'center',
-            feature: {
-                dataZoom: {
-                    yAxisIndex: 'none'
+    <head>
+        <meta charset="utf-8"/>
+        <title>ECharts</title>
+        <!-- 引入 echarts.js -->
+        <script src="js/echarts.js"></script>
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/esl.js"></script>
+    </head>
+    <body>
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="width: 600px;height:500px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var dom = document.getElementById("main");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            var data = #{publishStatic.data};
+            console.log(data);
+            var myData = data.yAxis[0].data;
+            var year_countdata = data.series[0].data;
+            var year_pagesdata = data.series[1].data;
+            var year_avgPagesdata = data.series[2].data;
+
+
+
+
+//
+//            option = {
+//                baseOption: {
+//
+//                    title: {
+//
+//                        textStyle: {
+//                            color: '#fff',
+//                            fontSize: 16,
+//                        },
+//
+//                    },
+//                    legend: {
+//
+//                        top: 4,
+//                        right: '10%',
+//
+//                    },
+//                    tooltip: {
+//                        trigger: 'axis',
+//                        axisPointer: {// 坐标轴指示器，坐标轴触发有效
+//                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+//                        }
+//                    },
+//
+//                    grid: [{
+//                            show: false,
+//                            left: '4%',
+//                            top: 60,
+//                            bottom: 60,
+//                            containLabel: true,
+//                            width: '46%'
+//                        }, {
+//                            show: false,
+//                            left: '51.5%',
+//                            top: 90,
+//                            bottom: 60,
+//                            width: '0%'
+//                        }, {
+//                            show: false,
+//                            right: '4%',
+//                            top: 60,
+//                            bottom: 60,
+//                            containLabel: true,
+//                            width: '46%'
+//                        } ],
+//
+//                    xAxis: [{
+//                            type: 'value',
+//                            inverse: true,
+//                            axisLine: {
+//                                show: false
+//                            },
+//                            axisTick: {
+//                                show: false
+//                            },
+//                            position: 'top',
+//                            axisLabel: {
+//                                show: true
+//
+//                            },
+//                            splitLine: {
+//                                show: true
+//
+//                            },
+//                        }, {
+//                            gridIndex: 1,
+//                            show: false
+//                        }, {
+//                            gridIndex: 2,
+//                            type: 'value',
+//                            axisLine: {
+//                                show: false
+//                            },
+//                            axisTick: {
+//                                show: false
+//                            },
+//                            position: 'top',
+//                            axisLabel: {
+//                                show: true
+//
+//                            },
+//                            splitLine: {
+//                                show: true
+//
+//                            }
+//                        }],
+//                    yAxis: [{
+//                            type: 'category',
+//                            inverse: true,
+//                            position: 'right',
+//                            axisLine: {
+//                                show: false
+//                            },
+//                            axisTick: {
+//                                show: false
+//                            },
+//                            axisLabel: {
+//                                show: false,
+//
+//                            },
+//                            data: myData,
+//                        }, {
+//                            gridIndex: 1,
+//                            type: 'category',
+//                            inverse: true,
+//                            position: 'left',
+//                            axisLine: {
+//                                show: false
+//                            },
+//                            axisTick: {
+//                                show: false
+//                            },
+//                            axisLabel: {
+//                                show: true,
+//
+//                            },
+//                            data: myData.map(function (value) {
+//                                return {
+//                                    value: value,
+//                                    textStyle: {
+//                                        align: 'center',
+//                                    }
+//                                }
+//                            }),
+//                        }, {
+//                            gridIndex: 2,
+//                            type: 'category',
+//                            inverse: true,
+//                            position: 'left',
+//                            axisLine: {
+//                                show: false
+//                            },
+//                            axisTick: {
+//                                show: false
+//                            },
+//                            axisLabel: {
+//                                show: false
+//                            },
+//                            data: myData,
+//                        }, ],
+//                    series: [{
+//                            name: '每年总页数',
+//                            type: 'bar',
+////                            barGap: 30,
+////                            barWidth: 30,
+//                            label: {
+//                                normal: {
+//                                    show: true
+//
+//                                }
+//                            },
+//                            data: year_pagesdata
+//                        },
+//
+//                        {
+//                            name: '每年载文数量',
+//                            type: 'bar',
+//
+////                            xAxisIndex: 2,
+////                            yAxisIndex: 2,
+//                            label: {
+//                                normal: {
+//                                    show: true
+//
+//
+//                                }
+//                            },
+//                            data: year_countdata
+//                        }, {
+//                            name: '每年篇均页数',
+//                            type: 'bar',
+//                            barGap: 30,
+//                            barWidth: 30,
+//                            xAxisIndex: 2,
+//                            yAxisIndex: 2,
+//                            label: {
+//                                normal: {
+//                                    show: true
+//
+//                                }
+//                            },
+//                            data: year_avgPagesdata
+//                        }
+//                    ]
+//                }
+//            };
+
+
+
+  
+
+            option = {
+                title: {
+                    //text: '2000-2016年中国汽车销量及增长率'
                 },
-                restore: {},
-                saveAsImage: {}
-            }
-        },
-        dataZoom: [{
-            startValue: '10'
-        }, {
-            type: 'inside'
-        }],
-        visualMap: {
-            min : 0,
-            max : 3000,
-           type : 'piecewise',
-           splitNumber: 6
-           
-        },
-        series: {
-            name: 'Beijing AQI',
-            type: 'line',
-            data: [20,30,40,60,70]            
-            
-        }
-    };
-                    var data = {                   
-                                  };
-                    $.ajax({
-                    type: "post",
-                    async: true, //同步执行
-                    url: "ReferencedTimes",
-                    dataType: "json", //返回数据形式为json
-                    data: data,
-                    success: function(result) {
-                        if (result) {
-                            console.log(result);
-                            //将返回的category和series对象赋值给options对象内的category和series
-                            //因为xAxis是一个数组 这里需要是xAxis[i]的形式
-                            option.xAxis = result.xAxis;
-                            
-                            option.series = result.series;
-                            myChart.hideLoading();
-                            myChart.setOption(option);
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false
+                        },
+                        restore: {
+                            show: true
+                        },
+                        saveAsImage: {
+                            show: true
                         }
-                    },
-                    error: function(errorMsg) {
-                        alert("图表请求数据失败啦!");
                     }
-                });
-
-    //myChart.setOption(option);
-
-    </script>
-</body>
+                },
+                grid: {
+                    containLabel: true
+                },
+                legend: {
+                    data: ['每年篇均页数', '每年总页数']
+                },
+                xAxis: [{
+                        type: 'category',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        data: myData
+                    }],
+                yAxis: [{
+                        type: 'value',
+                        name: '每年篇均页数',
+                        min: 0,
+                        max: 40,
+                        position: 'right',
+//                        axisLabel: {
+//                            formatter: '{value} %'
+//                        }
+                    }, {
+                        type: 'value',
+                        name: '每年总页数',
+                        min: 0,
+                        max: 3000,
+                        position: 'left'
+                    }],
+                series: [{
+                        name: '每年篇均页数',
+                        type: 'line',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                            }
+                        },
+                        lineStyle: {
+                            normal: {
+                                width: 3,
+                                shadowColor: 'rgba(0,0,0,0.4)',
+                                shadowBlur: 10,
+                                shadowOffsetY: 10
+                            }
+                        },
+                        data: year_avgPagesdata
+                    }, {
+                        name: '每年总页数',
+                        type: 'bar',
+                        yAxisIndex: 1,
+                        barGap: 30,
+                        barWidth: 50,
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        data: year_pagesdata
+                    }]
+            };
+            myChart.setOption(option);
+        </script>
+    </body>
 </html>
