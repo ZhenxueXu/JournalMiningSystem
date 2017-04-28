@@ -40,10 +40,10 @@ public class RefStatic implements Serializable {
             sql = "select count(*) as total from paper_references where r_year REGEXP('[0-9]{4}')";
             localSet = stat.executeQuery(sql);      //局部变量，用于临时处理
             total = localSet.getInt(1);
-            year = new ArrayList<String>();
-            quantity = new ArrayList<Integer>();
-            rate = new ArrayList<Float>();
-            sumRate = new ArrayList<Float>();
+            year = new ArrayList<>();
+            quantity = new ArrayList<>();
+            rate = new ArrayList<>();
+            sumRate = new ArrayList<>();
             int i = 1;
             int sum = 0;
             //引文的年代统计分析

@@ -16,6 +16,9 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -40,17 +43,20 @@ public class Test2 implements Serializable {
         VisualMap visualmap = new VisualMap();
         int max = 0;
         int min = 100000;
+      
         try{
             conn = JDBCUtils.getConn();
             stat = conn.createStatement();            
-            sql = "select j_year,sum(j_citation_frequency) from journal_info group by j_year order by j_year";
+            sql = "select j_year as 年,sum(j_citation_frequency) as 被引次数 from journal_info group by j_year order by j_year";
             local = stat.executeQuery(sql);
+            
             while(local.next()){
                xAxis.data(local.getString(1));
                line.data(local.getInt(2));
                if(local.getInt(2)>=max) max = local.getInt(2);
                if(local.getInt(2)<=min) min = local.getInt(2);
             }
+            
                        
         }catch(Exception e){
             

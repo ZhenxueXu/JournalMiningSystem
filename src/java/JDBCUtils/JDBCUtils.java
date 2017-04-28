@@ -73,32 +73,22 @@ public class JDBCUtils {
             }
         }
    }
-   public static List getResultList(String sql){
+   public static List getResultList( ResultSet result){
        List list = new ArrayList();
        Map rowData = new HashMap();
-       Connection connection = null;
-       Statement statement = null;
-       ResultSet result = null;
        ResultSetMetaData md = null;
        try{
-           connection = getConn();
-           statement = connection.createStatement();
-           result = statement.executeQuery(sql);
            md = result.getMetaData();
            int columnCount = md.getColumnCount();
            while(result.next()){
                rowData = new HashMap(columnCount);
                for(int i = 1;i <= columnCount;i++){
-                   rowData.put(md.getCatalogName(i), result.getObject(i));
+                   rowData.put(md.getColumnName(i), result.getObject(i));
                }
-               list.add(rowData);
-           }
-          
-           
-       }catch(Exception e){
+            list.add(rowData);
+           }          
+       }catch(SQLException e){
            e.printStackTrace();
-       }finally{
-           close(result,statement,connection);
        }
         return list;
    }

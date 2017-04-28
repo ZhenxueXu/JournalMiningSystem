@@ -54,7 +54,7 @@ public class FundAnalysis implements Serializable {
                         }
                     }
                 }
-                /*-- end 发文量前二十分年统计--*/
+                /*-- end 发文量前二十，分年统计--*/
                 
                 // 以下用于记录各基金的发文总量量
                 Map.Entry<String,Integer> rowData ;
@@ -83,7 +83,7 @@ public class FundAnalysis implements Serializable {
             sql = "select distinct j_year ,count(*) as 发文量 ,sum(journal_info.j_citation_frequency) as 被引次数, avg(journal_info.j_citation_frequency) as 篇均被引次数"
                     + "from paper_fund,journal_info"
                     + "where  paper_fund.j_number = journal_info.j_number and j_fund regexp('省|北京|上海|重庆')"
-                    + "group by j_year\n"
+                    + "group by j_year"
                     + "order by j_year";
             rs = stat.executeQuery(sql);
             
