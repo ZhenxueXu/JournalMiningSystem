@@ -5,8 +5,13 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 public class JDBCUtils {
@@ -68,5 +73,27 @@ public class JDBCUtils {
             }
         }
    }
+   public static List getResultList( ResultSet result){
+       List list = new ArrayList();
+       Map rowData = new HashMap();
+       ResultSetMetaData md = null;
+       try{
+           md = result.getMetaData();
+           int columnCount = md.getColumnCount();
+           while(result.next()){
+               rowData = new HashMap(columnCount);
+               for(int i = 1;i <= columnCount;i++){
+                   rowData.put(md.getColumnName(i), result.getObject(i));
+               }
+            list.add(rowData);
+           }          
+       }catch(SQLException e){
+           e.printStackTrace();
+       }
+        return list;
+   }
+   
+   
+   
 }
     
