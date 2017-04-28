@@ -63,6 +63,7 @@ public class PaperInfo {
     public void setFundList() {
         if(this.fund!=null){
             this.fund = this.fund.replaceAll("\\([^\\)]+\\)", "");
+            this.fund = this.fund.replaceAll("[资助|资助~~]", "");
             this.fundList = this.fund.split(",");
             Set temp = new HashSet();
             temp.addAll(Arrays.asList(this.fundList));

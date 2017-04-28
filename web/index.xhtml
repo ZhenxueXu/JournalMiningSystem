@@ -7,7 +7,10 @@
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <script type="text/javascript">
+            var b = "#{journalAbstract.toString()}";
+            document.write(b);
+        </script>
         <br />
         <h:form id="test">
    

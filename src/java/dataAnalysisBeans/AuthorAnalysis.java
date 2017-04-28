@@ -14,7 +14,6 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;

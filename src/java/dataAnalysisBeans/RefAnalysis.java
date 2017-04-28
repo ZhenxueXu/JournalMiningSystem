@@ -36,10 +36,12 @@ public class RefAnalysis implements Serializable {
             stat = conn.createStatement();
             sql = "select j_year,sum(j_citation_frequency) from journal_info group by j_year order by j_year";
             year_citation = stat.executeQuery(sql);
+
             while (year_citation.next()) {
                 xAxis.data(year_citation.getString(1));
                 line.data(year_citation.getInt(2));
             }
+
             sql = "select j_number,j_title,j_citation_frequency from journal_info order by j_citation_frequency DESC";  //用来处理频次分布，高引，低引
             citationSort = stat.executeQuery(sql);
               while (citationSort.next()) {
