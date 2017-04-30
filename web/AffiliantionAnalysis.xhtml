@@ -14,21 +14,19 @@
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 600px;height:500px;"></div>
+        <div id="main" style="width: 1200px;height:500px;"></div>
         <script type="text/javascript">
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
             var myChart = echarts.init(dom);
             var app = {};
             option = null;
-            var data = #{publishStatic.data};
+            var data = #{affiliationAnalysis.data};
             console.log(data);
-            var myData = data.yAxis[0].data;
+            var myData = data.xAxis[0].data;
             var year_countdata = data.series[0].data;
             var year_pagesdata = data.series[1].data;
             var year_avgPagesdata = data.series[2].data;
-
-
 
 
             option = {
@@ -63,13 +61,17 @@
                         axisTick: {
                             alignWithLabel: true
                         },
+                        axisLabel:{
+                            rotate: 30
+                        },
+                        
                         data: myData
                     }],
                 yAxis: [{
                         type: 'value',
                         name: '每年篇均页数',
-                        min: 0,
-                        max: 40,
+//                        min: 0,
+//                        max: 40,
                         position: 'right',
 //                        axisLabel: {
 //                            formatter: '{value} %'
@@ -78,7 +80,7 @@
                         type: 'value',
                         name: '每年总页数',
                         min: 0,
-                        max: 3000,
+                        max: 1000,
                         position: 'left'
                     }],
                 series: [{
