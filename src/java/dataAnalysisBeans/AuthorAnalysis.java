@@ -54,10 +54,10 @@ public class AuthorAnalysis implements Serializable {
             stat = conn.createStatement();
             String sql;
             //用于计算h指数
-            sql = "select j_author as 作者,paper_author.j_number as 论文编号,j_citation_frequency as 被引次数"
-                    + "from journal_info,paper_author"
-                    + "where journal_info.j_number = paper_author.j_number"
-                    + "order by 作者,被引次数 DESC";
+            sql = "select j_author as 作者,paper_author.j_number as 论文编号,j_citation_frequency as 被引次数 "
+                    + "from journal_info,paper_author "
+                    + "where journal_info.j_number = paper_author.j_number "
+                    + "order by 作者,被引次数 DESC ";
             local = stat.executeQuery(sql);
             String currentAuthor = "";
             int h_index = 0;
