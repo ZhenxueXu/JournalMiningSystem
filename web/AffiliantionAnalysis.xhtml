@@ -24,9 +24,9 @@
             var data = #{affiliationAnalysis.data};
             console.log(data);
             var myData = data.xAxis[0].data;
-            var year_countdata = data.series[0].data;
-            var year_pagesdata = data.series[1].data;
-            var year_avgPagesdata = data.series[2].data;
+            var bar = data.series[0].data;
+            var bar1 = data.series[1].data;
+            var line = data.series[2].data;
 
 
             option = {
@@ -84,7 +84,7 @@
                         position: 'left'
                     }],
                 series: [{
-                        name: '每年篇均页数',
+                        name: '篇均被引次数',
                         type: 'line',
                         stack: '总量',
                         label: {
@@ -101,9 +101,9 @@
                                 shadowOffsetY: 10
                             }
                         },
-                        data: year_avgPagesdata
+                        data: line
                     }, {
-                        name: '每年总页数',
+                        name: '被引次数',
                         type: 'bar',
                         yAxisIndex: 1,
                         barGap: 30,
@@ -115,7 +115,7 @@
                                 position: 'top'
                             }
                         },
-                        data: year_pagesdata
+                        data: bar1
                     }]
             };
             myChart.setOption(option);

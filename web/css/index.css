@@ -90,7 +90,7 @@ html, body {
 
     position: absolute;
     float: left;
-    height: 90%;
+    height: 89.5%;
     box-shadow: 0 0 10px #BDBDBD;
     width: 16%;
     background: #f7f5fa;
@@ -238,7 +238,7 @@ html, body {
 .nav-slide-o li a{
     line-height: 50px;
     display: block;
-    padding: 0 20px;
+    padding: 0 29px;
     font-size: 15px;
     overflow: hidden;
     text-align: center;
@@ -275,7 +275,7 @@ html, body {
     position: relative;
     float: right;
     width: 83%;
-    height: 400px;
+    height: 480px;
 }
 .iframe_css{
     position: relative;
@@ -299,10 +299,24 @@ html, body {
     -moz-border-radius: 5px;
 }
 .second_header a{
-    line-height: 20px;
+    text-decoration: none;
+    line-height: 30px;
     font-size: 16px;
     font-weight:600;
-    color: #000000 ;
+    color: #888 !important;
     font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
 
+
 }
+.second_header img{
+   display: inline-block; width: 25px; vertical-align: -4px;
+}
+
+/*#divid{
+    background:  url(../images/divider.png) no-repeat;
+    display: inline-block;
+    width: 12px;
+    height: 28px;
+    float: left;
+    margin: 0 5px;
+}*/

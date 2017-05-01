@@ -11,59 +11,113 @@
         <script src="js/echarts.js"></script>
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/esl.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 600px;height:400px;"></div>
+        <div id="main" style="width: 600px;height:500px;"></div>
         <script type="text/javascript">
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
             var myChart = echarts.init(dom);
             var app = {};
             option = null;
+            var data = #{publishStatic.data};
+            console.log(data);
+            var myData = data.yAxis[0].data;
+            var year_countdata = data.series[0].data;
+            var year_pagesdata = data.series[1].data;
+            var year_avgPagesdata = data.series[2].data;
+
+
+
+
             option = {
                 title: {
-                    text: "期刊发文统计",
-                    subtext: ""
+                   
                 },
                 tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {// 坐标轴指示器，坐标轴触发有效
-                        type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                    }
+                    trigger: 'axis'
                 },
-                legend: {
-                    data: ['利润', '支出', '收入']
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false
+                        },
+                        restore: {
+                            show: true
+                        },
+                        saveAsImage: {
+                            show: true
+                        }
+                    }
                 },
                 grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
                     containLabel: true
                 },
-                xAxis: [
-                    {
-                        type: 'value'
-                    }
-                ],
-                yAxis: [
-                    {
+                legend: {
+                    data: ['每年篇均页数', '每年总页数']
+                },
+                xAxis: [{
                         type: 'category',
-                        axisTick: {show: false},
-                        data: []
-                    }
-                ],
-                series: []
-
-
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        data: myData
+                    }],
+                yAxis: [{
+                        type: 'value',
+                        name: '每年篇均页数',
+                        min: 0,
+                        max: 40,
+                        position: 'right',
+//                        axisLabel: {
+//                            formatter: '{value} %'
+//                        }
+                    }, {
+                        type: 'value',
+                        name: '每年总页数',
+                        min: 0,
+                        max: 3000,
+                        position: 'left'
+                    }],
+                series: [{
+                        name: '每年篇均页数',
+                        type: 'line',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                            }
+                        },
+                        lineStyle: {
+                            normal: {
+                                width: 3,
+                                shadowColor: 'rgba(0,0,0,0.4)',
+                                shadowBlur: 10,
+                                shadowOffsetY: 10
+                            }
+                        },
+                        data: year_avgPagesdata
+                    }, {
+                        name: '每年总页数',
+                        type: 'bar',
+                        yAxisIndex: 1,
+                        barGap: 30,
+                        barWidth: 50,
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        data: year_pagesdata
+                    }]
             };
-
-            var data = #{publishStatic.data};
-            option.yAxis = data.yAxis;
-            option.series = data.series;
-            console.log(option.yAxis);
             myChart.setOption(option);
-
         </script>
     </body>
 </html>

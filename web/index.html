@@ -19,46 +19,67 @@
                 <div class="nav-box">
                     <div class="nav">
                         <ul class="nav-ul">
-                            <li><a href="#" class="home"><span>期刊概述</span></a></li>
-                            <li><a href="#" class="develop"><span>发文数据</span></a></li>
-                            <li><a href="#" class="wechat"><span>被引统计</span></a></li>
-                            <li><a href="#" class="case"><span>引文统计</span></a></li>
-                            <li><a href="#" class="news"><span>科研作者</span></a></li>
-                            <li><a href="#" class="contact" target="Abstract" ><span>科研机构</span></a></li>
+                            <li><a href="Abstract.xhtml" class="home" target="board" id="0" onclick="change(0,9)"><span>数据概述</span></a></li>
+                            <li><a  class="develop" id="1"><span>发文统计</span></a></li>
+                            <li><a   class="wechat" id="2"><span>被引统计</span></a></li>
+                            <li><a href="#" class="case" id="3"><span>引文统计</span></a></li>
+                            <li><a href="#" class="news" id="4"><span>科研作者</span></a></li>
+                            <li><a href="#" class="contact" id="5" ><span>科研机构</span></a></li>
+                            <li><a href="#" class="contact" id="6" ><span>基金资助</span></a></li>
                         </ul>
                     </div>
                     <div class="nav-slide">
                         <div class="nav-slide-o"></div>
                         <div class="nav-slide-o">
                             <ul>
-                                <li><a href="#"><span>1</span></a></li>
-                                <li><a href="#"><span>2</span></a></li>
-                                <li><a href="#"><span>3</span></a></li>
-                                <li><a href="#"><span>4</span></a></li>
+                                <li><a href="Abstract.xhtml"  id="11" onclick="change(1,11)"><span>发文概述</span></a></li>
+                                <li><a href="#" id="12" onclick="change(1,12)"><span>各年发文量</span></a></li>
+                                <li><a href="PublishStatic.xhtml" target="board" id="13" onclick="change(1,13)"><span>各年页数统计</span></a></li>
+                                <li><a href="#" id="14" onclick="change(1,14)"><span>各年篇密度</span></a></li>
+                                <li><a href="#" id="15" onclick="change(1,15)"><span>关键字统计</span></a></li>
                             </ul>
                         </div>
                         <div class="nav-slide-o">
                             <ul>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
+                                <li><a href="#" id="21" onclick="change(2,21)"><span>被引频次分布</span></a></li>
+                                <li><a href="#" id="22" onclick="change(2,22)"><span>各年被引统计</span></a></li>
+                                <li><a href="#" id="23" onclick="change(2,23)"><span>各年被引盒图分析</span></a></li>
+                                <li><a href="#" id="24" onclick="change(2,24)"><span>论文被引排名</span></a></li>
+                                <li><a href="#" id="25" onclick="change(2,25)"><span>高引论文分析</span></a></li>
+                                <li><a href="#" id="26" onclick="change(2,26)"><span>低引论文分析</span></a></li>
                             </ul>
                         </div>
                         <div class="nav-slide-o">
                             <ul>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
+                                <li><a href="#" id="31" onclick="change(3,31)"><span>各年被引统计</span></a></li>
+                                <li><a href="#" id="32" onclick="change(3,32)"><span>各年引文率</span></a></li>
+                                <li><a href="#" id="33" onclick="change(3,33)"><span>引用期刊排名</span></a></li>
                             </ul>
                         </div>
                         <div class="nav-slide-o">
                             <ul>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
-                                <li><a href="#"><span></span></a></li>
+                                <li><a href="#" id="41" onclick="change(4,41)"><span>作者发文排名</span></a></li>
+                                <li><a href="#" id="42" onclick="change(4,42)"><span>作者被引排名</span></a></li>
+                                <li><a href="#" id="43" onclick="change(4,43)"><span>作者影响力排名</span></a></li>
+                                <li><a href="#" id="44" onclick="change(4,44)"><span>期刊核心作者</span></a></li>
+                                <li><a href="#" id="45" onclick="change(4,45)"><span>作者合作网络图</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="nav-slide-o">
+                            <ul>
+                                <li><a href="#" id="51" onclick="change(5,51)"><span>期刊发文排名</span></a></li>
+                                <li><a href="#" id="52" onclick="change(5,51)"><span>机构被引排名</span></a></li>
+                                <li><a href="#" id="53" onclick="change(5,51)"><span>高引机构排名</span></a></li>
+
+                            </ul>
+                        </div>
+                        <div class="nav-slide-o">
+                            <ul>
+                                <li><a href="#" id="61" onclick="change(6,61)"><span>基金发文排名</span></a></li>
+                                <li><a href="#" id="62" onclick="change(6,62)"><span>基金被引排名</span></a></li>
+                                <li><a href="#" id="63" onclick="change(6,63)"><span>各年国家级基金量</span></a></li>
+                                <li><a href="#" id="64" onclick="change(6,64)"><span>各年省部级基金数量</span></a></li>
+
                             </ul>
                         </div>
                     </div>
@@ -66,65 +87,69 @@
             </div>
             <div class="content">
                 <div class="second_header">
-                    <div class="route_bg">
-                        <a href="#">主页</a><i class="glyph-icon icon-chevron-right"></i>
-                        <a href="#">菜单管理</a>
-                    </div>
+                    &nbsp;&nbsp;&nbsp;<a id="71" >数据概述</a>
+                    <img  width="20px" height="20px" src="images/divider.png"/>
+                    &nbsp;&nbsp;<a  id="72"></a>
                 </div>
                 <div class="iframe_css">
-                    <iframe src="Abstract.xhtml" name="Abstract" scrolling="no" frameborder="0" style="height: 100%;width: 100%"></iframe>      
-                    
+                    <iframe  name="board" scrolling="no" frameborder="0" scrolling="yes" style="height: 100%;width: 100%"></iframe>      
+
                 </div>
             </div>
         </div>
         <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript">
-            $(function () {
-                var thisTime;
-                $('.nav-ul li').mouseleave(function (even) {
-                    thisTime = setTimeout(thisMouseOut, 1000);
-                })
+                                $(function () {
+                                    var thisTime;
+                                    $('.nav-ul li').mouseleave(function (even) {
+                                        thisTime = setTimeout(thisMouseOut, 1000);
+                                    })
 
-                $('.nav-ul li').mouseenter(function () {
-                    clearTimeout(thisTime);
-                    var thisUB = $('.nav-ul li').index($(this));
-                    if ($.trim($('.nav-slide-o').eq(thisUB).html()) != "")
-                    {
-                        $('.nav-slide').addClass('hover');
-                        $('.nav-slide-o').hide();
-                        $('.nav-slide-o').eq(thisUB).show();
-                    } else {
-                        $('.nav-slide').removeClass('hover');
-                    }
+                                    $('.nav-ul li').mouseenter(function () {
+                                        clearTimeout(thisTime);
+                                        var thisUB = $('.nav-ul li').index($(this));
+                                        if ($.trim($('.nav-slide-o').eq(thisUB).html()) != "")
+                                        {
+                                            $('.nav-slide').addClass('hover');
+                                            $('.nav-slide-o').hide();
+                                            $('.nav-slide-o').eq(thisUB).show();
+                                        } else {
+                                            $('.nav-slide').removeClass('hover');
+                                        }
 
-                })
+                                    })
 
-                function thisMouseOut() {
-                    $('.nav-slide').removeClass('hover');
+                                    function thisMouseOut() {
+                                        $('.nav-slide').removeClass('hover');
+                                    }
+
+                                    $('.nav-slide').mouseenter(function () {
+                                        clearTimeout(thisTime);
+                                        $('.nav-slide').addClass('hover');
+                                    })
+                                    $('.nav-slide').mouseleave(function () {
+                                        $('.nav-slide').removeClass('hover');
+                                    })
+
+                                })
+
+
+        </script>
+        <script type="text/javascript">
+            function change(a, b) {
+
+                var name1 = document.getElementById(a).innerHTML;
+
+                if (b == 9) {
+                    var name2 = " ";
+                } else {
+                    var name2 = document.getElementById(b).innerHTML;
                 }
 
-                $('.nav-slide').mouseenter(function () {
-                    clearTimeout(thisTime);
-                    $('.nav-slide').addClass('hover');
-                })
-                $('.nav-slide').mouseleave(function () {
-                    $('.nav-slide').removeClass('hover');
-                })
 
-            })
-
-//
-//            function changeFrameHeight() {
-//                var ifm = document.getElementById("iframepage");
-//                ifm.height = document.documentElement.clientHeight;
-//
-//            }
-//
-//            window.onresize = function () {
-//                changeFrameHeight();
-//
-//            }
-
+                document.getElementById(71).innerHTML = name1;
+                document.getElementById(72).innerHTML = name2;
+            }
         </script>
 
     </body>
