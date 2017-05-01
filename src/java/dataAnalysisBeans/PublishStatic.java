@@ -81,7 +81,7 @@ public class PublishStatic implements Serializable {
         option.series(line);
         option.series(line1);
         option.series(line2);
-        System.out.println(option.toString());
+        //System.out.println(option.toString());
         return option.toString();
    
     }
