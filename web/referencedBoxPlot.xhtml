@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <meta charset="utf-8"/>
+        <title>ECharts</title>
+        <!-- 引入 echarts.js -->
+        <script src="js/echarts.js"></script>
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/esl.js"></script>
+        <script src="js/dataTool.js"></script>
+    </head>
+    <body>
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="width: 600px;height:500px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var dom = document.getElementById("main");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            var data = #{refAnalysis.boxdata};
+            var boxdata = echarts.dataTool.prepareBoxplotData(data);
+            
+
+
+            myChart.setOption(option);
+        </script>
+    </body>
+</html>
