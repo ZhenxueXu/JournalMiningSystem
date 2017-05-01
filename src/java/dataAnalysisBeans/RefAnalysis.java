@@ -10,7 +10,9 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Think 第三模块，被引统计
@@ -20,11 +22,11 @@ import java.util.List;
 public class RefAnalysis implements Serializable {
 
     private String box;
-    private List<List> boxdata;
     private GsonOption option;
     private CategoryAxis xAxis;
     private Line line;
     private Line line1;
+    private Map<String, List> bdata;
 
     public RefAnalysis() {
         setData();
@@ -75,11 +77,12 @@ public class RefAnalysis implements Serializable {
 
     public String getBoxdata() {
         Gson gson = new Gson();
-        return gson.toJson(boxdata);
+        return gson.toJson(bdata);
     }
 
     public void setBoxData() {
-
+        List<List<Integer>> boxdata;
+        boxdata = new ArrayList<>();
         Connection conn = null;
         Statement stat = null;
         ResultSet local = null;
@@ -90,7 +93,6 @@ public class RefAnalysis implements Serializable {
             sql = "select j_year,j_citation_frequency from journal_info order by j_year,j_citation_frequency";   //盒图数据
             local = stat.executeQuery(sql);
             List<Integer> item = new ArrayList<>();
-            boxdata = new ArrayList<>();
             String year = "";
             int i = 1;
             while (local.next()) {
@@ -112,6 +114,46 @@ public class RefAnalysis implements Serializable {
         } finally {
             JDBCUtils.close(local, stat, conn);
         }
+
+        List<List<Double>> box = new ArrayList<>();
+        List<List<Integer>> out = new ArrayList<>();
+        for (List<Integer> item : boxdata) {
+            List<Integer> outitem = new ArrayList<>();
+            List<Double> boxitem = new ArrayList<>();
+            if (item.size() < 5) {
+                outitem.addAll(item);
+            } else {
+                int Q1 = (int) Math.ceil(item.size() * 0.25) - 1;
+                Q1 = item.get(Q1);
+                int Q2 = item.size() / 2;
+                double mid = item.size() % 2 == 0 ? (item.get(Q2) + item.get(Q2 - 1)) / 2.0 : item.get(Q2);
+                int Q3 = (int) Math.floor(item.size() * 0.75) - 1;
+                Q3 = item.get(Q3);
+                double IQR = (Q3 - Q1) * 1.5;
+                int min = item.get(0);
+                int max = item.get(item.size() - 1);
+                if (min < Q1 - IQR) {
+                    outitem.add(min);
+                    boxitem.add(Q1 - IQR);
+                } else {
+                    boxitem.add(min / 1.0);
+                }
+                boxitem.add(Q1 / 1.0);
+                boxitem.add(mid / 1.0);
+                boxitem.add(Q3 / 1.0);
+                if (max > Q3 + IQR) {
+                    outitem.add(max);
+                    boxitem.add(Q3 + IQR);
+                } else {
+                    boxitem.add(max / 1.0);
+                }
+            }
+            box.add(boxitem);
+            out.add(outitem);
+        }
+        bdata = new HashMap<>();
+        bdata.put("boxplotdata", box);
+        bdata.put("outdata", out);
 
     }
 

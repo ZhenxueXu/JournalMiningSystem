@@ -23,9 +23,69 @@
             var app = {};
             option = null;
             var data = #{refAnalysis.boxdata};
-            var boxdata = echarts.dataTool.prepareBoxplotData(data);
-            
+            var boxdata = data.boxplotdata;
+            var sdata = data.outdata;
+            console.log(sdata);
+            var xx = #{refAnalysis.option}
+            var xAxis = xx.xAxis[0].data;
+            option = {
+                title: [
+                    {
+                        text: '各年被引頻次盒圖',
+                        left: 'center',
+                    }
+                ],
+                tooltip: {
+                    trigger: 'item',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '10%',
+                    right: '10%',
+                    bottom: '15%'
+                },
+                xAxis: {
+                    type: 'category',
+                    data:xAxis ,
+                    boundaryGap: true,
+                    nameGap: 30,
+                    splitArea: {
+                        show: false
+                    },
+                    axisLabel: {
+                        formatter: '{value}年'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '次',
+                    splitArea: {
+                        show: true
+                    }
+                },
+                series: [
+                    {
+                        
+                        name: 'boxplot',
+                        type: 'boxplot',
+                        data: boxdata
 
+                    },
+                    {
+                        
+                        name: 'outlier',
+                        type: 'scatter',                       
+                        data: sdata
+                    }
+                ]
+            };
+            
+            console.log(option.series);
 
             myChart.setOption(option);
         </script>
