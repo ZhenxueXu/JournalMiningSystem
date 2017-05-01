@@ -63,8 +63,8 @@ public class AffiliationAnalysis implements Serializable {
             for (int i = 1; i <= 20; i++) {
                 if (aff_ref.next()) {
 //                    xAxis.data(aff_publish.getString(1));
-                    bar1.data(aff_ref.getInt(2));
-                    line.data(aff_ref.getDouble(3));
+                    bar1.data(aff_ref.getInt(2));//被引次数
+                    line.data(aff_ref.getDouble(3));//篇均被引次数
                 }
             }
 
