@@ -11,6 +11,7 @@
         <script src="js/echarts.js"></script>
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/esl.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -31,7 +32,7 @@
 
             option = {
                 title: {
-                    //text: '2000-2016年中国汽车销量及增长率'
+                    
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -54,39 +55,38 @@
                     containLabel: true
                 },
                 legend: {
-                    data: ['每年篇均页数', '每年总页数']
+                    data: ['机构被引总次数', '机构被引篇均次数']
                 },
                 xAxis: [{
                         type: 'category',
                         axisTick: {
                             alignWithLabel: true
                         },
-                        axisLabel:{
-                            rotate: 30
+                        axisLabel: {
+                            rotate: -20,
+                            interval: 0
                         },
-                        
+
                         data: myData
                     }],
                 yAxis: [{
                         type: 'value',
-                        name: '每年篇均页数',
-//                        min: 0,
-//                        max: 40,
+                        name: '机构被引篇均次数',
+
                         position: 'right',
-//                        axisLabel: {
-//                            formatter: '{value} %'
-//                        }
+
                     }, {
                         type: 'value',
-                        name: '每年总页数',
+                        name: '机构被引总次数',
                         min: 0,
                         max: 1000,
                         position: 'left'
                     }],
                 series: [{
-                        name: '篇均被引次数',
+                        name: '机构被引总次数',
                         type: 'line',
                         stack: '总量',
+                        
                         label: {
                             normal: {
                                 show: true,
@@ -103,11 +103,11 @@
                         },
                         data: line
                     }, {
-                        name: '被引次数',
+                        name: '机构被引篇均次数',
                         type: 'bar',
                         yAxisIndex: 1,
-                        barGap: 30,
-                        barWidth: 50,
+                         barGap: 20,
+                      
                         stack: '总量',
                         label: {
                             normal: {
