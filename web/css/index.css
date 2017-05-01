@@ -275,13 +275,16 @@ html, body {
     position: relative;
     float: right;
     width: 83%;
-    height: 480px;
+    height: 550px;
 }
 .iframe_css{
     position: relative;
     right: 0px;
     height: 100% !important;
     left: 0px;
+/*    overflow-x:  scroll;*/
+   
+    
 }
 .second_header{
     position: relative;
