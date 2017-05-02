@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+        <script  src="js/jquery-1.8.3.min.js"></script>
         <link rel="Stylesheet" type="text/css" href="css/loginDialog.css" />
     </head>
     <body>
@@ -12,7 +12,7 @@
                 <hgroup>
                     <h1 class="site_title"><a href="index.html">期刊分析系统</a></h1>
                     <h2 class="section_title">Dashboard</h2>
-                    <div class="btn1"><a id="example">Load Data</a>
+                    <div class="btn1"><a  href="#" id="example">Load Data</a>
                     </div>
                 </hgroup>
             </header>
@@ -36,7 +36,7 @@
                         <div class="nav-slide-o">
                             <ul>
                                 <li><a href="Abstract.xhtml"  id="11" onclick="change(1, 11)"><span>发文概述</span></a></li>
-                                <li><a href="#" id="12" onclick="change(1, 12)"><span>各年发文量</span></a></li>
+                                <li><a href="publishCount.xhtml" target="board" id="12" onclick="change(1, 12)"><span>各年发文量</span></a></li>
                                 <li><a href="PublishStatic.xhtml" target="board" id="13" onclick="change(1, 13)"><span>各年页数统计</span></a></li>
                                 <li><a href="AffiliantionAnalysis.xhtml" target="board" id="14" onclick="change(1, 14)"><span>各年篇密度</span></a></li>
                                 <li><a href="keyword.xhtml" target="board" id="15" onclick="change(1, 15)"><span>关键字统计</span></a></li>
@@ -46,7 +46,7 @@
                             <ul>
                                 <li><a href="#" id="21" onclick="change(2, 21)"><span>被引频次分布</span></a></li>
                                 <li><a  id="22" href="RefAnalysis.xhtml" target="board" onclick="change(2, 22)"><span>各年被引统计</span></a></li>
-                                <li><a href="#" id="23" onclick="change(2, 23)"><span>各年被引盒图分析</span></a></li>
+                                <li><a href="referencedBoxPlot.xhtml" target="board" id="23" onclick="change(2, 23)"><span>各年被引盒图分析</span></a></li>
                                 <li><a href="#" id="24" onclick="change(2, 24)"><span>论文被引排名</span></a></li>
                                 <li><a href="#" id="25" onclick="change(2, 25)"><span>高引论文分析</span></a></li>
                                 <li><a href="#" id="26" onclick="change(2, 26)"><span>低引论文分析</span></a></li>
@@ -95,15 +95,16 @@
                     &nbsp;&nbsp;<a  id="72"></a>
                 </div>
                 <div class="iframe_css">
-                    <iframe  name="board"  frameborder="0"  style="height: 100%;width: 100%; overflow: no-display"></iframe>      
+                    <iframe  name="board"   frameborder="0"  style="height: 100%;width: 100%; overflow: no-display"></iframe>      
 
                 </div>
             </div>
         </div>
-        <div id="LoginBox">
-            <div class="row1">
+        <div id="Box">
+            
                 数据导入<a href="javascript:void(0)" title="关闭窗口" class="close_btn" id="closeBtn">×</a>
-            </div>
+                <iframe  name="board" src="input.xhtml" frameborder="0"  style="height: 100%;width: 100%; overflow: scroll"></iframe> 
+          
         </div>
         <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
         <script type="text/javascript">
@@ -173,7 +174,7 @@
                 }).on('click', function () {
                     $("body").append("<div id='mask'></div>");
                     $("#mask").addClass("mask").fadeIn("slow");
-                    $("#LoginBox").fadeIn("slow");
+                    $("#Box").fadeIn("slow");
                 });
 
                 $("#txtName").on('blur', function () {
@@ -205,7 +206,7 @@
                 }, function () {
                     $(this).css({color: '#999'})
                 }).on('click', function () {
-                    $("#LoginBox").fadeOut("fast");
+                    $("#Box").fadeOut("fast");
                     $("#mask").css({display: 'none'});
                 });
             });
