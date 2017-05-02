@@ -50,7 +50,7 @@ public class AuthorRelationship implements Serializable {
                 Node node = new Node();
                 node.setName(rs.getString(1));
                 node.setValue(rs.getInt(2));
-                node.setSymbolSize(10+rs.getInt(2) / 100);
+                node.setSymbolSize(rs.getInt(2) / 10.0);
                 graph.data(node);
             }
 
