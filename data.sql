@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `journal_info` (
   `j_class_No` varchar(50) DEFAULT NULL COMMENT '分类号',
   `j_year` varchar(50) DEFAULT NULL COMMENT '发表年',
   `j_orgin` varchar(100) DEFAULT NULL COMMENT '来源',
-  `j_page2` double unsigned zerofill DEFAULT '0000000000000000000000' COMMENT '转变后的页数',
+  `j_page2` double unsigned DEFAULT '0' COMMENT '转变后的页数',
   PRIMARY KEY (`j_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='期刊文献基本信息表';
 
