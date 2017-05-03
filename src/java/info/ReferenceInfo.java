@@ -78,7 +78,7 @@ public class ReferenceInfo {
     }
 
     public void setJournal(String journal) {
-        this.journal = journal;
+        this.journal = journal.replaceAll("'", "\"");
     }
 
     public String getYear() {

@@ -79,7 +79,7 @@ public class UploadFileBean  implements Serializable {
            }
            fileoutstream.close();
            inputstream.close();
-           FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+           FacesMessage message = new FacesMessage("成功！", event.getFile().getFileName() + " 已经上传.");
            FacesContext.getCurrentInstance().addMessage(null, message);
            files.add(result);
              
@@ -133,14 +133,14 @@ public class UploadFileBean  implements Serializable {
                             stat = paper.addSQL(stat);
                         }
                     }
-                    if (i % 300 == 0) {
+                    if (i % 200 == 0) {
                         stat.executeBatch();
                     }
                 }
-                stat.executeBatch();
-                conn.commit();
+                stat.executeBatch();               
                 reader.close();
             }
+            conn.commit();
             
         } catch (Exception e) {
             e.printStackTrace();
