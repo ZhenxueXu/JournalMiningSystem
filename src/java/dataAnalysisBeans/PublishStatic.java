@@ -42,6 +42,7 @@ public class PublishStatic implements Serializable {
         ResultSet local = null;
         GsonOption option = new GsonOption();
         CategoryAxis yAxis = new CategoryAxis();
+        CategoryAxis xAxis = new CategoryAxis();
         Bar line = new Bar();
         Bar line1 = new Bar();
         Bar line2 = new Bar();
@@ -53,13 +54,14 @@ public class PublishStatic implements Serializable {
             sql = "select j_year , count(j_number) from journal_info group by j_year";
             year_count = stat.executeQuery(sql);
             while (year_count.next()) {
-                yAxis.data(year_count.getString(1));
+                xAxis.data(year_count.getString(1));
               
                 line.data(year_count.getInt(2));
             }
             sql = "select j_year,sum(j_page2) from journal_info group by j_year";
             year_pages = stat.executeQuery(sql);
             while (year_pages.next()) {
+                 yAxis.data(year_count.getString(1));
                 line1.data(year_pages.getInt(2));
             }
             sql = "select j_year,avg(j_page2) from journal_info group by j_year";
@@ -78,6 +80,7 @@ public class PublishStatic implements Serializable {
         line1.name("每年总页数");
         line2.name("每年篇均页数");
         option.yAxis(yAxis);
+        option.xAxis(xAxis);
         option.series(line);
         option.series(line1);
         option.series(line2);
