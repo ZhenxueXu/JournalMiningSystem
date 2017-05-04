@@ -183,11 +183,13 @@ public class RefAnalysis implements Serializable {
 
         List<List<Double>> box = new ArrayList<>();
         List<List<Integer>> out = new ArrayList<>();
+        int count = 0;
+        List<List<Integer>> outitem = new ArrayList<>();
         for (List<Integer> item : boxdata) {
-            List<Integer> outitem = new ArrayList<>();
+            
             List<Double> boxitem = new ArrayList<>();
             if (item.size() < 5) {
-                outitem.addAll(item);
+                //utitem.addAll(item);
             } else {
                 int Q1 = (int) Math.ceil(item.size() * 0.25) - 1;
                 Q1 = item.get(Q1);
@@ -198,28 +200,50 @@ public class RefAnalysis implements Serializable {
                 double IQR = (Q3 - Q1) * 1.5;
                 int min = item.get(0);
                 int max = item.get(item.size() - 1);
+                double Q4,Q5;
                 if (min < Q1 - IQR) {
-                    outitem.add(min);
                     boxitem.add(Q1 - IQR);
+                   Q4 = Q1-IQR;
                 } else {
                     boxitem.add(min / 1.0);
+                    Q4 = min;
+                }
+                 for (int n : item) {
+                    if (n <Q4) {
+                        List<Integer> j = new ArrayList<>();
+                        j.add(count);
+                        j.add(n);
+                        outitem.add(j);
+                    }
+                       
                 }
                 boxitem.add(Q1 / 1.0);
                 boxitem.add(mid / 1.0);
                 boxitem.add(Q3 / 1.0);
                 if (max > Q3 + IQR) {
-                    outitem.add(max);
-                    boxitem.add(Q3 + IQR);
-                } else {
-                    boxitem.add(max / 1.0);
+                        boxitem.add(Q3 + IQR);
+                        Q5 = Q3 + IQR;
+                    } else {
+                        boxitem.add(max / 1.0);
+                        Q5 = max;
+                    }
+                for (int n : item) {
+                    if (n > Q5) {
+                        List<Integer> j = new ArrayList<>();
+                        j.add(count);
+                        j.add(n);
+                        outitem.add(j);
+                    }
+                       
                 }
+
             }
             box.add(boxitem);
-            out.add(outitem);
+            count++;
         }
         bdata = new HashMap<>();
         bdata.put("boxplotdata", box);
-        bdata.put("outdata", out);
+        bdata.put("outdata", outitem);
 
     }
 
