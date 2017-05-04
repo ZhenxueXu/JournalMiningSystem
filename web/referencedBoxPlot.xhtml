@@ -26,7 +26,6 @@
             var data = #{refAnalysis.boxdata};
             var boxdata = data.boxplotdata;
             var sdata = data.outdata;
-            console.log(sdata);
             var xx = #{refAnalysis.option}
             var xAxis = xx.xAxis[0].data;
             option = {
@@ -86,7 +85,7 @@
                 ]
             };
             
-            console.log(option.series);
+            console.log(sdata);
 
             myChart.setOption(option);
         </script>
