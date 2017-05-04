@@ -1,0 +1,26 @@
+.ui-fileupload .start {
+    display: none;
+}
+.ui-fileupload .cancel {
+    display: none;
+}
+.ui-fileupload .progress {
+    display: none;
+}
+
+
+.fileupload-content{
+    display: none;
+}
+
+.fileupload-buttonbar{
+    visibility: hidden;
+}
+
+.ui-corner-buttom{
+    display: none;
+}
+
+.fileinput-button{
+    visibility: visible;
+}

@@ -25,15 +25,14 @@
             option = null;
             var data = #{refAnalysis.boxdata};
             var boxdata = data.boxplotdata;
-//            var sdata = data.outdata;
-//            console.log(sdata);
+            var sdata = data.outdata;
             var xx = #{refAnalysis.option}
             var xAxis = xx.xAxis[0].data;
             option = {
                 title: [
                     {
                         text: '各年被引頻次盒圖',
-                        left: 'center',
+                        left: 'center'
                     }
                 ],
                 tooltip: {
@@ -96,8 +95,8 @@
                     }
                 ]
             };
-
-         
+            
+            console.log(sdata);
 
             myChart.setOption(option);
         </script>
