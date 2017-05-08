@@ -12,7 +12,6 @@ import JDBCUtils.JDBCUtils;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Bar;
-import com.github.abel533.echarts.series.Line;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -25,8 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Think
@@ -41,17 +38,15 @@ public class AuthorAnalysis implements Serializable {
     private ResultSet ref;                          //被引统计，格式（作者[string]，被引总计[int]）
     private int min_h_index;                        //用于筛选核心作者的最低h指数
     private ResultSet co_publish;
-
-    GsonOption option1 = new GsonOption();
-
-    CategoryAxis xAxis1 = new CategoryAxis();
-    Bar bar1 = new Bar();
-    GsonOption option2 = new GsonOption();
-    CategoryAxis xAxis2 = new CategoryAxis();
-    Bar bar2 = new Bar();
+    private GsonOption option1 ;
+    private CategoryAxis xAxis1 ;
+    private Bar bar1 ;
+    private GsonOption option2 ;
+    private CategoryAxis xAxis2 ;
+    private Bar bar2 ;
 
     public AuthorAnalysis() {
-        min_h_index = 5;
+        
         setAllData();
     }
 
@@ -60,9 +55,16 @@ public class AuthorAnalysis implements Serializable {
     }
 
     public void setAllData() {
+        min_h_index = 5;
         Connection conn = null;
         Statement stat = null;
         ResultSet local = null;
+        option1 = new GsonOption();
+        xAxis1 = new CategoryAxis();
+        bar1 = new Bar();
+        option2 = new GsonOption();
+        xAxis2 = new CategoryAxis();
+        bar2 = new Bar();
         try {
             conn = JDBCUtils.getConn();
             stat = conn.createStatement();
@@ -95,7 +97,7 @@ public class AuthorAnalysis implements Serializable {
             Collections.sort(hIndex, new Comparator<Map.Entry<String, Integer>>() {
                 @Override
                 public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                    return  o2.getValue() -o1.getValue();
+                    return o2.getValue() - o1.getValue();
                 }
 
             });
@@ -161,22 +163,22 @@ public class AuthorAnalysis implements Serializable {
             JDBCUtils.close(local, stat, conn);
 
         }
+        bar2.name("发文统计");
+        option2.xAxis(xAxis2);
+        option2.series(bar2);
+        bar1.name("被引统计");
+        option1.xAxis(xAxis1);
+        option1.series(bar1);
 
     }
 
     public String getAuthorBeiYinData() {
-        //被引统计
-        bar1.name("被引统计");
-        option1.xAxis(xAxis1);
-        option1.series(bar1);
+        //被引统计      
         return option1.toString();
     }
 
     public String getAuthorFaWenData() {
-        //发文统计
-        bar2.name("发文统计");
-        option2.xAxis(xAxis2);
-        option2.series(bar2);
+        //发文统计        
         return option2.toString();
     }
 }

@@ -147,6 +147,7 @@ public class UploadFileBean  implements Serializable {
         } finally {
             JDBCUtils.close(rs, stat, conn);
         } 
+        baiduMap.CreateMapInformation.createInformation();
         return null;
     }  
     /*
