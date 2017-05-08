@@ -11,11 +11,94 @@
         <script src="js/echarts.js"></script>
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/esl.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
     </head>
     <body>
-        <h:form>
-            <h:commandButton value="test" action="#{affiliationHeatMap.test()}"/>
-        </h:form>
-        
+
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="width: 1100px;height:520px;"></div>
+        <script type="text/javascript">
+            //<![CDATA[
+            // 基于准备好的dom，初始化echarts实例
+            var dom = document.getElementById("main");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            var data = #{authorAnalysis.authorFaWenData};
+            var xdata = data.xAxis[0].data[0];
+            var maindata = data.series[0].data[0];
+            var dlength = 0;
+            var timeLinedata = new Array();
+            for (var js2 in xdata) {
+                dlength++;
+                timeLinedata[dlength] = dlength;
+            }
+
+
+
+            option = {
+                baseOption: {
+                    title: {},
+                    timeline: {
+
+                        axisType: 'category',
+                        autoPlay: true,
+                        playInterval: 3000,
+                        data: timeLinedata
+                    },
+                    label: {
+                        formatter: function (s) {
+                            return (new Date(s)).getFullYear();
+                        }
+                    },
+
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+
+                    },
+                    legend: {
+                        data: []
+                    },
+                    grid: {
+
+                        containLabel: true
+                    },
+                    yAxis: {
+                        type: 'value',
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: xdata[1]
+                    },
+                    series: [],
+                },
+                options: []
+            };
+            for (var n = 1; n <= dlength; n++) {
+
+
+                option.options.push({
+
+                    series: [{
+                            name: '一级预警',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true
+                                }
+                            },
+                            data: maindata[n]
+                        }]
+                });
+            }
+            //]]>
+
+            myChart.setOption(option);
+        </script>
+
     </body>
 </html>

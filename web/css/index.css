@@ -28,7 +28,8 @@ html, body {
 #header {
     height: 55px;
     width: 100%;
-    background: #222222 url(../images/header_bg.png) repeat-x;
+    /*background: #222222 url(../images/header_bg.png) repeat-x;*/
+    background:#252829;
 }
 
 #header h1.site_title, #header h2.section_title {
@@ -305,7 +306,7 @@ html, body {
     text-decoration: none;
     line-height: 30px;
     font-size: 16px;
-    font-weight:600;
+    font-weight:550;
     color: #888 !important;
     font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
 

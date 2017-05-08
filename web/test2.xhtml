@@ -17,83 +17,18 @@
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="width: auto;height:800px;"></div>
         <script type="text/javascript">
-            // 基于准备好的dom，初始化echarts实例
-            var dom = document.getElementById("main");
-            var myChart = echarts.init(dom);
-            var app = {};
-            option = null;
-            option = {
-                title: {
-                    text: 'Graph 简单示例'
-                },
-                tooltip: {},
-                //animationDurationUpdate: 0,
-                //animationEasingUpdate: 'quinticInOut',
+//           <![CDATA[
+            var i=1;
+            var data = #{authorAnalysis.authorFaWenData};
+            console.log(data);
+            var testdata1 = data.xAxis[0].data[0];
+             console.log(testdata1);
+            document.write(testdata1[1]);
+                var maindata = data.series[0].data[0];
+                document.write(maindata[1]);
 
 
-                series: [
-                    {
-                        type: 'graph',
-                        layout: 'force',
-                        modularity: true,
-                        roam: true,
-                        animation: false,
-                        draggable: false,
-                        focusNodeAdjacency:true,
-                        force: {
-                            initLayout: 'circular',
-                            // repulsion: 20,
-                            edgeLength: 5,
-                            repulsion: 10,
-                            gravity: 0.5
-                        },
-                        data: [{
-                                name: '节点1',
-                                symbolSize: 45,
-                                value: 45
-
-                            }, {
-                                name: '节点2',
-                                symbolSize: 70,
-                                value: 45
-
-                            }, {
-                                name: '节点3',
-                                value: 40
-
-                            }, {
-                                name: '节点4',
-                                value: 40
-
-                            }],
-                        // links: [],
-                        links: [{
-                                source: '节点1',
-                                target: '节点3'
-                            }, {
-                                source: '节点2',
-                                target: '节点3'
-                            }, {
-                                source: '节点2',
-                                target: '节点4'
-                            }, {
-                                source: '节点2',
-                                target: '节点4'
-                            }, {
-                                source: '节点1',
-                                target: '节点4'
-                            }]
-                    }
-                ]
-            };
-            data = #{authorRelationship.data};
-            option.series[0].data = data.data;
-            option.series[0].links = data.links;
-            console.log(option);
-            myChart.setOption(option);
-
-
-
+          //]]>
         </script>
     </body>
 </html>
