@@ -13,6 +13,7 @@ import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Bar;
 import com.github.abel533.echarts.series.Line;
+import com.google.gson.Gson;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -95,7 +96,7 @@ public class AuthorAnalysis implements Serializable {
             Collections.sort(hIndex, new Comparator<Map.Entry<String, Integer>>() {
                 @Override
                 public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                    return  o2.getValue() -o1.getValue();
+                    return o2.getValue() - o1.getValue();
                 }
 
             });
@@ -116,23 +117,49 @@ public class AuthorAnalysis implements Serializable {
             sql = "select j_author as 作者, count(*) as 发文量 "
                     + " from journal_info a,paper_author b "
                     + " where a.j_number = b.j_number "
+               
                     + " group by b.j_author "
+                    + " having 发文量>1 "
                     + " order by 发文量 desc";
             publish = stat.executeQuery(sql);
-            for (int i = 1; i <= 20; i++) {
-
-                if (publish.next()) {
-                    xAxis2.data(publish.getString(1));
-                    bar2.data(publish.getInt(2));//发文统计
+            int shu = 1;
+            int mapcount = 1;
+            Map<Integer, List<Integer>> data = new HashMap<>();
+            Map<Integer, List<String>> xdata = new HashMap<>();
+            List<Integer> datalist = new ArrayList<>();
+            List<String> xlist=new ArrayList<>();
+            while (publish.next()) {
+                if (shu % 20 == 0) {
+                    data.put(mapcount, datalist);
+                    xdata.put(mapcount, xlist);
+                    mapcount++;
+                    datalist = new ArrayList<>();
+                    xlist = new ArrayList<>();
                 }
-
+                datalist.add(publish.getInt(2));
+                xlist.add(publish.getString(1));
+                shu++;
             }
-
-            //--start 被引统计 --//
+//            Gson datagson = new Gson(); 
+//            Gson xgson =new Gson();
+//            String sdata = datagson.toJson(data);
+//            String sx = xgson.toJson(xdata);
+            bar2.data(data);
+            xAxis2.data(xdata);
+                    //            for (int i = 1; i <= 20; i++) {
+                    //
+                    //                if (publish.next()) {
+                    //                    xAxis2.data(publish.getString(1));
+                    //                    bar2.data(publish.getInt(2));//发文统计
+                    //                }
+                    //
+                    //            }
+                    //--start 被引统计 --//     
             sql = "select j_author as 作者, sum(j_citation_frequency) as 被引总计 "
                     + " from journal_info,paper_author "
                     + " where journal_info.j_number = paper_author.j_number "
-                    + " group by paper_author.j_author "
+                    + " group by paper_author.j_author"
+                    
                     + " order by 被引总计 desc ";
             ref = stat.executeQuery(sql);
 

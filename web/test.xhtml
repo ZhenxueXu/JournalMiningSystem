@@ -11,111 +11,91 @@
         <script src="js/echarts.js"></script>
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/esl.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 600px;height:500px;"></div>
+        <div id="main" style="width: 1100px;height:520px;"></div>
         <script type="text/javascript">
+            //<![CDATA[
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
             var myChart = echarts.init(dom);
             var app = {};
             option = null;
-            var data = #{publishStatic.data};
-            console.log(data);
-            var myData = data.yAxis[0].data;
-            var year_countdata = data.series[0].data;
-            var year_pagesdata = data.series[1].data;
-            var year_avgPagesdata = data.series[2].data;
-
+            var data = #{authorAnalysis.authorFaWenData};
+            var xdata = data.xAxis[0].data[0];
+            var maindata = data.series[0].data[0];
+            var dlength = 0;
+            var timeLinedata = new Array();
+            for (var js2 in xdata) {
+                dlength++;
+                timeLinedata[dlength] = dlength;
+            }
 
 
 
             option = {
-                title: {
-                    //text: '2000-2016年中国汽车销量及增长率'
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                toolbox: {
-                    feature: {
-                        dataView: {
-                            show: true,
-                            readOnly: false
-                        },
-                        restore: {
-                            show: true
-                        },
-                        saveAsImage: {
-                            show: true
+                baseOption: {
+                    title: {},
+                    timeline: {
+
+                        axisType: 'category',
+                        autoPlay: true,
+                        playInterval: 3000,
+                        data: timeLinedata
+                    },
+                    label: {
+                        formatter: function (s) {
+                            return (new Date(s)).getFullYear();
                         }
-                    }
-                },
-                grid: {
-                    containLabel: true
-                },
-                legend: {
-                    data: ['每年篇均页数', '每年总页数']
-                },
-                xAxis: [{
+                    },
+
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+
+                    },
+                    legend: {
+                        data: []
+                    },
+                    grid: {
+
+                        containLabel: true
+                    },
+                    yAxis: {
+                        type: 'value',
+                    },
+                    xAxis: {
                         type: 'category',
-                        axisTick: {
-                            alignWithLabel: true
-                        },
-                        data: myData
-                    }],
-                yAxis: [{
-                        type: 'value',
-                        name: '每年篇均页数',
-                        min: 0,
-                        max: 40,
-                        position: 'right',
-//                        axisLabel: {
-//                            formatter: '{value} %'
-//                        }
-                    }, {
-                        type: 'value',
-                        name: '每年总页数',
-                        min: 0,
-                        max: 3000,
-                        position: 'left'
-                    }],
-                series: [{
-                        name: '每年篇均页数',
-                        type: 'line',
-                        stack: '总量',
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top',
-                            }
-                        },
-                        lineStyle: {
-                            normal: {
-                                width: 3,
-                                shadowColor: 'rgba(0,0,0,0.4)',
-                                shadowBlur: 10,
-                                shadowOffsetY: 10
-                            }
-                        },
-                        data: year_avgPagesdata
-                    }, {
-                        name: '每年总页数',
-                        type: 'bar',
-                        yAxisIndex: 1,
-                        barGap: 30,
-                        barWidth: 50,
-                        stack: '总量',
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top'
-                            }
-                        },
-                        data: year_pagesdata
-                    }]
+                        data: xdata[1]
+                    },
+                    series: [],
+                },
+                options: []
             };
+            for (var n = 1; n <= dlength; n++) {
+
+
+                option.options.push({
+
+                    series: [{
+                            name: '一级预警',
+                            type: 'bar',
+                            stack: '总量',
+                            label: {
+                                normal: {
+                                    show: true
+                                }
+                            },
+                            data: maindata[n]
+                        }]
+                });
+            }
+            //]]>
+
             myChart.setOption(option);
         </script>
     </body>

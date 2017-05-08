@@ -55,13 +55,13 @@ public class PublishStatic implements Serializable {
             year_count = stat.executeQuery(sql);
             while (year_count.next()) {
                 xAxis.data(year_count.getString(1));
-              
+              yAxis.data(year_count.getString(1));
                 line.data(year_count.getInt(2));
             }
             sql = "select j_year,sum(j_page2) from journal_info group by j_year";
             year_pages = stat.executeQuery(sql);
             while (year_pages.next()) {
-                 yAxis.data(year_count.getString(1));
+                 
                 line1.data(year_pages.getInt(2));
             }
             sql = "select j_year,avg(j_page2) from journal_info group by j_year";
