@@ -78,6 +78,9 @@ public class ReferenceInfo {
     }
 
     public void setJournal(String journal) {
+        if(journal.contains(":")){
+            journal = journal.substring(journal.indexOf(":")+1);
+        }
         this.journal = journal.replaceAll("'", "\"");
     }
 

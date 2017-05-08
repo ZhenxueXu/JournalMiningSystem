@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <meta charset="utf-8"/>
+        <title>ECharts</title>
+        <!-- 引入 echarts.js -->
+        <script src="js/echarts.js"></script>
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
+        <script src="js/esl.js"></script>
+    </head>
+    <body>
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="width: 1100px;height:520px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var dom = document.getElementById("main");
+            var data = #{affiliationHeatMap.mapData};
+            console.log(data);
+            var app = {};
+            option = null;
+           
+            option = {
+                backgroundColor: '#404a59',
+                title: {
+                    text: '科研机构发文被引频次',
+                    left: 'center',
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    y: 'bottom',
+                    x: 'right',
+                    data: ['被引频次'],
+                    textStyle: {
+                        color: '#fff'
+                    }
+                },
+                geo: {
+                    map: 'china',
+                    label: {
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    roam: true,
+                    itemStyle: {
+                        normal: {
+                            areaColor: '#323c48',
+                            borderColor: '#111'
+                        },
+                        emphasis: {
+                            areaColor: '#2a333d'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: '被引频次',
+                        type: 'scatter',
+                        coordinateSystem: 'geo',
+                        data: data,
+                        symbolSize: function (val) {
+                            return 3+val[2]*20/data[0].value[2];
+                        },
+                        label: {
+                            normal: {
+                                formatter: function(param){
+                                    return[param.value[2]];
+                                },
+                                position: 'right',
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#ddb926'
+                            }
+                        }
+                    },
+                    {
+                        name: 'Top 10',
+                        type: 'effectScatter',
+                        coordinateSystem: 'geo',
+                        data: data.slice(0,20),
+                        symbolSize: function (val) {
+                            return val[2]*20/data[0].value[2];
+                        },
+                        showEffectOn: 'render',
+                        rippleEffect: {
+                            brushType: 'stroke'
+                        },
+                        hoverAnimation: true,
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                position: 'right',
+                                show: false
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: '#f4e925',
+                                shadowBlur: 10,
+                                shadowColor: '#333'
+                            }
+                        },
+                        zlevel: 1
+                    }
+                ]
+            };
+            $.get('js/china.json', function (chinaJson) {
+                echarts.registerMap('china', chinaJson);
+                var myChart = echarts.init(dom);
+                myChart.setOption(option);
+            });
+
+
+        </script>
+    </body>
+</html>
+
