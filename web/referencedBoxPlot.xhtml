@@ -25,15 +25,14 @@
             option = null;
             var data = #{refAnalysis.boxdata};
             var boxdata = data.boxplotdata;
-//            var sdata = data.outdata;
-//            console.log(sdata);
+            var sdata = data.outdata;
             var xx = #{refAnalysis.option}
             var xAxis = xx.xAxis[0].data;
             option = {
                 title: [
                     {
                         text: '各年被引頻次盒圖',
-                        left: 'center',
+                        left: 'center'
                     }
                 ],
                 tooltip: {
@@ -47,57 +46,46 @@
                     right: '10%',
                     bottom: '15%'
                 },
-                xAxis: [{
-                        type: 'category',
-                        data: xAxis,
-                        boundaryGap: true,
-                        nameGap: 30,
-                        splitArea: {
-                            show: false
-                        },
-                        axisLabel: {
-                            formatter: '{value}年'
-                        },
-                        splitLine: {
-                            show: false
-                        }
-                    }],
-                yAxis: [{
-                        type: 'value',
-                        name: '次',
-
-                        position: 'right',
-
-                    }, {
-                        type: 'value',
-                        name: '次',
-
-                        position: 'left'
-                    }],
-
+                xAxis: {
+                    type: 'category',
+                    data:xAxis ,
+                    boundaryGap: true,
+                    nameGap: 30,
+                    splitArea: {
+                        show: false
+                    },
+                    axisLabel: {
+                        formatter: '{value}年'
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '次',
+                    splitArea: {
+                        show: true
+                    }
+                },
                 series: [
                     {
-
+                        
                         name: 'boxplot',
                         type: 'boxplot',
                         data: boxdata
 
                     },
                     {
-
+                        
                         name: 'outlier',
-                        type: 'scatter',
-                        yAxisIndex: 1,
-                        data: 
-//                                [[2013,5],[2014,5],[2015,5]]
-   
-    
-]
+                        type: 'scatter',                       
+                        data: sdata
                     }
                 ]
             };
-
-         
+            
+            console.log(sdata);
 
             myChart.setOption(option);
         </script>

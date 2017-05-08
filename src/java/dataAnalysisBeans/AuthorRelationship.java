@@ -43,14 +43,16 @@ public class AuthorRelationship implements Serializable {
                     + "from paper_author as a,journal_info as b "
                     + "where a.j_number = b.j_number "
                     + "group by a.j_author "
-                    + "order by a.j_author ";
+                    + "order by times desc";
             rs = stat.executeQuery(sql);
+            int max = -1;
             while (rs.next()) {
+                if(max==-1)max=rs.getInt(2);
                 author_times.put(rs.getString(1), rs.getInt(2));
                 Node node = new Node();
                 node.setName(rs.getString(1));
                 node.setValue(rs.getInt(2));
-                node.setSymbolSize(rs.getInt(2) / 10.0);
+                node.setSymbolSize(2+rs.getInt(2)*30.0 / max);
                 graph.data(node);
             }
 

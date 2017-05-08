@@ -42,34 +42,34 @@
                         lineStyle: {
                             normal: {
                                 width: 0.5,
-                                curveness: 0.3,
                                 opacity: 0.7
                             }
                         },
                         label: {
                             normal: {
-                               // show: true,
-                                position: 'right'
-                            
+                                show: true,
+                                position: 'top'
                             }
                         },
+ 
                         force: {
-                            initLayout: 'none',
+                            initLayout: 'circular',
                             // repulsion: 20,
-                            edgeLength: 5,
-                            repulsion: 20,
-                            gravity: 0.3
+                            edgeLength: 10,
+                            repulsion: 50
+                                    //gravity: 0.1
                         },
                         data: [],
                         // links: [],
                         links: []
+                                
                     }
                 ]
             };
-            data = #{authorRelationship.data};
+            data = #{keywordCoAppearAnalysis.graph};
+            console.log(data);
             option.series[0].data = data.data;
             option.series[0].links = data.links;
-            console.log(option);
             myChart.setOption(option);
 
 

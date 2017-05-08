@@ -4,6 +4,7 @@ import JDBCUtils.JDBCUtils;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Line;
+import com.github.abel533.echarts.series.Pie;
 import com.google.gson.Gson;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -23,6 +24,7 @@ public class RefAnalysis implements Serializable {
 
     private String box;
     private GsonOption option;
+    private GsonOption option2;  //频次分布图option
     private CategoryAxis xAxis;
     private Line line;
     private Line line1;
@@ -42,6 +44,9 @@ public class RefAnalysis implements Serializable {
         ResultSet local = null;
         option = new GsonOption();
         xAxis = new CategoryAxis();
+        CategoryAxis Axis = new CategoryAxis();
+        int[] times = {0};
+        Pie pie = new Pie();
         line = new Line();
         line1 = new Line();
 
@@ -56,10 +61,67 @@ public class RefAnalysis implements Serializable {
                 line.data(year_citation.getInt(2));
             }
 
-            sql = "select j_number,j_title,j_citation_frequency from journal_info order by j_citation_frequency DESC";  //用来处理频次分布，高引，低引
+            //频次分布图数据处理
+            sql = "select j_number,j_title,j_citation_frequency from journal_info order by j_citation_frequency  desc limit 1";
+            local = stat.executeQuery(sql);
+            int max = 1;
+            if (local.next()) {
+                max = local.getInt(3);
+
+            }
+            int i = 1;
+            int group = 1;
+
+            if (max <= 100) {
+                while (max % 5 != 0) {
+                    max++;
+                }
+                group = max / 5;
+                for (int j = 0; j < max; j = j + 5) {
+                    if (j == 0) {
+                        Axis.data("0-5");
+                    } else {
+                        Axis.data((j + 1) + "-" + (j + 5));
+                    }
+                }
+
+            } else if (max > 100 && max <= 200) {
+                while (max % 10 != 0) {
+                    max++;
+                }
+                group = max / 10;
+                for (int j = 0; j < max; j = j + 10) {
+                    if (j == 0) {
+                        Axis.data("0-10");
+                    } else {
+                        Axis.data((j + 1) + "-" + (j + 10));
+                    }
+                }
+            } else {
+                while (max % 20 != 0) {
+                    max++;
+                }
+                group = max / 20;
+                for (int j = 0; j < max; j = j + 20) {
+                    if (j == 0) {
+                        Axis.data("0-20");
+                    } else {
+                        Axis.data((j + 1) + "-" + (j + 20));
+                    }
+                }
+            }
+            times = new int[group];
+            sql = "select j_number,j_title,j_citation_frequency from journal_info order by j_citation_frequency ";  //用来处理频次分布，高引，低引
             citationSort = stat.executeQuery(sql);
             while (citationSort.next()) {
-                line1.data(citationSort.getInt(2));
+                if (max <= 100) {
+                    times[(citationSort.getInt(3) - 1) / 5]++;
+                } else if (max > 100 && max <= 200) {
+                    times[(citationSort.getInt(3) - 1) / 10]++;
+                } else {
+                    times[(citationSort.getInt(3) - 1) / 20]++;
+                }
+                //line1.data(citationSort.getInt(2));
             }
 
         } catch (Exception e) {
@@ -72,7 +134,11 @@ public class RefAnalysis implements Serializable {
         option.xAxis(xAxis);
         option.series(line);
         option.series(line1);
-        System.out.println(option.toString());
+        pie.data(times);
+        option2 = new GsonOption();
+        option2.xAxis(Axis).series(pie);
+        System.out.println(option2.toString());
+
     }
 
     public String getBoxdata() {
@@ -117,11 +183,13 @@ public class RefAnalysis implements Serializable {
 
         List<List<Double>> box = new ArrayList<>();
         List<List<Integer>> out = new ArrayList<>();
+        int count = 0;
+        List<List<Integer>> outitem = new ArrayList<>();
         for (List<Integer> item : boxdata) {
-            List<Integer> outitem = new ArrayList<>();
+            
             List<Double> boxitem = new ArrayList<>();
             if (item.size() < 5) {
-                outitem.addAll(item);
+                //utitem.addAll(item);
             } else {
                 int Q1 = (int) Math.ceil(item.size() * 0.25) - 1;
                 Q1 = item.get(Q1);
@@ -132,33 +200,59 @@ public class RefAnalysis implements Serializable {
                 double IQR = (Q3 - Q1) * 1.5;
                 int min = item.get(0);
                 int max = item.get(item.size() - 1);
+                double Q4,Q5;
                 if (min < Q1 - IQR) {
-                    outitem.add(min);
                     boxitem.add(Q1 - IQR);
+                   Q4 = Q1-IQR;
                 } else {
                     boxitem.add(min / 1.0);
+                    Q4 = min;
+                }
+                 for (int n : item) {
+                    if (n <Q4) {
+                        List<Integer> j = new ArrayList<>();
+                        j.add(count);
+                        j.add(n);
+                        outitem.add(j);
+                    }
+                       
                 }
                 boxitem.add(Q1 / 1.0);
                 boxitem.add(mid / 1.0);
                 boxitem.add(Q3 / 1.0);
                 if (max > Q3 + IQR) {
-                    outitem.add(max);
-                    boxitem.add(Q3 + IQR);
-                } else {
-                    boxitem.add(max / 1.0);
+                        boxitem.add(Q3 + IQR);
+                        Q5 = Q3 + IQR;
+                    } else {
+                        boxitem.add(max / 1.0);
+                        Q5 = max;
+                    }
+                for (int n : item) {
+                    if (n > Q5) {
+                        List<Integer> j = new ArrayList<>();
+                        j.add(count);
+                        j.add(n);
+                        outitem.add(j);
+                    }
+                       
                 }
+
             }
             box.add(boxitem);
-            out.add(outitem);
+            count++;
         }
         bdata = new HashMap<>();
         bdata.put("boxplotdata", box);
-        bdata.put("outdata", out);
+        bdata.put("outdata", outitem);
 
     }
 
     public String getOption() {
         return option.toString();
+    }
+
+    public String getOption2() {
+        return option2.toString();
     }
 
 }

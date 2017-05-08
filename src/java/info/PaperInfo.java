@@ -122,6 +122,7 @@ public class PaperInfo {
     }
 
     public void setAffiliation(String affiliation) {
+        affiliation = affiliation.replaceAll("'", "\"");
         this.affiliation = affiliation;
     }
 
@@ -130,6 +131,7 @@ public class PaperInfo {
     }
 
     public void setKeyword(String keyword) {
+        keyword = keyword.replaceAll("'", "\"");
         this.keyword = keyword;
     }
 
@@ -138,6 +140,7 @@ public class PaperInfo {
     }
 
     public void setAbstract1(String abstract1) {
+        abstract1 = abstract1.replaceAll("'", "\"");
         this.abstract1 = abstract1;
     }
 
@@ -146,6 +149,7 @@ public class PaperInfo {
     }
 
     public void setFund(String fund) {
+        fund = fund.replaceAll("'", "\"");
         this.fund = fund;
     }
 
@@ -162,7 +166,13 @@ public class PaperInfo {
     }
 
     public void setYear(String year) {
-        this.year = year.substring(0, year.indexOf(","));
+        try {
+            this.year = year.substring(0, 4);
+        } catch (Exception e) {
+            System.out.println(number + "年有错");
+
+        }
+
     }
 
     public String getPages() {
@@ -241,15 +251,15 @@ public class PaperInfo {
         } catch (Exception e) {
 
         }
-        try{
-             if (fund != null && !fund.equals("")) {
+        try {
+            if (fund != null && !fund.equals("")) {
                 for (String item : getFundList()) {
                     sql = "insert into paper_fund(j_number,j_fund) values('" + number + "','" + item + "')";
                     stat.addBatch(sql);
                 }
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
         try {
             for (String item : getKeywordList()) {
