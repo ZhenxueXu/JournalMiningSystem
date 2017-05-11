@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <head>
+    <h:head>
         <meta charset="utf-8"/>
         <title>ECharts</title>
         <!-- 引入 echarts.js -->
@@ -12,7 +12,7 @@
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/esl.js"></script>
         <link rel="stylesheet" type="text/css" href="css/charts.css"/>
-    </head>
+    </h:head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="width: 1100px;height:520px;"></div>
@@ -32,7 +32,7 @@
 
             option = {
                 title: {
-                    
+
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -78,15 +78,15 @@
                     }, {
                         type: 'value',
                         name: '机构被引总次数',
-                        min: 0,
-                        max: 1000,
+//                        min: 0,
+//                        max: 1000,
                         position: 'left'
                     }],
                 series: [{
                         name: '机构被引总次数',
                         type: 'line',
                         stack: '总量',
-                        
+
                         label: {
                             normal: {
                                 show: true,
@@ -106,8 +106,8 @@
                         name: '机构被引篇均次数',
                         type: 'bar',
                         yAxisIndex: 1,
-                         barGap: 20,
-                      
+                        barGap: 20,
+
                         stack: '总量',
                         label: {
                             normal: {
@@ -120,5 +120,27 @@
             };
             myChart.setOption(option);
         </script>
+
+        <div id="form_div" align="center">
+            <h:form id="form_style" style=" width: 880px">
+                <p:dataTable id="AuthorPublishfdata" var="authordata" value="#{authorAnalysis.authorPublishdata}"
+                             rows="10" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <p:column headerText="j_author" filterBy="#{authordata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
+                        <h:outputText value="#{authordata.get('j_author')}" />
+                    </p:column>
+
+                    <p:column headerText="PublishCount" filterBy="#{authordata.get('PublishCount')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
+                        <h:outputText value="#{authordata.get('PublishCount')}" />
+                    </p:column>
+
+                </p:dataTable>
+
+
+
+            </h:form>
+        </div>
     </body>
 </html>
