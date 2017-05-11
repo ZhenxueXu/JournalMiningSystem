@@ -51,6 +51,16 @@
                                 position: 'top'
                             }
                         },
+//                        edgeLabel:{
+//                            normal:{
+//                                show:true,
+//                                position:'middle',
+//                                fromatter: function (params){
+//                                    return params.data.weight;
+//                                }
+//                            }
+//                            
+//                        },
  
                         force: {
                             initLayout: 'circular',
@@ -66,9 +76,9 @@
                     }
                 ]
             };
-            data = #{keywordCoAppearAnalysis.graph};
+            data = #{keywordCoAppearAnalysis.data};
             console.log(data);
-            option.series[0].data = data.data;
+            option.series[0].data = data.nodes;
             option.series[0].links = data.links;
             myChart.setOption(option);
 
