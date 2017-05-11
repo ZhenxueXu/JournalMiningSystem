@@ -67,9 +67,9 @@
                 ]
             };
             data = #{authorRelationship.data};
-            option.series[0].data = data.data;
+            option.series[0].data = data.nodes;
             option.series[0].links = data.links;
-            console.log(option);
+            console.log(data);
             myChart.setOption(option);
 
 

@@ -1,13 +1,16 @@
-
 package text;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.json.JsonArray;
+
+
 
 public class Test01 {
-
+    
     public static void main(String[] args) {
-       baiduMap.CreateMapInformation.createInformation();
+        
+        
+        
+        System.out.println();
     }
     
 }

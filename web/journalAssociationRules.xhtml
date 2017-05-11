@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <meta charset="utf-8"/>
+        <title>ECharts</title>
+        <!-- 引入 echarts.js -->
+        <script src="js/echarts.js"></script>
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/esl.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
+    </head>
+    <body>
+
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="width: 1100px;height:520px;"></div>
+
+        <script type="text/javascript">
+            var dom = document.getElementById("main");
+            var myChart = echarts.init(dom);
+            option = null;
+            var data = #{refJournalAssociation.option};
+            option = {
+
+                title: [{
+                        text: '被引期刊关联规则',
+                        left: 'center'
+                    }],
+                legend: {
+                    right: 10,
+                    data: data.legend.data
+                },
+                tooltip: {
+                    padding: 10,
+                    backgroundColor: '#222',
+                    borderColor: '#777',
+                    borderWidth: 1,
+                    formatter: function (obj) {
+                        var value = obj.value;
+                        return  obj.name + '<br/>支持度 : '+value[0] + '<br/>置信度 : ' + value[1];
+                    }
+                },
+                xAxis: {
+                    name: '支持度',
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    },
+                    scale: true
+                },
+                yAxis: {
+                    name: '置信度',
+                    splitLine: {
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    },
+                    scale: true
+                },
+                series: data.series
+            };
+            myChart.setOption(option);
+
+
+        </script>
+    </body>
+</html>
