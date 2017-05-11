@@ -36,19 +36,22 @@ public class AuthorAnalysis implements Serializable {
 
     private List<Map.Entry<String, Integer>> hIndex;  //h指数
     private Set<String> core_author;                //核心作者
-    private ResultSet publish;                      //发文量统计，格式（作者[string]，发文量[int]）
+    private ResultSet publish1;                      //发文量统计，格式（作者[string]，发文量[int]）
+    private ResultSet publish2;                      //发文量完整数据，用于表格
     private ResultSet ref;                          //被引统计，格式（作者[string]，被引总计[int]）
     private int min_h_index;                        //用于筛选核心作者的最低h指数
     private ResultSet co_publish;
-    private GsonOption option1 ;
-    private CategoryAxis xAxis1 ;
-    private Bar bar1 ;
-    private GsonOption option2 ;
-    private CategoryAxis xAxis2 ;
-    private Bar bar2 ;
+    private GsonOption option1;
+    private CategoryAxis xAxis1;
+    private Bar bar1;
+    private GsonOption option2;
+    private CategoryAxis xAxis2;
+    private Bar bar2;
+    private List<Map> AuthorPublishdata ;
+
 
     public AuthorAnalysis() {
-        
+
         setAllData();
     }
 
@@ -116,22 +119,21 @@ public class AuthorAnalysis implements Serializable {
                 }
             }
 
-            //--start 发文量统计---//
+            //--start 发文量统计图---//
             sql = "select j_author as 作者, count(*) as 发文量 "
                     + " from journal_info a,paper_author b "
                     + " where a.j_number = b.j_number "
-               
                     + " group by b.j_author "
                     + " having 发文量>1 "
                     + " order by 发文量 desc";
-            publish = stat.executeQuery(sql);
+            publish1 = stat.executeQuery(sql);
             int shu = 1;
             int mapcount = 1;
             Map<Integer, List<Integer>> data = new HashMap<>();
             Map<Integer, List<String>> xdata = new HashMap<>();
             List<Integer> datalist = new ArrayList<>();
-            List<String> xlist=new ArrayList<>();
-            while (publish.next()) {
+            List<String> xlist = new ArrayList<>();
+            while (publish1.next()) {
                 if (shu % 20 == 0) {
                     data.put(mapcount, datalist);
                     xdata.put(mapcount, xlist);
@@ -139,30 +141,30 @@ public class AuthorAnalysis implements Serializable {
                     datalist = new ArrayList<>();
                     xlist = new ArrayList<>();
                 }
-                datalist.add(publish.getInt(2));
-                xlist.add(publish.getString(1));
+                datalist.add(publish1.getInt(2));
+                xlist.add(publish1.getString(1));
                 shu++;
             }
-//            Gson datagson = new Gson(); 
-//            Gson xgson =new Gson();
-//            String sdata = datagson.toJson(data);
-//            String sx = xgson.toJson(xdata);
             bar2.data(data);
             xAxis2.data(xdata);
-                    //            for (int i = 1; i <= 20; i++) {
-                    //
-                    //                if (publish.next()) {
-                    //                    xAxis2.data(publish.getString(1));
-                    //                    bar2.data(publish.getInt(2));//发文统计
-                    //                }
-                    //
-                    //            }
-                    //--start 被引统计 --//     
+
+            //--start 发文量统计表---//
+            sql = "select j_author as Author, count(*) as PublishCount "
+                    + " from journal_info a,paper_author b "
+                    + " where a.j_number = b.j_number "
+                    + " group by b.j_author "
+                    + " order by PublishCount desc";
+            publish2 = stat.executeQuery(sql);
+           AuthorPublishdata = new ArrayList<>();
+           AuthorPublishdata = JDBCUtils.getResultList(publish2);
+            System.out.println(AuthorPublishdata);
+
+
+            //--start 被引统计 --//     
             sql = "select j_author as 作者, sum(j_citation_frequency) as 被引总计 "
                     + " from journal_info,paper_author "
                     + " where journal_info.j_number = paper_author.j_number "
                     + " group by paper_author.j_author"
-                    
                     + " order by 被引总计 desc ";
             ref = stat.executeQuery(sql);
 
@@ -206,7 +208,14 @@ public class AuthorAnalysis implements Serializable {
     }
 
     public String getAuthorFaWenData() {
-        //发文统计        
+        //发文图表统计        
         return option2.toString();
     }
+
+    public List<Map> getAuthorPublishdata() {
+        return AuthorPublishdata;
+    }
+
+
+ 
 }

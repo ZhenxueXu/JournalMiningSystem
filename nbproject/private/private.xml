@@ -4,10 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/G:/毕业设计/JournalMiningSystem/web/test.xhtml</file>
-            <file>file:/G:/毕业设计/JournalMiningSystem/web/PublishStatic.xhtml</file>
-            <file>file:/G:/毕业设计/JournalMiningSystem/web/authorfawentongji.xhtml</file>
+            <file>file:/G:/毕业设计/JournalMiningSystem/web/css/tablestyle.css</file>
+            <file>file:/G:/毕业设计/JournalMiningSystem/web/css/charts.css</file>
+            <file>file:/G:/毕业设计/JournalMiningSystem/web/input.xhtml</file>
+            <file>file:/G:/毕业设计/JournalMiningSystem/src/java/JDBCUtils/JDBCUtils.java</file>
             <file>file:/G:/毕业设计/JournalMiningSystem/src/java/dataAnalysisBeans/AuthorAnalysis.java</file>
-            <file>file:/G:/毕业设计/JournalMiningSystem/web/test2.xhtml</file>
         </group>
     </open-files>
 </project-private>
