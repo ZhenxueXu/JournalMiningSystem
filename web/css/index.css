@@ -91,7 +91,7 @@ html, body {
 
     position: absolute;
     float: left;
-    height: 89.5%;
+    height: 88%;
     box-shadow: 0 0 10px #BDBDBD;
     width: 16%;
     background: #f7f5fa;
@@ -283,6 +283,7 @@ html, body {
     right: 0px;
     height: 100% !important;
     left: 0px;
+    
 /*    overflow-x:  scroll;*/
    
     

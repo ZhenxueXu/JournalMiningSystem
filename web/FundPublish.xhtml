@@ -23,7 +23,7 @@
             var myChart = echarts.init(dom);
             var app = {};
             option = null;
-            var data = #{authorAnalysis.authorFaWenData};
+            var data = #{fundAnalysis.option1};
             var xdata = data.xAxis[0].data[0];
             var maindata = data.series[0].data[0];
             var dlength = 0;
@@ -95,14 +95,7 @@
                     yAxis: {
                         type: 'value',
                     },
-                    xAxis: {
-                        type: 'category',
-                        axisLabel: {
-                            rotate: -20,
-                            interval: 0
-                        },
-                        data: xdata[1]
-                    },
+                    xAxis: [],
                     series: [],
                 },
                 options: []
@@ -111,6 +104,16 @@
 
 
                 option.options.push({
+                    
+                    
+                    xAxis: {
+                        type: 'category',
+                        axisLabel: {
+                            rotate: -20,
+                            interval: 0
+                        },
+                        data: xdata[n]
+                    },
 
                     series: [{
                             name: '一级预警',
@@ -130,20 +133,20 @@
 
             myChart.setOption(option);
         </script>
-
-        <div id="form_div" align="center">
+        
+                <div id="form_div" align="center">
             <h:form id="form_style" style=" width: 880px">
-                <p:dataTable id="AuthorPublishfdata" var="authordata" value="#{authorAnalysis.authorPublishdata}"
+                <p:dataTable id="FundPublishfdata" var="publishdata" value="#{fundAnalysis.publish}"
                              rows="10" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
 
-                    <p:column headerText="j_author" filterBy="#{authordata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
-                        <h:outputText value="#{authordata.get('j_author')}" />
+                    <p:column headerText="j_author" filterBy="#{publishdata.get('j_fund')}" sortBy="#{publishdata.get('j_fund')}" filterMatchMode="contains">
+                        <h:outputText value="#{publishdata.get('j_fund')}" />
                     </p:column>
 
-                    <p:column headerText="PublishCount" filterBy="#{authordata.get('PublishCount')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
-                        <h:outputText value="#{authordata.get('PublishCount')}" />
+                    <p:column headerText="发文量" filterBy="#{publishdata.get('发文量')}" sortBy="#{publishdata.get('发文量')}" filterMatchMode="startsWith">
+                        <h:outputText value="#{publishdata.get('发文量')}" />
                     </p:column>
 
                 </p:dataTable>
@@ -152,8 +155,6 @@
 
             </h:form>
         </div>
-
-
 
 
     </h:body>
