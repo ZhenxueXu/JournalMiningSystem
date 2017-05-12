@@ -84,7 +84,7 @@ public class AuthorRelationship implements Serializable {
                 link.setTarget(rs.getString(2));
                 LineStyle linestyle  = new LineStyle();
                 GraphNormal normal = new GraphNormal();
-                normal.setWidth((float) (rs.getInt(3)*30.0/max));
+                normal.setWidth((float) (5+rs.getInt(3)*10.0/max));
                 linestyle.normal(normal);
                 link.lineStyle(linestyle);
                 links.add(link);

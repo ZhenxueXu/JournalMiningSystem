@@ -24,6 +24,7 @@
             var app = {};
             option = null;
             var data = #{authorAnalysis.authorFaWenData};
+            console.log(data);
             var xdata = data.xAxis[0].data[0];
             var maindata = data.series[0].data[0];
             var dlength = 0;
@@ -111,6 +112,14 @@
 
 
                 option.options.push({
+                    xAxis: {
+                        type: 'category',
+                        axisLabel: {
+                            rotate: -20,
+                            interval: 0
+                        },
+                        data: xdata[n]
+                    },
 
                     series: [{
                             name: '一级预警',

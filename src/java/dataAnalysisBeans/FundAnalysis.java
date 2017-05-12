@@ -18,6 +18,7 @@ import java.util.Map;
 @SessionScoped
 public class FundAnalysis implements Serializable {
 
+
     //机构发文变量
     private GsonOption option1;
     private List<Map> publish;
@@ -29,11 +30,15 @@ public class FundAnalysis implements Serializable {
     private GsonOption option4;
     private GsonOption option5;
 
+    private List<Map.Entry<String, Integer>> publish;
+
+
     public FundAnalysis() {
         setAllData();
     }
 
     public void setAllData() {
+
         Bar bar1 = new Bar();
         CategoryAxis xAxis1 = new CategoryAxis();
         Line line = new Line();
@@ -45,6 +50,7 @@ public class FundAnalysis implements Serializable {
         Map<Integer, List<Integer>> data;
         Map<Integer, List<Integer>> data1;
         Map<Integer, List<String>> xdata;
+
         Connection conn = null;
         Statement stat = null;
 
@@ -95,7 +101,6 @@ public class FundAnalysis implements Serializable {
             rs = stat.executeQuery(sql);
             publish = JDBCUtils.getResultList(rs);
 
-
             /*-- start 基金被引统计 --*/
             sql = "select j_fund as 基金 ,sum(journal_info.j_citation_frequency) as 被引次数, avg(journal_info.j_citation_frequency) as 篇均被引次数 "
                     + "from paper_fund,journal_info "
@@ -103,6 +108,7 @@ public class FundAnalysis implements Serializable {
                     + "group by j_fund "
                     + "order by 被引次数 desc ";
             rs = stat.executeQuery(sql);
+
 
             //机构被引柱状图
             list = new ArrayList();
@@ -138,6 +144,7 @@ public class FundAnalysis implements Serializable {
             rs = stat.executeQuery(sql);
             quote = JDBCUtils.getResultList(rs);
 
+
             // -- start 国家级基金发文被引统计  格式（年，发文量，被引次数，篇均被引次数）--//
             sql = "select distinct j_year as 年,count(*) as 发文量 ,sum(journal_info.j_citation_frequency) as 被引次数, avg(journal_info.j_citation_frequency) as 篇均被引次数 "
                     + "from paper_fund,journal_info "
@@ -145,6 +152,7 @@ public class FundAnalysis implements Serializable {
                     + "group by j_year "
                     + "order by j_year ";
             rs = stat.executeQuery(sql);
+
             while (rs.next()) {
                 line11.data(rs.getInt(2));
                 line21.data(rs.getInt(3));
@@ -165,6 +173,16 @@ public class FundAnalysis implements Serializable {
                 line22.data(rs1.getInt(3));
                 line32.data(rs1.getInt(4));
             }
+
+
+            // -- start 省部级基金发文被引统计 格式（年，发文量，被引次数，篇均被引次数） --//
+            sql = "select distinct j_year ,count(*) as 发文量 ,sum(journal_info.j_citation_frequency) as 被引次数, avg(journal_info.j_citation_frequency) as 篇均被引次数"
+                    + "from paper_fund,journal_info"
+                    + "where  paper_fund.j_number = journal_info.j_number and j_fund regexp('省|北京|上海|重庆')"
+                    + "group by j_year"
+                    + "order by j_year";
+            rs = stat.executeQuery(sql);
+
 
         } catch (Exception e) {
 
@@ -220,5 +238,6 @@ public class FundAnalysis implements Serializable {
     public GsonOption getOption5() {
         return option5;
     }
+
 
 }
