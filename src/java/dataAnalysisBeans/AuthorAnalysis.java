@@ -12,8 +12,6 @@ import JDBCUtils.JDBCUtils;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Bar;
-import com.github.abel533.echarts.series.Line;
-import com.google.gson.Gson;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -157,7 +155,7 @@ public class AuthorAnalysis implements Serializable {
             publish2 = stat.executeQuery(sql);
            AuthorPublishdata = new ArrayList<>();
            AuthorPublishdata = JDBCUtils.getResultList(publish2);
-            System.out.println(AuthorPublishdata);
+            //System.out.println(AuthorPublishdata);
 
 
             //--start 被引统计 --//     
