@@ -3,36 +3,3 @@
 }
 #form_style{
      align-content: center;
-}
-.ui-datatable  tbody td {
-    /*border-color: red;*/
-/*    border-width: 0px;*/
-    
-}.ui-datatable  tbody tr th {
-     background-color:  #333;
-    /*border-color: red;*/
-/*    border-width: 0px;*/
-    
-}
-.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {
-    padding: 2px 8px;
-    overflow: hidden;
-    border-width: 0px;
-    border-style: solid;
-}
-
-
-td, th {
-    display: table-cell;
-    vertical-align:  inherit;
-    
-    text-align: center;
-}
-.ui-datatable .ui-widget {
-    font-family: Arial,sans-serif;
-    font-size: 0.50em;
-}
-
-.ui-datatable table{
-     background-color:  #F5F5F5;
-}
