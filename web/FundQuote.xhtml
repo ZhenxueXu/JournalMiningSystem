@@ -16,6 +16,32 @@
 
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="width: 1100px;height:520px;"></div>
+
+        <div id="form_div" align="center" style=" display:  none">
+            <h:form id="form_style" style=" width: 880px">
+                <p:dataTable id="FundQuotedata" var="quotedata" value="#{fundAnalysis.quote}"
+                             rows="10" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <p:column headerText="j_author" filterBy="#{quotedata.get('j_fund')}" sortBy="#{quotedata.get('j_fund')}" filterMatchMode="contains">
+                        <h:outputText value="#{quotedata.get('j_fund')}" />
+                    </p:column>
+
+                    <p:column headerText="发文量" filterBy="#{quotedata.get('被引次数')}" sortBy="#{quotedata.get('被引次数')}" filterMatchMode="startsWith">
+                        <h:outputText value="#{quotedata.get('被引次数')}" />
+                    </p:column>
+                    <p:column headerText="发文量" filterBy="#{quotedata.get('篇均被引次数')}" sortBy="#{quotedata.get('篇均被引次数')}" filterMatchMode="startsWith">
+                        <h:outputText value="#{quotedata.get('篇均被引次数')}" />
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </div>
+        <div>
+            <img type="image" src="../images/button2.png" width="110px" height="100px" onclick="ycit()"/>
+        </div>
+
         <script type="text/javascript" charset="utf-8" >
             //<![CDATA[
             // 基于准备好的dom，初始化echarts实例
@@ -129,6 +155,7 @@
                             name: '一级预警',
                             type: 'bar',
                             barGap: 20,
+                            yAxisIndex: 1,
                             label: {
                                 normal: {
                                     show: true,
@@ -157,30 +184,22 @@
             myChart.setOption(option);
         </script>
 
-        <div id="form_div" align="center">
-            <h:form id="form_style" style=" width: 880px">
-                <p:dataTable id="FundQuotedata" var="quotedata" value="#{fundAnalysis.quote}"
-                             rows="10" paginator="true" paginatorPosition="bottom"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15">
+        <script>
+            function ycit()
+            {
+                var zt = document.getElementById("form_div").style.display;
+                if (zt == "none") {
+                    document.getElementById("form_div").style.display = "block";
+                    document.getElementById("main").style.display = "none";
+                } else {
+                    document.getElementById("main").style.display = "block";
+                    document.getElementById("form_div").style.display = "none";
+                }
 
-                    <p:column headerText="j_author" filterBy="#{quotedata.get('j_fund')}" sortBy="#{quotedata.get('j_fund')}" filterMatchMode="contains">
-                        <h:outputText value="#{quotedata.get('j_fund')}" />
-                    </p:column>
-
-                    <p:column headerText="发文量" filterBy="#{quotedata.get('被引次数')}" sortBy="#{quotedata.get('被引次数')}" filterMatchMode="startsWith">
-                        <h:outputText value="#{quotedata.get('被引次数')}" />
-                    </p:column>
-                    <p:column headerText="发文量" filterBy="#{quotedata.get('篇均被引次数')}" sortBy="#{quotedata.get('篇均被引次数')}" filterMatchMode="startsWith">
-                        <h:outputText value="#{quotedata.get('篇均被引次数')}" />
-                    </p:column>
-
-                </p:dataTable>
+            }
+        </script>
 
 
-
-            </h:form>
-        </div>
 
 
     </h:body>
