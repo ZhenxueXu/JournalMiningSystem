@@ -132,7 +132,7 @@ public class AuthorAnalysis implements Serializable {
             List<Integer> datalist = new ArrayList<>();
             List<String> xlist = new ArrayList<>();
             while (publish1.next()) {
-                if (shu % 20 == 0) {
+                if (shu % 25 == 0) {
                     data.put(mapcount, datalist);
                     xdata.put(mapcount, xlist);
                     mapcount++;
@@ -155,8 +155,6 @@ public class AuthorAnalysis implements Serializable {
             publish2 = stat.executeQuery(sql);
            AuthorPublishdata = new ArrayList<>();
            AuthorPublishdata = JDBCUtils.getResultList(publish2);
-            //System.out.println(AuthorPublishdata);
-
 
             //--start 被引统计 --//     
             sql = "select j_author as 作者, sum(j_citation_frequency) as 被引总计 "

@@ -23,10 +23,10 @@
             var myChart = echarts.init(dom);
             var app = {};
             option = null;
-            var data = #{authorAnalysis.authorFaWenData};
-            console.log(data);
+            var data = #{fundAnalysis.option2};
             var xdata = data.xAxis[0].data[0];
-            var maindata = data.series[0].data[0];
+            var maindata1 = data.series[0].data[0];
+            var maindata2 = data.series[1].data[0];
             var dlength = 0;
             var timeLinedata = new Array();
             for (var js2 in xdata) {
@@ -44,7 +44,7 @@
                         left: null,
                         right: 10,
                         top: 20,
-                       
+
                         width: 55,
                         height: null,
                         axisType: 'category',
@@ -93,17 +93,20 @@
 
                         containLabel: true
                     },
-                    yAxis: {
-                        type: 'value',
-                    },
-                    xAxis: {
-                        type: 'category',
-                        axisLabel: {
-                            rotate: -20,
-                            interval: 0
-                        },
-                        data: xdata[1]
-                    },
+                    yAxis: [{
+                            type: 'value',
+                            name: '机构被引篇均次数',
+
+                            position: 'right',
+
+                        }, {
+                            type: 'value',
+                            name: '机构被引总次数',
+//                        min: 0,
+//                        max: 1000,
+                            position: 'left'
+                        }],
+                    xAxis: [],
                     series: [],
                 },
                 options: []
@@ -112,6 +115,7 @@
 
 
                 option.options.push({
+
                     xAxis: {
                         type: 'category',
                         axisLabel: {
@@ -131,8 +135,21 @@
                                     position: 'top'
                                 }
                             },
-                            data: maindata[n]
-                        }]
+                            data: maindata1[n]
+                        },
+                        {
+                            name: '二级预警',
+                            type: 'line',
+                            barGap: 20,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top'
+                                }
+                            },
+                            data: maindata2[n]
+                        }
+                    ]
                 });
             }
             //]]>
@@ -142,17 +159,20 @@
 
         <div id="form_div" align="center">
             <h:form id="form_style" style=" width: 880px">
-                <p:dataTable id="AuthorPublishfdata" var="authordata" value="#{authorAnalysis.authorPublishdata}"
+                <p:dataTable id="FundQuotedata" var="quotedata" value="#{fundAnalysis.quote}"
                              rows="10" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
 
-                    <p:column headerText="j_author" filterBy="#{authordata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
-                        <h:outputText value="#{authordata.get('j_author')}" />
+                    <p:column headerText="j_author" filterBy="#{quotedata.get('j_fund')}" sortBy="#{quotedata.get('j_fund')}" filterMatchMode="contains">
+                        <h:outputText value="#{quotedata.get('j_fund')}" />
                     </p:column>
 
-                    <p:column headerText="PublishCount" filterBy="#{authordata.get('PublishCount')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
-                        <h:outputText value="#{authordata.get('PublishCount')}" />
+                    <p:column headerText="发文量" filterBy="#{quotedata.get('被引次数')}" sortBy="#{quotedata.get('被引次数')}" filterMatchMode="startsWith">
+                        <h:outputText value="#{quotedata.get('被引次数')}" />
+                    </p:column>
+                    <p:column headerText="发文量" filterBy="#{quotedata.get('篇均被引次数')}" sortBy="#{quotedata.get('篇均被引次数')}" filterMatchMode="startsWith">
+                        <h:outputText value="#{quotedata.get('篇均被引次数')}" />
                     </p:column>
 
                 </p:dataTable>
@@ -161,8 +181,6 @@
 
             </h:form>
         </div>
-
-
 
 
     </h:body>
