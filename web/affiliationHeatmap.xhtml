@@ -7,74 +7,105 @@
         <meta charset="utf-8"/>
         <title>ECharts</title>
         <!-- 引入 echarts.js -->
-        <script src="js/echarts.js"></script>
-        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/echarts.js" charset="utf-8"></script>
+        <script src="js/jquery-1.9.1.min.js" charset="utf-8"></script>
         <link rel="stylesheet" type="text/css" href="css/charts.css"/>
-        <script src="js/esl.js"></script>
+        <script src="js/esl.js" charset="utf-8"></script>
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="width: 1100px;height:520px;"></div>
-        <script type="text/javascript">
+        <script type="text/javascript" charset="utf-8">
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
             var data = #{affiliationHeatMap.mapData};
             console.log(data);
             var app = {};
             option = null;
-           
+
             option = {
-                backgroundColor: '#404a59',
+
                 title: {
-                    text: '科研机构发文被引频次',
+                    text: '各科研机构发文量',
                     left: 'center',
                     textStyle: {
-                        color: '#fff'
+                        color: 'black'
                     }
                 },
                 tooltip: {
-                    trigger: 'item'
+                    trigger: 'item',
+                    formatter:function(params){
+                        return params.name+'<br/> 发文量：'+params.value[2];
+                    }
                 },
-                legend: {
+                toolbox:{                    
+                    feature:{
+                        savaAsImage:{
+                            show:true,
+                            title:'保存为图片'
+                        }
+                    }
+                },
+
+                visualMap: {
                     orient: 'vertical',
                     y: 'bottom',
                     x: 'right',
-                    data: ['被引频次'],
+                    max: data[0].value[2],
+                    dimension: 2,
+                    calculable: true,
+                    itemColor: 'purple',
+                    precision: 0.1,
+                    text: ['圆形大小：发文量'],
+                    textGap: 30,
                     textStyle: {
-                        color: '#fff'
+                        color: 'black',
+                        formatter: 'ab{value}'
+                    },
+                    inRange: {
+                        symbolSize: [4, 25],
+                        color: ['purple']
+                    },
+                    outOfRange: {
+                        symbolSize: 1,
+                        color: ['#fff'],
+                        opacity: 30
                     }
+
+
                 },
                 geo: {
                     map: 'china',
                     label: {
                         emphasis: {
-                            show: false
+                            show: true
                         }
                     },
                     roam: true,
                     itemStyle: {
                         normal: {
-                            areaColor: '#323c48',
-                            borderColor: '#111'
+                            borderWidth: 0.5,
+                            borderColor: '#aaa',
+
                         },
                         emphasis: {
-                            areaColor: '#2a333d'
+                            areaColor: '#BFBFBF'
                         }
                     }
                 },
                 series: [
                     {
-                        name: '被引频次',
+                        name: '发文量',
                         type: 'scatter',
                         coordinateSystem: 'geo',
                         data: data,
                         symbolSize: function (val) {
-                            return 3+val[2]*20/data[0].value[2];
+                            return 3 + val[2] * 30 / data[0].value[2];
                         },
                         label: {
                             normal: {
-                                formatter: function(param){
-                                    return[param.value[2]];
+                                formatter: function (param) {
+                                    return[param.name];
                                 },
                                 position: 'right',
                                 show: false
@@ -93,9 +124,9 @@
                         name: 'Top 10',
                         type: 'effectScatter',
                         coordinateSystem: 'geo',
-                        data: data.slice(0,20),
+                        data: data.slice(0, 20),
                         symbolSize: function (val) {
-                            return val[2]*20/data[0].value[2];
+                            return val[2] * 30 / data[0].value[2];
                         },
                         showEffectOn: 'render',
                         rippleEffect: {

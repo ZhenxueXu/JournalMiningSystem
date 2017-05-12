@@ -27,7 +27,7 @@ public class AffiliationHeatMap implements Serializable {
         try {
             conn = JDBCUtils.getConn();
             stat = conn.createStatement();
-            sql = "select distinct paper_address.j_address,sum(j_citation_frequency),j_lng,j_lat "
+            sql = "select distinct paper_address.j_address,sum(j_citation_frequency),count(*),j_lng,j_lat "
                     + "from paper_address,journal_info,adress_lng_lat "
                     + "where paper_address.j_number=journal_info.j_number and paper_address.j_address = adress_lng_lat.j_address "
                     + "group by j_address  "
@@ -36,9 +36,9 @@ public class AffiliationHeatMap implements Serializable {
             data = new ArrayList<>();            
             while(rs.next()){
                 List<Float> item = new ArrayList<>();
-                item.add((float)rs.getDouble(3));
                 item.add((float)rs.getDouble(4));
-                item.add((float)rs.getInt(2));
+                item.add((float)rs.getDouble(5));
+                item.add((float)rs.getInt(3));
                 MapData mapdata = new MapData(rs.getString(1),item);
                 data.add(mapdata);
             }
