@@ -1,6 +1,5 @@
 #main{
-    
-   
+    text-overflow :ellipsis;
     top: 10px;
     margin: auto;
 }

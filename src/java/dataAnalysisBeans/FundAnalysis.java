@@ -30,8 +30,6 @@ public class FundAnalysis implements Serializable {
     private GsonOption option4;
     private GsonOption option5;
 
-    private List<Map.Entry<String, Integer>> publish;
-
 
     public FundAnalysis() {
         setAllData();

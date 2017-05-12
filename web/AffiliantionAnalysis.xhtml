@@ -15,9 +15,7 @@
         <link rel="stylesheet" type="text/css" href="css/tablestyle.css"/>
     </h:head>
     <body>
-        <h:button  id="showHidden" value="数据模式" onclick="showtable()"/>
-        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100px;height:520px; display:  block "></div>
+        <div id="main" style="width: 1100px;height:520px; display: block"></div>
         <script type="text/javascript" charset="utf-8">
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
@@ -93,7 +91,10 @@
                             },
                             axisLabel: {
                                 rotate: -18,
-                                interval: 0
+                                interval: 'auto',
+                                formatter: function (name) {
+                                    return name.length > 8 ? name.substr(0, 8) + "..." : name;
+                                }
                             },
 
                             data: []//myData
@@ -209,7 +210,7 @@
             myChart.setOption(option);
         </script>
 
-        <div id="form_div" align="center" style=" display:  none">
+        <div id="form_div" align="center" style=" display: block">
             <h:form id="form_style" style=" width: 880px" >
                 <p:dataTable id="AuthorReffdata" var="refdata" value="#{affiliationAnalysis.affRefData}"
                              rows="10" paginator="true" paginatorPosition="bottom"
@@ -227,41 +228,6 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
-        </div>
-        <script type="text/javascript" charset="utf-8">
-            function show_hidden(obj) {
-
-                if (obj.style.diaplay === 'block') {
-
-                    obj.style.display = 'none';
-
-                } else {
-
-                    obj.style.display = 'block';
-
-                }
-
-            }
-
-
-
-            function showtable() {
-                var sh = document.getElementById("showHidden");
-                var div1 = document.getElementById("main");
-                var div2 = document.getElementById("form_div");
-                if (sh.value === '数据模式') {
-
-                }
-
-
-
-                show_hidden(div1);
-
-                show_hidden(div2);
-
-
-
-            }
-        </script>
+        </div>        
     </body>
 </html>

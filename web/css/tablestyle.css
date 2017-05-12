@@ -4,24 +4,3 @@
 #form_style{
      align-content: center;
 }
-.ui-datatable  tbody td {
-    border-color: red;
-/*    border-width: 0px;*/
-    
-}
-.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, .ui-datatable tfoot th {
-    padding: 4px 10px;
-    overflow: hidden;
-    border-width: 1px;
-    border-style: solid;
-}
-
-td, th {
-    display: table-cell;
-    vertical-align: inherit;
-    text-align: center;
-}
-.ui-datatable .ui-widget {
-    font-family: Arial,sans-serif;
-    font-size: 0.78em;
-}
