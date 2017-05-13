@@ -10,7 +10,7 @@
         <script src="js/echarts.js"></script>
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/echarts-graph-modularity.min.js"></script>
-<link rel="stylesheet" type="text/css" href="css/charts.css"/>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
         <script src="js/esl.js"></script>
     </head>
     <body>
@@ -21,50 +21,88 @@
             var dom = document.getElementById("main");
             var myChart = echarts.init(dom);
             var app = {};
-            
+
             option = null;
             option = {
                 title: [
                     {
-                        text: '被引频次分布直方图',
+                        text: '被引频次分布',
                         left: 'center'
                     }
                 ],
-                color: ['#3398DB'],
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
-                        type: 'shadow'       
+                        type: 'shadow'
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+
+                        },
+                        magicType: {
+                            show: true,
+                            type: ['line', 'bar'],
+                            title: {
+                                line: '折线图切换',
+                                bar: '柱形图切换'
+                            }
+
+                        },
+                        restore: {
+                            show: true,
+                            title: '重置'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
+
+                        }
                     }
                 },
                 grid: {
-                    left: '3%',
-                    right: '10%',
-                    bottom: '3%',
+
                     containLabel: true
                 },
-                xAxis: [
-                    {
-                        name:'被引次数',
+                xAxis: [{
                         type: 'category',
-                        data: [ ],
+                        name: '频次',
                         axisTick: {
                             alignWithLabel: true
-                        }
-                    }
-                ],
-                yAxis: [
-                    {
-                        name:'篇',
-                        type: 'value'
-                    }
-                ],
+                        },
+                        axisLabel: {
+                            interval: 0
+                        },
+                        data: []
+                    }],
+                yAxis: [{
+                        type: 'value',
+                        name: '数量',
+
+                    }],
+                legend: {
+                    data: ['被引频次'],
+                    x: '200px',
+                    y: '14px'
+                },
                 series: [
                     {
-                        name: '',
+                        name: '总数量',
                         type: 'bar',
-                        barWidth: '50%',
-                        data: [ ]
+                        barGap: 30,
+                        barWidth: '35%',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        data: []
                     }
                 ]
             };

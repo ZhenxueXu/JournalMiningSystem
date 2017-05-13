@@ -26,7 +26,7 @@
             console.log(data);
             var bar = data.series[0].data;
             var mydata = data.xAxis[0].data;
-            
+
             option = {
                 title: {
                     text: '各年发文量',
@@ -41,18 +41,27 @@
                         dataView: {
                             show: true,
                             readOnly: false,
-                            title:'数据',
-                            lang:['数据视图', '关闭', '刷新']
-                           
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+
+                        },
+                        magicType: {
+                            show: true,
+                            type: ['line', 'bar'],
+                            title : {
+                            line: '折线图切换',
+                            bar: '柱形图切换'
+                        }
+
                         },
                         restore: {
                             show: true,
-                            title:'重置'
+                            title: '重置'
                         },
                         saveAsImage: {
                             show: true,
-                            title:'保存'
-                          
+                            title: '保存'
+
                         }
                     }
                 },
@@ -61,10 +70,12 @@
                 },
                 legend: {
                     data: ['各年发文量'],
-                    x: '120px'
+                    x: '200px',
+                    y: '14px'
                 },
                 xAxis: [{
                         type: 'category',
+                        name: '年份',
                         axisTick: {
                             alignWithLabel: true
                         },
@@ -76,14 +87,14 @@
                     }],
                 yAxis: [{
                         type: 'value',
-//                        name: '作者被引统计',
+                        name: '数量',
 
                     }],
                 series: [{
                         name: '各年发文量',
                         type: 'bar',
-                       barGap: 30,
-                        barWidth: '40%',
+                        barGap: 30,
+                        barWidth: '35%',
                         label: {
                             normal: {
                                 show: true,
