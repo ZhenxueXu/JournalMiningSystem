@@ -46,13 +46,22 @@
                 },
                 toolbox: {
                     feature: {
-                        dataZoom: {},
-                        brush: {
-                            type: ['rect', 'polygon', 'clear']
+
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+                        },
+                        restore: {
+                            show: true,
+                            title: '刷新'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
                         }
                     }
-                },
-                brush: {
                 },
 
                 xAxis: [
@@ -71,7 +80,7 @@
                     {
                         type: 'value',
                         scale: true,
-               
+
                         splitLine: {
                             show: false
                         }

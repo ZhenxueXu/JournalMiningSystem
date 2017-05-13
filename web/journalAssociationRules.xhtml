@@ -33,6 +33,24 @@
                     right: 10,
                     data: data.legend.data
                 },
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+                        },
+                        restore: {
+                            show: true,
+                            title: '刷新'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
+                        }
+                    }
+                },
                 tooltip: {
                     padding: 10,
                     backgroundColor: '#222',
@@ -40,7 +58,7 @@
                     borderWidth: 1,
                     formatter: function (obj) {
                         var value = obj.value;
-                        return  obj.name + '<br/>支持度 : '+value[0] + '<br/>置信度 : ' + value[1];
+                        return  obj.name + '<br/>支持度 : ' + value[0] + '<br/>置信度 : ' + value[1];
                     }
                 },
                 xAxis: {

@@ -10,7 +10,7 @@
         <script src="js/echarts.js"></script>
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/worldcloud.js"></script>
-<link rel="stylesheet" type="text/css" href="css/charts.css"/>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
         <script src="js/esl.js"></script>
     </head>
     <body>
@@ -33,23 +33,23 @@
                     show: true
                 },
                 toolbox: {
-                        feature: {
-                            dataView: {
-                                show: true,
-                                readOnly: false,
-                                title: '数据',
-                                lang: ['数据视图', '关闭', '刷新']
-                            },
-                            restore: {
-                                show: true,
-                                title: '刷新'
-                            },
-                            saveAsImage: {
-                                show: true,
-                                title: '保存'
-                            }
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+                        },
+                        restore: {
+                            show: true,
+                            title: '刷新'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
                         }
-                    },
+                    }
+                },
                 series: [{
                         type: 'wordCloud',
                         shape: 'diamond',
@@ -98,7 +98,7 @@
                             }]
                     }]
             };
-            data = #{keywordAnalysis.allData};
+            data = #{refStatic.refTime};
             option.series[0].data = data;
             maskImage.onload = function () {
                 myChart.setOption(option);
