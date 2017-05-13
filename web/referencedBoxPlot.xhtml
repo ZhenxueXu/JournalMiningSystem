@@ -41,6 +41,24 @@
                         type: 'shadow'
                     }
                 },
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+                        },
+                        restore: {
+                            show: true,
+                            title: '刷新'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
+                        }
+                    }
+                },
                 grid: {
                     left: '10%',
                     right: '10%',
@@ -48,7 +66,7 @@
                 },
                 xAxis: {
                     type: 'category',
-                    data:xAxis ,
+                    data: xAxis,
                     boundaryGap: true,
                     nameGap: 30,
                     splitArea: {
@@ -70,21 +88,21 @@
                 },
                 series: [
                     {
-                        
+
                         name: 'boxplot',
                         type: 'boxplot',
                         data: boxdata
 
                     },
                     {
-                        
+
                         name: 'outlier',
-                        type: 'scatter',                       
+                        type: 'scatter',
                         data: sdata
                     }
                 ]
             };
-            
+
             console.log(sdata);
 
             myChart.setOption(option);

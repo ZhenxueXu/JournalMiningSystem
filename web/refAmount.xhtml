@@ -24,17 +24,14 @@
             option = null;
             var data = #{refStatic.refData};
             console.log(data);
-            var myData = data.xAxis.data;
+            var myData = data.xAxis[0].data;
             var year_countdata = data.series[0].data;
-            var year_pagesdata = data.series[1].data;
-           
-
-
-
-
+            var year_pagesdata = data.series[1].data;       
             option = {
                 title: {
-                   
+                    text: '各年引文统计',
+                    x: 'center'
+
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -43,13 +40,19 @@
                     feature: {
                         dataView: {
                             show: true,
-                            readOnly: false
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+
                         },
                         restore: {
-                            show: true
+                            show: true,
+                            title: '重置'
                         },
                         saveAsImage: {
-                            show: true
+                            show: true,
+                            title: '保存'
+
                         }
                     }
                 },
@@ -57,7 +60,9 @@
                     containLabel: true
                 },
                 legend: {
-                    data: ['每年篇均页数', '每年总页数']
+                    data: ['引文数量', '篇均引文数量'],
+                     x: '200px',
+                    y: '14px'
                 },
                 xAxis: [{
                         type: 'category',
@@ -68,23 +73,29 @@
                     }],
                 yAxis: [{
                         type: 'value',
-                        name: '每年篇均页数',
-                        min: 0,
-                        max: 40,
+                        name: '篇',
                         position: 'right',
-//                        axisLabel: {
-//                            formatter: '{value} %'
-//                        }
                     }, {
                         type: 'value',
-                        name: '每年总页数',
-                       
+                        name: '篇',
                         position: 'left'
                     }],
-                series: [{
-                        name: '每年篇均页数',
+                series: [ {
+                        name: '引文数量',
+                        type: 'bar',
+                        yAxisIndex: 1,
+                        barGap: 30,
+                        barWidth: '35%',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        data: year_countdata
+                    },{
+                        name: '篇均引文数量',
                         type: 'line',
-                        stack: '总量',
                         label: {
                             normal: {
                                 show: true,
@@ -100,20 +111,6 @@
                             }
                         },
                         data: year_pagesdata
-                    }, {
-                        name: '每年总页数',
-                        type: 'bar',
-                        yAxisIndex: 1,
-                        barGap: 30,
-                        barWidth: '40%',
-                        stack: '总量',
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top'
-                            }
-                        },
-                        data: year_countdata
                     }]
             };
             myChart.setOption(option);

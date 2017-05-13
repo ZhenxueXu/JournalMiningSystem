@@ -49,7 +49,6 @@ public class AuthorAnalysis implements Serializable {
 
 
     public AuthorAnalysis() {
-
         setAllData();
     }
 
@@ -96,14 +95,8 @@ public class AuthorAnalysis implements Serializable {
                 }
             }
             current.put(currentAuthor, h_index);                //放入最后一个作者
-            hIndex = new ArrayList<Map.Entry<String, Integer>>(current.entrySet());
-            Collections.sort(hIndex, new Comparator<Map.Entry<String, Integer>>() {
-                @Override
-                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-                    return o2.getValue() - o1.getValue();
-                }
-
-            });
+            hIndex = new ArrayList<>(current.entrySet());
+            Collections.sort(hIndex, (Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue() - o1.getValue());
             /**
              * 在此处对输出格式进一步处理 画图数据格式处理
              */
@@ -196,6 +189,10 @@ public class AuthorAnalysis implements Serializable {
         option1.xAxis(xAxis1);
         option1.series(bar1);
 
+    }
+    
+    public void getHIdex(){
+        
     }
 
     public String getAuthorBeiYinData() {

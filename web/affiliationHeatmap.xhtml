@@ -34,19 +34,28 @@
                 },
                 tooltip: {
                     trigger: 'item',
-                    formatter:function(params){
-                        return params.name+'<br/> 发文量：'+params.value[2];
+                    formatter: function (params) {
+                        return params.name + '<br/> 发文量：' + params.value[2];
                     }
                 },
-                toolbox:{                    
-                    feature:{
-                        savaAsImage:{
-                            show:true,
-                            title:'保存为图片'
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+                        },
+                        restore: {
+                            show: true,
+                            title: '刷新'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
                         }
                     }
                 },
-
                 visualMap: {
                     orient: 'vertical',
                     y: 'bottom',

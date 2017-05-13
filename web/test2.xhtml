@@ -10,16 +10,234 @@
         <!-- 引入 echarts.js -->
         <script src="js/echarts.js"></script>
         <script src="js/jquery-1.9.1.min.js"></script>
-        <script src="js/echarts-graph-modularity.min.js"></script>
-
+        <script src="js/worldcloud.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
         <script src="js/esl.js"></script>
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        
-        <h:form>
-            <h:commandButton value="TEST" action="#{refJournalAssociation .apriori(0.1)}"/>
-        </h:form>
+        <table width="1000px" align="center" style="height: auto">
+            <tr>
+                <td width="50%"><div id="main1" style="width: 90%;height:180px;"></div><br/></td>
+                <td width="50%"><div id="main2" style="width: 90%;height:180px;"></div><br/></td>
+            </tr>
+            <tr>
+                <td width="50%"> <div id="main3" style="width: 90%;height:180px;"></div><br/></td>
+                <td width="50%"> <div id="main4" style="width: 90%;height:180px;"></div><br/></td>
+            </tr>
+            <tr>
+                <td width="50%"> <div id="main5" style="width: 90%;height:180px;"></div><br/></td>
+                <td width="50%"> <div id="main6" style="width: 90%;height:180px;"></div><br/></td>
+            </tr>
+        </table>
+
+
+
+
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var dom1 = document.getElementById("main1");
+            var dom2 = document.getElementById("main2");
+            var dom3 = document.getElementById("main3");
+            var dom4 = document.getElementById("main4");
+            var dom5 = document.getElementById("main5");
+            var dom6 = document.getElementById("main6");
+            var myChart1 = echarts.init(dom1);
+            var myChart2 = echarts.init(dom2);
+            var myChart3 = echarts.init(dom3);
+            var myChart4 = echarts.init(dom4);
+            var myChart5 = echarts.init(dom5);
+            var myChart6 = echarts.init(dom6);
+            var app = {};
+            option = null;
+            var maskImage = new Image();
+
+            option = {
+                title: {
+                    text: ""
+
+                },
+                tooltip: {
+                    show: true
+                },
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+                        },
+                        restore: {
+                            show: true,
+                            title: '刷新'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
+                        }
+                    }
+                },
+                series: [{
+                        type: 'wordCloud',
+                        shape: 'diamond',
+                        maskImage: maskImage,
+                        left: 'center',
+                        top: 'center',
+                        width: '100%',
+                        height: '100%',
+                        right: null,
+                        bottom: null,
+                        sizeRange: [3, 20],
+                        rotationRange: [0, 0],
+                        rotationStep: 45,
+                        gridSize: 8,
+                        textPadding: 0,
+//                        autoSize: {
+//                            enable: true,
+//                            minSize: 1
+//                        },
+
+                        textStyle: {
+                            normal: {
+                                fontFamily: 'sans-serif',
+                                fontWeight: 'bold',
+                                color: function () {
+                                    return 'rgb(' + [
+                                        Math.round(Math.random() * 160),
+                                        Math.round(Math.random() * 160),
+                                        Math.round(Math.random() * 160)
+                                    ].join(',') + ')';
+                                }
+                            },
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowColor: '#333'
+                            }
+                        },
+
+                        data: [{
+                                name: 'Farrah Abraham',
+                                value: 366,
+                                textStyle: {
+                                    normal: {},
+                                    emphasis: {}
+                                }
+                            }]
+                    }]
+            };
+            data = #{highRefAnalysis.data};
+            console.log(data);
+            maskImage.onload = function () {
+                option.series[0].data = data[0];
+                myChart1.setOption(option);
+                option.series[0].data = data[1];
+                myChart2.setOption(option);
+                option.series[0].data = data[2];
+                myChart3.setOption(option);
+                option.series[0].data = data[3];
+                myChart4.setOption(option);
+                option.series[0].data = data[4];
+                myChart5.setOption(option);
+                option.series[0].data = data[5];
+                myChart6.setOption(option);
+            };
+            maskImage.src = "images/tree.jpg";
+            
+       
+var markLineOpt = {
+    animation: false,
+    label: {
+        normal: {
+            formatter: 'y = 0.5 * x + 3',
+            textStyle: {
+                align: 'right'
+            }
+        }
+    },
+        lineStyle: {
+        normal: {
+            type: 'solid'
+        }
+    },
+    tooltip: {
+        formatter: 'y = 0.5 * x + 3'
+    },
+    data: [[{
+        coord: [0, 3],
+        symbol: 'none'
+    }, {
+        coord: [20, 13],
+        symbol: 'none'
+    }]]
+};
+
+option = {
+    title: {
+        text: 'Anscombe\'s quartet',
+        x: 'center',
+        y: 0
+    },
+    grid: [
+        {x: '7%', y: '7%', width: '38%', height: '38%'},
+        {x2: '7%', y: '7%', width: '38%', height: '38%'},
+        {x: '7%', y2: '7%', width: '38%', height: '38%'},
+        {x2: '7%', y2: '7%', width: '38%', height: '38%'}
+    ],
+    tooltip: {
+        formatter: 'Group {a}: ({c})'
+    },
+    xAxis: [
+        {gridIndex: 0, min: 0, max: 20},
+        {gridIndex: 1, min: 0, max: 20},
+        {gridIndex: 2, min: 0, max: 20},
+        {gridIndex: 3, min: 0, max: 20}
+    ],
+    yAxis: [
+        {gridIndex: 0, min: 0, max: 15},
+        {gridIndex: 1, min: 0, max: 15},
+        {gridIndex: 2, min: 0, max: 15},
+        {gridIndex: 3, min: 0, max: 15}
+    ],
+  
+    series: [
+        {
+            name: 'I',
+            type: 'scatter',
+             roam: true,
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            data: dataAll[0],
+            markLine: markLineOpt
+        },
+        {
+            name: 'II',
+            type: 'scatter',
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            data: dataAll[1],
+            markLine: markLineOpt
+        },
+        {
+            name: 'III',
+            type: 'scatter',
+            xAxisIndex: 2,
+            yAxisIndex: 2,
+            data: dataAll[2],
+            markLine: markLineOpt
+        },
+        {
+            name: 'IV',
+            type: 'scatter',
+            xAxisIndex: 3,
+            yAxisIndex: 3,
+            data: dataAll[3],
+            markLine: markLineOpt
+        }
+    ]
+};
+
+        </script>       
 
     </body>
 </html>
