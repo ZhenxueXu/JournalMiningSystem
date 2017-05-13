@@ -11,7 +11,9 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Named(value = "highRefAnalysis")
 @SessionScoped
@@ -32,6 +34,7 @@ public class HighRefAnalysis implements Serializable {
         ResultSet rs = null;
         String sql;
         data = new ArrayList<>();
+
         try {
             conn = JDBCUtils.getConn();
             stat = conn.createStatement();
@@ -81,10 +84,11 @@ public class HighRefAnalysis implements Serializable {
                 list.add(new WordCloudData(rs.getString(1), rs.getInt(2)));
             }
             data.add(list);
-            sql = "select r_year,count(*) "
+            sql = "select r_year,count(*) as times "
                     + "from paper_references,journal_info "
-                    + "where paper_references.j_number = journal_info.j_number and journal_info.j_citation_frequency >" + minTimes + "and r_year<>'null' "
-                    + "group by r_year";
+                    + "where paper_references.j_number = journal_info.j_number and journal_info.j_citation_frequency >" + minTimes + "  and r_year<> 'null' "
+                    + "group by r_year "
+                    + "order by times desc ";
             rs = stat.executeQuery(sql);
             list = new ArrayList<>();
             while (rs.next()) {
@@ -104,20 +108,21 @@ public class HighRefAnalysis implements Serializable {
             }
             data.add(list);
             //            sql = "select j_year,count(*) "
-                    //                    + "from journal_info "
-                    //                    + "where j_citation_frequency > 20  "
-                    //                    + "group by j_year";
-                    //            rs = stat.executeQuery(sql);
-                    //            Line line = new Line();
-                    //            CategoryAxis xAxis = new CategoryAxis();
-                    //            option = new GsonOption();
-                    //            while(rs.next()){
-                    //                line.data(rs.getInt(2));
-                    //                xAxis.data(rs.getString(1));
-                    //            }
-                    //            option.series(line).xAxis(xAxis);
+            //                    + "from journal_info "
+            //                    + "where j_citation_frequency > 20  "
+            //                    + "group by j_year";
+            //            rs = stat.executeQuery(sql);
+            //            Line line = new Line();
+            //            CategoryAxis xAxis = new CategoryAxis();
+            //            option = new GsonOption();
+            //            while(rs.next()){
+            //                line.data(rs.getInt(2));
+            //                xAxis.data(rs.getString(1));
+            //            }
+            //            option.series(line).xAxis(xAxis);
 
         } catch (Exception e) {
+            e.printStackTrace();
 
         } finally {
             JDBCUtils.close(rs, stat, conn);
@@ -128,5 +133,7 @@ public class HighRefAnalysis implements Serializable {
         Gson gson = new Gson();
         return gson.toJson(data);
     }
+
+    
 
 }

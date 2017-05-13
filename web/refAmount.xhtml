@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <meta charset="utf-8"/>
+        <title>ECharts</title>
+        <!-- 引入 echarts.js -->
+        <script src="js/echarts.js"></script>
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/esl.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
+    </head>
+    <body>
+        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+        <div id="main" style="width: 1100px;height:520px;"></div>
+        <script type="text/javascript">
+            // 基于准备好的dom，初始化echarts实例
+            var dom = document.getElementById("main");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            var data = #{refStatic.refData};
+            console.log(data);
+            var myData = data.xAxis.data;
+            var year_countdata = data.series[0].data;
+            var year_pagesdata = data.series[1].data;
+           
+
+
+
+
+            option = {
+                title: {
+                   
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false
+                        },
+                        restore: {
+                            show: true
+                        },
+                        saveAsImage: {
+                            show: true
+                        }
+                    }
+                },
+                grid: {
+                    containLabel: true
+                },
+                legend: {
+                    data: ['每年篇均页数', '每年总页数']
+                },
+                xAxis: [{
+                        type: 'category',
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        data: myData
+                    }],
+                yAxis: [{
+                        type: 'value',
+                        name: '每年篇均页数',
+                        min: 0,
+                        max: 40,
+                        position: 'right',
+//                        axisLabel: {
+//                            formatter: '{value} %'
+//                        }
+                    }, {
+                        type: 'value',
+                        name: '每年总页数',
+                       
+                        position: 'left'
+                    }],
+                series: [{
+                        name: '每年篇均页数',
+                        type: 'line',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                            }
+                        },
+                        lineStyle: {
+                            normal: {
+                                width: 3,
+                                shadowColor: 'rgba(0,0,0,0.4)',
+                                shadowBlur: 10,
+                                shadowOffsetY: 10
+                            }
+                        },
+                        data: year_pagesdata
+                    }, {
+                        name: '每年总页数',
+                        type: 'bar',
+                        yAxisIndex: 1,
+                        barGap: 30,
+                        barWidth: '40%',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        data: year_countdata
+                    }]
+            };
+            myChart.setOption(option);
+        </script>
+    </body>
+</html>
