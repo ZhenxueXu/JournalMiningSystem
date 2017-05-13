@@ -1,12 +1,22 @@
 package dataAnalysisBeans;
 
 import JDBCUtils.JDBCUtils;
+import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.data.WordCloudData;
+import com.github.abel533.echarts.json.GsonOption;
+import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.series.Line;
+import com.github.abel533.echarts.series.Pie;
+import com.github.abel533.echarts.series.Series;
+import com.google.gson.Gson;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Think 第四模块，引文分析
@@ -21,12 +31,15 @@ public class RefStatic implements Serializable {
     private List<Float> rate;          //引文率
     private List<Float> sumRate;        //累计引文率
     private List<String> year;          //引文年限
-    private ResultSet refStatic;       //根据论文发表年限，统计引文数量与篇均引文数量，格式（年份，引文数量，篇均引文量）
 
     public RefStatic() {
     }
 
     public void setAllData() {
+        GsonOption option = new GsonOption();
+        CategoryAxis xAxis = new CategoryAxis();
+        Bar bar = new Bar();
+        Pie pie = new Pie();
         Connection conn = null;
         Statement stat = null;
         ResultSet localSet = null;
@@ -34,10 +47,10 @@ public class RefStatic implements Serializable {
         try {
             conn = JDBCUtils.getConn();
             stat = conn.createStatement();
-            sql = "select r_year,count(*) from paper_references where r_year REGEXP('[0-9]{4}') group by r_year order by r_year DESC";
-            year_count = stat.executeQuery(sql);
             sql = "select count(*) as total from paper_references where r_year REGEXP('[0-9]{4}')";
             localSet = stat.executeQuery(sql);      //局部变量，用于临时处理
+            localSet.next();
+            List<Map<String, Object>> data = new ArrayList<>();
             total = localSet.getInt(1);
             year = new ArrayList<>();
             quantity = new ArrayList<>();
@@ -46,42 +59,131 @@ public class RefStatic implements Serializable {
             int i = 1;
             int sum = 0;
             //引文的年代统计分析
-            while (year_count.next()) {
-                //显示20年的数据
-
+            sql = "select r_year,count(*) from paper_references where r_year REGEXP('[0-9]{4}') group by r_year order by r_year DESC";
+            year_count = stat.executeQuery(sql);
+            while (year_count.next()) {  //显示20年的数据
                 if (i < 20) {
-                    year.add(year_count.getString(1));
-                    quantity.add(year_count.getInt(2));
-                    rate.add(year_count.getInt(2) / (float) total);
-                    if (sumRate.size() <= 0) {
-                        sumRate.add(rate.get(0));
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("year", year_count.getString(1));
+                    row.put("amount", year_count.getInt(2));
+                    row.put("rate", year_count.getInt(2) / (float) total);
+                    xAxis.data(year_count.getString(1));
+                    bar.data(year_count.getString(2));
+                    pie.data(year_count.getInt(2) / (float) total);
+                    if (i == 1) {
+                        row.put("sumrate", year_count.getInt(2) / (float) total);
+                        sumRate.add(year_count.getInt(2) / (float) total);
                     } else {
-                        sumRate.add(sumRate.get(sumRate.size() - 1) + rate.get(rate.size() - 1));
+                        row.put("sumrate", sumRate.get(sumRate.size() - 1) + year_count.getInt(2) / (float) total);
+                        sumRate.add(sumRate.get(sumRate.size() - 1) + year_count.getInt(2) / (float) total);
                     }
+                    data.add(row);
                 } else {
                     sum += year_count.getInt(2);
                 }
                 i++;
             }
-            year.add(year_count.getString(1) + "以前");
-            rate.add(sum / (float) total);
-            sumRate.add((float) 100);
+            Map<String, Object> row = new HashMap<>();
+            if (sum > 0) {
+                row.put("year", year_count.getString(1) + "以前");
+                row.put("amount", year_count.getInt(2));
+                row.put("rate", sum / (float) total);
+                xAxis.data(year_count.getString(1) + "以前");
+                bar.data(year_count.getString(2));
+                pie.data( sum / (float) total);
+                row.put("sumrate", 100);
+                data.add(row);
+            }
+
             /*end 引文年代统计分析*/
-
             // start 每年的引文数量和篇均引文数量
-            sql = "select j_year as 年份,count(*) as 引文数量,count(*)/count(distinct A.j_number) as 篇均引文量 from journal_info A,paper_references B where A.j_number=B.j_number group by j_year order by j_year DESC";
-            refStatic = stat.executeQuery(sql);
-
-            sql = "select r_journal,count(*) as 被引次数 "
-                    + "from paper_references where r_journal<>'' "
-                    + "group by r_journal "
-                    + "order by 被引次数 desc";
         } catch (Exception e) {
 
         } finally {
             JDBCUtils.close(localSet, stat, conn);
         }
 
+    }
+
+    public String getRefData() {
+        GsonOption option = new GsonOption();
+        Bar bar = new Bar();
+        Line line = new Line();
+        CategoryAxis xAxis = new CategoryAxis();
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet rs = null;
+        String sql;
+        try {
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
+            sql = "select j_year as 年份,count(*) as 引文数量,count(*)/count(distinct A.j_number) as 篇均引文量 from journal_info A,paper_references B where A.j_number=B.j_number group by j_year order by j_year DESC";
+            rs = stat.executeQuery(sql);
+            while (rs.next()) {
+                xAxis.data(rs.getString(1));
+                bar.data(rs.getString(total));
+                line.data(rs.getFloat(3));
+            }
+            option.series(bar).series(line).xAxis(xAxis);
+
+        } catch (Exception e) {
+
+        } finally {
+            JDBCUtils.close(rs, stat, conn);
+        }
+        return option.toString();
+    }
+
+    public String getRefTime() {
+        Gson gson = new Gson();
+        List<WordCloudData> list = new ArrayList<>();
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet rs = null;
+        String sql;
+        try {
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
+            sql = "select r_journal,count(*) as 被引次数 "
+                    + "from paper_references where r_journal<>'' "
+                    + "group by r_journal "
+                    + "order by 被引次数 desc";
+            rs = stat.executeQuery(sql);
+            rs = stat.executeQuery(sql);
+            while (rs.next()) {
+                list.add(new WordCloudData(rs.getString(1), rs.getInt(2)));
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+            JDBCUtils.close(rs, stat, conn);
+        }
+        return gson.toJson(list);
+    }
+
+    public List<Map> getTableData() {
+        List<Map> data = new ArrayList<>();
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet rs = null;
+        String sql;
+        try {
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
+            sql = "select r_journal,count(*) as 被引次数 "
+                    + "from paper_references where r_journal<>'' "
+                    + "group by r_journal "
+                    + "order by 被引次数 desc";
+            rs = stat.executeQuery(sql);
+            data = JDBCUtils.getResultList(rs);
+
+        } catch (Exception e) {
+
+        } finally {
+            JDBCUtils.close(rs, stat, conn);
+        }
+        return data;
     }
 
 }
