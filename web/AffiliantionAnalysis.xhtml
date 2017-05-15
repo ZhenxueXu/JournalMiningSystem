@@ -189,18 +189,8 @@
                             data: myData.slice(n * 20, (n + 1) * 20)
                         }],
 
-                    series: [{
-                            name: '机构被引总次数',
-                            type: 'bar',
-                            barGap: 20,
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top'
-                                }
-                            },
-                            data: bar1.slice(20 * n, (n + 1) * 20)
-                        }, {
+                    series: [
+                         {
                             name: '机构被引篇均次数',
                             type: 'line',
                             yAxisIndex: 1,
@@ -219,6 +209,17 @@
                                     shadowOffsetY: 10
                                 }
                             }
+                        },{
+                            name: '机构被引总次数',
+                            type: 'bar',
+                            barGap: 20,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top'
+                                }
+                            },
+                            data: bar1.slice(20 * n, (n + 1) * 20)
                         }]
                 });
 

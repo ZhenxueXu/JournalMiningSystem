@@ -1,8 +1,9 @@
 
 .main{
-    margin-top: 1%;
-    width: 50%;
-    margin-left: 28%;
+    position: absolute;
+   width: 100%;
+   
+    top: 2%;
 }
 .row{
     height:30px;
@@ -20,32 +21,36 @@
     color:  #408080;
 }
 .row_left{
-    position: fixed;
-    left: 10%;
+    position: absolute;
+    left: 4%;
+   
 
 
 }
 .row_center{
-    position:  fixed;
+    position:  absolute;
     left: 40%;
+     
 
 
 }
 .row_right{
-    position:  fixed;
-    left: 70%;
+    position:  absolute;
+    left: 78%;
 
 }
 
-
-
-
+#tabel{
+    position:  absolute;
+    top: 14%;
+}
 
 
 .ui-datatable-tablewrapper tbody tr td {
     
     word-wrap: break-word;
     overflow: hidden;
+    height: 18px;
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-bottom: 1px;
@@ -55,9 +60,9 @@
     font-size: 4px;
 
 }
-
-
-
+.ui-datatable-tablewrapper  thead tr td{
+    font-size: 4px;
+}
 .ui-datatable-tablewrapper  tbody tr :hover{
     overflow: visible;
     white-space: normal;

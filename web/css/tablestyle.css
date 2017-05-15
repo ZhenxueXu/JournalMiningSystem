@@ -1,11 +1,13 @@
 #form_div{
        margin: auto;
+       display: none;
       
 }
 #form_style{
     position:  fixed;
     top: 5%;
     left: 11%;
+     
 
      align-content: center;
 }
@@ -15,14 +17,5 @@
      top: 5%;
 }
 
-  .ui-widget-content td:hover{
-       overflow: visible;
-       white-space: normal;
-   }
-   .ui-widget-content td {
-        word-wrap: break-word;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+
 
