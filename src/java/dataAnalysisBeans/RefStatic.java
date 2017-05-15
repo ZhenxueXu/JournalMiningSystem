@@ -2,6 +2,7 @@ package dataAnalysisBeans;
 
 import JDBCUtils.JDBCUtils;
 import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.data.PieData;
 import com.github.abel533.echarts.data.WordCloudData;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Bar;
@@ -12,6 +13,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,12 +31,14 @@ public class RefStatic implements Serializable {
     private List<Float> sumRate;        //累计引文率
     private GsonOption option = new GsonOption();
     private List<Map<String, Object>> data = new ArrayList<>();
-   
+
     public RefStatic() {
+        setAllData();
     }
 
     public void setAllData() {
-        
+        DecimalFormat df = new DecimalFormat("#.####");
+
         CategoryAxis xAxis = new CategoryAxis();
         Bar bar = new Bar();
         Pie pie = new Pie();
@@ -48,8 +52,8 @@ public class RefStatic implements Serializable {
             sql = "select count(*) as total from paper_references where r_year REGEXP('[0-9]{4}')";
             localSet = stat.executeQuery(sql);      //局部变量，用于临时处理
             localSet.next();
-            
-            total = localSet.getInt(1);            
+
+            total = localSet.getInt(1);
             sumRate = new ArrayList<>();
             int i = 1;
             int sum = 0;
@@ -62,16 +66,18 @@ public class RefStatic implements Serializable {
                     Map<String, Object> row = new HashMap<>();
                     row.put("year", year_count.getString(1));
                     row.put("amount", year_count.getInt(2));
-                    row.put("rate", year_count.getInt(2) / (float) total);
+                    float rate =Float.parseFloat(df.format(year_count.getInt(2) /1.0/total));
+                    row.put("rate", rate);
                     xAxis.data(year_count.getString(1));
-                    bar.data(year_count.getString(2));
-                    pie.data(year_count.getInt(2) / (float) total);
+                    bar.data(year_count.getInt(2));
+                    PieData piedata = new PieData(year_count.getString(1), rate);
+                    pie.data(piedata);
                     if (i == 1) {
-                        row.put("sumrate", year_count.getInt(2) / (float) total);
-                        sumRate.add(year_count.getInt(2) / (float) total);
+                        row.put("sumrate", rate);
+                        sumRate.add(rate);
                     } else {
-                        row.put("sumrate", sumRate.get(sumRate.size() - 1) + year_count.getInt(2) / (float) total);
-                        sumRate.add(sumRate.get(sumRate.size() - 1) + year_count.getInt(2) / (float) total);
+                        row.put("sumrate", sumRate.get(sumRate.size() - 1) + rate);
+                        sumRate.add(sumRate.get(sumRate.size() - 1) + rate);
                     }
                     data.add(row);
                     year = year_count.getString(1);
@@ -82,17 +88,20 @@ public class RefStatic implements Serializable {
             }
             Map<String, Object> row = new HashMap<>();
             if (sum > 0) {
+                float rate =Float.parseFloat(df.format(sum/1.0/total));
                 row.put("year", year + "以前");
                 row.put("amount", sum);
-                row.put("rate", sum / (float) total);
+                row.put("rate", rate);
                 xAxis.data(year + "以前");
                 bar.data(sum);
-                pie.data( sum / (float) total);
+                PieData piedata = new PieData(year + "以前", rate);
+                pie.data(piedata);
+                
                 row.put("sumrate", 100);
                 data.add(row);
             }
             option.series(bar).series(pie).xAxis(xAxis);
-            
+
 
             /*end 引文年代统计分析*/
             // start 每年的引文数量和篇均引文数量
@@ -103,13 +112,12 @@ public class RefStatic implements Serializable {
         }
 
     }
-    
-    public String getOption(){
-        setAllData();
+
+    public String getOption() {
         return option.toString();
     }
-    
-    public List<Map<String,Object>> getRefRateTable(){
+
+    public List<Map<String, Object>> getRefRateTable() {
         return data;
     }
 

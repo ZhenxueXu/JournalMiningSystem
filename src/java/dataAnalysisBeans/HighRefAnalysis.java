@@ -1,19 +1,15 @@
 package dataAnalysisBeans;
 
 import JDBCUtils.JDBCUtils;
-import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.data.WordCloudData;
 import com.github.abel533.echarts.json.GsonOption;
-import com.github.abel533.echarts.series.Line;
 import com.google.gson.Gson;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Named(value = "highRefAnalysis")
 @SessionScoped

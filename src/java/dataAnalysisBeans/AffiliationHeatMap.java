@@ -31,7 +31,7 @@ public class AffiliationHeatMap implements Serializable {
                     + "from paper_address,journal_info,adress_lng_lat "
                     + "where paper_address.j_number=journal_info.j_number and paper_address.j_address = adress_lng_lat.j_address "
                     + "group by j_address  "
-                    + "order by sum(j_citation_frequency) desc";
+                    + "order by count(*) desc";
             rs = stat.executeQuery(sql);
             data = new ArrayList<>();            
             while(rs.next()){

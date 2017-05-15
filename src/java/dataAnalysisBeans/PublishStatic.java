@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class PublishStatic implements Serializable {
         Bar line = new Bar();
         Bar line1 = new Bar();
         Bar line2 = new Bar();
+        Bar line3 = new Bar();
     
 
         try {
@@ -65,8 +67,10 @@ public class PublishStatic implements Serializable {
             }
             sql = "select j_year,avg(j_page2) from journal_info group by j_year";
             year_avgPages = stat.executeQuery(sql);
+            DecimalFormat df = new DecimalFormat("#.####");
             while (year_avgPages.next()) {
-                line2.data(year_avgPages.getInt(2));
+                line2.data(Double.parseDouble(df.format(year_avgPages.getFloat(2))));
+                line3.data(Double.parseDouble(df.format(1.0/year_avgPages.getInt(2))));
             }
         } catch (Exception e) {
 
@@ -83,6 +87,7 @@ public class PublishStatic implements Serializable {
         option.series(line);
         option.series(line1);
         option.series(line2);
+        option.series(line3);
         //System.out.println(option.toString());
         return option.toString();
    
