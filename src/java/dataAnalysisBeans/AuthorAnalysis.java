@@ -55,6 +55,7 @@ public class AuthorAnalysis implements Serializable {
     private String maxYear ="2015";
    
 
+
     public AuthorAnalysis() {
         setAllData();
         getHIdex();
@@ -143,16 +144,26 @@ public class AuthorAnalysis implements Serializable {
                     + " group by paper_author.j_author"
                     + " order by 被引总计 desc ";
             ref = stat.executeQuery(sql);
-
-            for (int i = 1; i <= 20; i++) {
-
-                if (ref.next()) {
-                    xAxis1.data(ref.getString(1));
-                    bar1.data(ref.getInt(2));//被引统计
+            shu = 1;
+            mapcount = 1;
+            data = new HashMap<>();
+            xdata = new HashMap<>();
+            datalist = new ArrayList<>();
+            xlist = new ArrayList<>();
+            while (ref.next()) {
+                if (shu % 25 == 0) {
+                    data.put(mapcount, datalist);
+                    xdata.put(mapcount, xlist);
+                    mapcount++;
+                    datalist = new ArrayList<>();
+                    xlist = new ArrayList<>();
                 }
-
+                datalist.add(ref.getInt(2));
+                xlist.add(ref.getString(1));
+                shu++;
             }
-
+            bar1.data(data);
+            xAxis1.data(xdata);
             // -- star 合作发文量 --//
             sql = "select 合作人数 , count(*) as 发文量 from ("
                     + "     select count(*) as 合作人数, a.j_number as 编号"
@@ -179,6 +190,7 @@ public class AuthorAnalysis implements Serializable {
     }
 
     public void getHIdex() {
+
 
         Connection conn = null;
         Statement stat = null;

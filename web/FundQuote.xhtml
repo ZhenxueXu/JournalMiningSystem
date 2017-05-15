@@ -34,13 +34,17 @@
                     <p:column headerText="发文量" filterBy="#{quotedata.get('篇均被引次数')}" sortBy="#{quotedata.get('篇均被引次数')}" filterMatchMode="startsWith">
                         <h:outputText value="#{quotedata.get('篇均被引次数')}" />
                     </p:column>
-
                 </p:dataTable>
             </h:form>
         </div>
         <div>
             <img type="image" src="../images/button2.png" width="110px" height="100px" onclick="qqclick()"/>
+
+            <a href="#" ><img  type="image" src="../images/skip.png" width="25px" height="25px"  onclick="qclick()"/></a>
+
+
         </div>
+
 
         <script type="text/javascript" charset="utf-8" >
             //<![CDATA[
@@ -95,6 +99,7 @@
                                 icon: 'image://../images/table.png',
                                 onclick: function () {
                                     qqclick()
+
                                 }
                             },
                             saveAsImage: {
@@ -114,7 +119,11 @@
 
                     },
                     legend: {
+
                         data: ['基金总被引次数','篇均被引次数'],
+
+         
+
                         x: '190px',
                         y: '14px'
 
@@ -125,13 +134,15 @@
                     },
                     yAxis: [{
                             type: 'value',
-                            name: '篇均被引/次',
+
+                      name: '篇均被引/次',
 
                             position: 'right',
-
                         }, {
                             type: 'value',
+
                             name: '总被引/次',
+
 
                             position: 'left'
                         }],
@@ -148,7 +159,6 @@
                                     return name.length > 8 ? name.substr(0, 8) + "..." : name;
                                 }
                             },
-
                             data: []//myData
                         }],
                     series: [],
@@ -168,7 +178,6 @@
                         },
                         data: xdata[n]
                     },
-
                     series: [{
                             name: '基金总被引次数',
                             type: 'bar',
@@ -180,7 +189,6 @@
                                     position: 'top'
                                 }
                             },
-
                             data: maindata1[n]
                         },
                         {
@@ -203,10 +211,11 @@
 
             myChart.setOption(option);
         </script>
-
         <script>
-            function qqclick()
-            {
+
+
+            function qclick() {
+
                 var zt = document.getElementById("form_div").style.display;
                 if (zt == "none") {
                     document.getElementById("form_div").style.display = "block";
@@ -217,10 +226,8 @@
                 }
 
             }
+
         </script>
-
-
-
 
     </h:body>
 </html>

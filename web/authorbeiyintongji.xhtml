@@ -4,19 +4,19 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
-    <head>
+    <h:head>
         <meta charset="utf-8"/>
         <title>ECharts</title>
         <!-- 引入 echarts.js -->
-        <script src="js/echarts.js"></script>
-        <script src="js/jquery-1.9.1.min.js"></script>
-        <script src="js/esl.js"></script>
+        <script src="js/echarts.js" charset="utf-8"></script>
         <link rel="stylesheet" type="text/css" href="css/charts.css"/>
-    </head>
+        <link rel="stylesheet" type="text/css" href="css/tablestyle.css"/>
+    </h:head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="width: 1100px;height:520px;"></div>
         <script type="text/javascript">
+            //<![CDATA[
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
             var myChart = echarts.init(dom);
@@ -25,72 +25,169 @@
 
             var data = #{authorAnalysis.authorBeiYinData};
             console.log(data);
-            var myData = data.xAxis[0].data;
-            var bar = data.series[0].data;
-
+            var xdata = data.xAxis[0].data[0];
+            var maindata = data.series[0].data[0];
+            var dlength = 0;
+            var timeLinedata = new Array();
+            for (var js2 in xdata) {
+                dlength++;
+                timeLinedata[dlength] = dlength;
+            }
 
 
 
             option = {
-                title: {
-                    text: '作者被引统计',
-                    x: 'center'
-                    
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                toolbox: {
-                    feature: {
-                        dataView: {
-                            show: true,
-                            readOnly: false
-                        },
-                        restore: {
-                            show: true
-                        },
-                        saveAsImage: {
-                            show: true
+                baseOption: {
+                    title: {
+                        text: '作者被引数量',
+                        x: 'center'
+                    },
+                    timeline: {
+                        axisType: 'category',
+                        playInterval: 5000,
+                        x: 52,
+                        y: 475,
+                        width: '87%',
+                        data: timeLinedata
+                    },
+
+                    toolbox: {
+                        feature: {
+                            dataView: {
+                                show: true,
+                                readOnly: false,
+                                title: '数据',
+                                lang: ['数据视图', '关闭', '刷新']
+
+                            },
+                            magicType: {
+                                show: true,
+                                type: ['line', 'bar'],
+                                title: {
+                                    line: '折线图切换',
+                                    bar: '柱形图切换'
+                                }
+
+                            },
+                            restore: {
+                                show: true,
+                                title: '重置'
+                            },
+                            saveAsImage: {
+                                show: true,
+                                title: '保存'
+
+                            }
                         }
-                    }
-                },
-                grid: {
-                    containLabel: true
-                },
-                legend: {
-                    data: ['作者被引统计'],
-                    x: '120px'
-                },
-                xAxis: [{
+                    },
+
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+
+                    },
+                    legend: {
+                        data: ['作者被引数量'],
+                        x: '200px',
+                        y: '14px'
+                    },
+                    grid: {
+
+                        containLabel: true
+                    },
+                    yAxis: {
+                        type: 'value',
+                        name: '数量',
+                    },
+                    xAxis: {
                         type: 'category',
+                        name: '作者',
                         axisTick: {
                             alignWithLabel: true
                         },
                         axisLabel: {
                             rotate: -18,
-                            interval: 0
-                        },
-                        data: myData
-                    }],
-                yAxis: [{
-                        type: 'value',
-//                        name: '作者被引统计',
-
-                    }],
-                series: [{
-                        name: '作者被引统计',
-                        type: 'bar',
-                        barGap: 20,
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'top'
+                            interval: 'auto',
+                            formatter: function (name) {
+                                return name.length > 8 ? name.substr(0, 8) + "..." : name;
                             }
                         },
-                        data: bar
-                    }]
+                        data: xdata[1]
+                    },
+                    series: [],
+                },
+                options: []
             };
+            for (var n = 1; n <= dlength; n++) {
+
+
+                option.options.push({
+                    xAxis: {
+                        type: 'category',
+                        axisLabel: {
+                            rotate: -20,
+                            interval: 0
+                        },
+                        data: xdata[n]
+                    },
+
+                    series: [{
+                            name: '作者被引数量',
+                            type: 'bar',
+                            barGap: 20,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top'
+                                }
+                            },
+                            data: maindata[n]
+                        }]
+                });
+            }
+            //]]>
+
             myChart.setOption(option);
         </script>
+
+
+        <div id="form_div" align="center">
+            <h:form id="form_style" style=" width: 880px">
+                <p:dataTable id="AuthorPublishfdata" var="authordata" value="#{authorAnalysis.authorPublishdata}"
+                             rows="10" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <p:column headerText="j_author" filterBy="#{authordata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
+                        <h:outputText value="#{authordata.get('j_author')}" />
+                    </p:column>
+
+                    <p:column headerText="PublishCount" filterBy="#{authordata.get('PublishCount')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
+                        <h:outputText value="#{authordata.get('PublishCount')}" />
+                    </p:column>
+
+                </p:dataTable>
+
+
+
+            </h:form>
+        </div>
+        <script>
+            function qclick() {
+                var zt = document.getElementById("form_div").style.display;
+                if (zt == "none") {
+                    document.getElementById("form_div").style.display = "block";
+                    document.getElementById("main").style.display = "none";
+                } else {
+                    document.getElementById("main").style.display = "block";
+                    document.getElementById("form_div").style.display = "none";
+                }
+
+            }
+
+        </script>
+
     </body>
 </html>

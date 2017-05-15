@@ -1,31 +1,65 @@
 
 .main{
-    margin-top: 16%;
-    width: 60%;
+    margin-top: 1%;
+    width: 50%;
     margin-left: 28%;
 }
 .row{
-    height:80px;
+    height:30px;
 }
 .zhi{
     font-family: "palatino linotype",palatino,serif;
     color: #5C5C5C;
-    font-size: 21px;
+    font-size: 16px;
 
 }
 .title{
     font-family: "palatino linotype",palatino,serif;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
     color:  #408080;
 }
 .row_left{
-    width: 40%;
-    float: left;
-    /*    text-align: center;*/
+    position: fixed;
+    left: 10%;
+
+
+}
+.row_center{
+    position:  fixed;
+    left: 40%;
+
+
 }
 .row_right{
-    width: 60%;
-    float: right;
-    /*text-align: center;*/
+    position:  fixed;
+    left: 70%;
+
 }
+
+
+
+
+
+
+.ui-datatable-tablewrapper tbody tr td {
+    
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+    font-size: 4px;
+
+}
+
+
+
+.ui-datatable-tablewrapper  tbody tr :hover{
+    overflow: visible;
+    white-space: normal;
+}
+

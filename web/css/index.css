@@ -28,8 +28,8 @@ html, body {
 #header {
     height: 55px;
     width: 100%;
-    /*background: #222222 url(../images/header_bg.png) repeat-x;*/
-    background:#252829;
+    background: #222222 url(../images/b2.jpg) repeat;
+    /*background:#252829;*/
 }
 
 #header h1.site_title, #header h2.section_title {
