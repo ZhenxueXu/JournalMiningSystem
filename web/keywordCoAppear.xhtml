@@ -17,7 +17,7 @@
     <body>
         <h:form>
             <p:growl id="error" showDetail="true"/>
-            <p:outputLabel for="minTimes" value="最小共现次数:"/>
+            <p:outputLabel for="minTimes" value="最小共现次数 : "/>
             <p:inputText id="minTimes" value="#{keywordCoAppearAnalysis.minTimes}" style=" width: 40px"/>             
             <p:commandButton value="分析" update="minTimes"   oncomplete="location.reload();"/>       
         </h:form>
@@ -30,9 +30,11 @@
             var app = {};
             option = null;
             option = {
-                title: {
-                   // text: '关键字共现分析'
-                },
+
+//                title: {
+//                    text: '关键字共现分析'
+//                },
+
                 tooltip: {},
                 //animationDurationUpdate: 0,
                 //animationEasingUpdate: 'quinticInOut',
