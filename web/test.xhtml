@@ -1,26 +1,30 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <meta charset="utf-8"/>
         <title>ECharts</title>
         <!-- 引入 echarts.js -->
-        <script src="js/echarts.js" charset="utf-8"></script>
+        <script src="js/echarts.js"></script>
+        <script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/echarts-graph-modularity.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/charts.css"/>
-         <link rel="stylesheet" type="text/css" href="css/tablestyle.css"/>
+        <script src="js/esl.js"></script>
     </h:head>
-    <h:body>              
-        <div id="form_div" align="center">
-        <h:form id="form_style" style=" width: 880px">
-            <h:commandButton value="TEST" action="#{refStatic.setAllData()}"/>
-        </h:form>
+    <body>
+        <div>
+            <p:slider maxValue="100"></p:slider>            
+                    <h:outputText id="displayRange" value="#{test2.minYear}and#{test2.maxYear}" /> 
+                    <p:slider for="txt1,txt2" display="displayRange" style="width: 400px; height: 40px" range="true" displayTemplate="{min}and{max}" minValue= "2005" maxValue="2018"/>
+                </p:panelGrid>
+                <h:inputHidden id="txt1" value="#{test2.minYear}"/>
+                <h:inputHidden id="txt2" value="#{test2.maxYear}"/>
+            </h:form>
         </div>
 
-
-
-
-    </h:body>
+    </body>
 </html>
+

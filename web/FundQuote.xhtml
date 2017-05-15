@@ -39,7 +39,7 @@
             </h:form>
         </div>
         <div>
-            <img type="image" src="../images/button2.png" width="110px" height="100px" onclick="ycit()"/>
+            <img type="image" src="../images/button2.png" width="110px" height="100px" onclick="qqclick()"/>
         </div>
 
         <script type="text/javascript" charset="utf-8" >
@@ -65,7 +65,7 @@
             option = {
                 baseOption: {
                     title: {
-                        text: '各年各级基金发文量',
+                        text: '各年基金被引次数',
                         x: 'center'
                     },
                     timeline: {
@@ -77,7 +77,7 @@
                         width: '87%',
                         data: timeLinedata
                     },
-                    toolbox: {
+  toolbox: {
                         feature: {
                             dataView: {
                                 show: true,
@@ -89,12 +89,23 @@
                                 show: true,
                                 title: '刷新'
                             },
+                            myTool: {
+                                show: true,
+                                title: '自定义扩展方法',
+                                icon: 'image://../images/table.png',
+                                onclick: function () {
+                                    qqclick()
+                                }
+                            },
                             saveAsImage: {
                                 show: true,
                                 title: '保存'
                             }
                         }
+
+
                     },
+
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -103,7 +114,7 @@
 
                     },
                     legend: {
-                        data: ['国家级基金发文量','省部级基金发文量'],
+                        data: ['基金总被引次数','篇均被引次数'],
                         x: '190px',
                         y: '14px'
 
@@ -114,19 +125,19 @@
                     },
                     yAxis: [{
                             type: 'value',
-                            name: '发文量',
+                            name: '篇均被引/次',
 
                             position: 'right',
 
                         }, {
                             type: 'value',
-                            name: '发文量',
+                            name: '总被引/次',
 
                             position: 'left'
                         }],
                     xAxis: [{
                             type: 'category',
-                            name: '年份',
+                            name: '基金',
                             axisTick: {
                                 alignWithLabel: true
                             },
@@ -159,7 +170,7 @@
                     },
 
                     series: [{
-                            name: '国家级基金发文量',
+                            name: '基金总被引次数',
                             type: 'bar',
                             barGap: 20,
                             yAxisIndex: 1,
@@ -173,7 +184,7 @@
                             data: maindata1[n]
                         },
                         {
-                            name: '省部级基金发文量',
+                            name: '篇均被引次数',
                             type: 'line',
                             barGap: 20,
                             label: {
@@ -194,7 +205,7 @@
         </script>
 
         <script>
-            function ycit()
+            function qqclick()
             {
                 var zt = document.getElementById("form_div").style.display;
                 if (zt == "none") {

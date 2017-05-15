@@ -16,6 +16,26 @@ public class Test2 implements Serializable {
     public Test2() {
     }
     private List<List<Double>> data;   //需要返回前端的数据
+    private int minYear = 2006;
+    private int maxYear = 2013;
+
+    public int getMinYear() {
+        return minYear;
+    }
+
+    public void setMinYear(int minYear) {
+        this.minYear = minYear;
+    }
+
+    public int getMaxYear() {
+        return maxYear;
+    }
+
+    public void setMaxYear(int maxYear) {
+        this.maxYear = maxYear;
+    }
+    
+    
 
     public void setAllData() {
         String[] address = {"武汉大学经济管理学院", "华侨大学计算机学院", "厦门大学计算机学院"};  //需要绘图的地址

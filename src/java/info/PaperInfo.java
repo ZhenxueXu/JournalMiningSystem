@@ -23,7 +23,7 @@ public class PaperInfo {
     private String othersCitation;
     private String[] authorList;
     private String[] keywordList;
-    private String[] fundList;
+    private Set<String> fundList;
     private String[] affiliationList;
 
     public PaperInfo() {
@@ -64,7 +64,7 @@ public class PaperInfo {
         this.keywordList = this.keyword.split(",");
     }
 
-    public String[] getFundList() {
+    public Set<String> getFundList() {
         setFundList();
         return fundList;
     }
@@ -73,15 +73,16 @@ public class PaperInfo {
         if (this.fund != null) {
             this.fund = this.fund.replaceAll("\\([^\\)]+\\)", "");
             this.fund = this.fund.replaceAll("[资助|资助~~]", "");
-            this.fundList = this.fund.split(",");
-            Set temp = new HashSet();
-            temp.addAll(Arrays.asList(this.fundList));
-            Object[] object = temp.toArray();
-            String[] str = new String[object.length];
-            for (int i = 0; i < object.length; i++) {
-                str[i] = object[i].toString();
+            String[] funds = this.fund.split(",");
+            Set<String> temp = new HashSet<>();
+            for (String item : funds) {
+                if (item.contains("基金")) {
+                    item = item.substring(0,item.indexOf("基金")+2);
+                }
+                temp.add(item);
             }
-            this.fundList = str;
+            
+            this.fundList = temp;
         }
 
     }

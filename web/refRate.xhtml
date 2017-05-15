@@ -1,12 +1,125 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <meta charset="utf-8"/>
+        <title>ECharts</title>
+        <!-- 引入 echarts.js -->
+        <script src="js/echarts.js" charset="utf-8"></script>
+        <script src="js/jquery-1.9.1.min.js" charset="utf-8"></script>
+        <script src="js/esl.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/charts.css"/>
+        <link rel="stylesheet" type="text/css" href="css/tablestyle.css"/>
     </h:head>
-    <h:body>
-        Hello from Facelets
-    </h:body>
-</html>
+    <body>
+        <div id="main" style="width: 1100px;height:520px; display: block"></div>
 
+
+        <div id="form_div" align="center" style=" display:  none">
+            <h:form id="form_style" style=" width: 880px" >
+                <p:dataTable id="AuthorReffdata" var="refdata" value="#{affiliationAnalysis.affRefData}"
+                             rows="10" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15" >
+
+                    <p:column headerText="科研机构" filterBy="#{refdata.get('j_address')}" sortBy="#{refdata.get('j_address')}" filterMatchMode="contains">
+                        <h:outputText value="#{refdata.get('j_address')}" />
+                    </p:column>
+                    <p:column headerText="被引次数" filterBy="#{refdata.get('refTimes')}" sortBy="#{refdata.get('refTimes')}" filterMatchMode="contains">
+                        <h:outputText value="#{refdata.get('refTimes')}" />
+                    </p:column>
+                    <p:column headerText="篇均被引次数" filterBy="#{refdata.get('avgTimes')}" sortBy="#{refdata.get('avgTimes')}" filterMatchMode="contains">
+                        <h:outputText value="#{refdata.get('avgTimes')}" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+            // 基于准备好的dom，初始化echarts实例
+            var dom = document.getElementById("main");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            var data = #{refStatic.option};
+            console.log(data);
+            option = {
+
+                tooltip: {
+                    
+                },
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+
+                        },
+                        restore: {
+                            show: true,
+                            title: '重置'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
+
+                        }
+                    }
+                },
+                title: [{
+                        text: '引文年代分布',                        
+                        left: 'center',
+                        textAlign: 'center'
+                    }],
+
+                xAxis: [{
+                        type: 'value',                        
+                        splitLine: {
+                            show: false
+                        }
+                    }],
+                yAxis: [{
+                        type: 'category',
+                        data: data.xAxis[0].data,
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 30
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    }],
+                series: [{
+                        type: 'bar',
+                        stack: 'chart',
+                        z: 3,
+                        label: {
+                            normal: {
+                                position: 'right',
+                                show: true
+                            }
+                        },
+                        data: data.series[0].data
+                    }, {
+                        type: 'pie',
+                        radius: [0, '25%'],
+                        center: ['75%', '27%'],
+                        label:{
+                            emphasis:{
+                                show:true,
+                                formatter:'{d}%'
+                            }
+                            
+                        },
+                        data: data.series[1].data
+                    }]
+            };
+
+            myChart.setOption(option);
+        </script>        
+    </body>
+</html>

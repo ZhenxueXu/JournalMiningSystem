@@ -10,15 +10,20 @@ package dataAnalysisBeans;
 
 import JDBCUtils.JDBCUtils;
 import com.github.abel533.echarts.axis.CategoryAxis;
+import com.github.abel533.echarts.code.Position;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.series.Graph;
+import com.github.abel533.echarts.series.force.Link;
+import com.github.abel533.echarts.series.force.Node;
+import com.github.abel533.echarts.style.itemstyle.Normal;
+import com.google.gson.Gson;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +42,7 @@ public class AuthorAnalysis implements Serializable {
     private ResultSet publish1;                      //发文量统计，格式（作者[string]，发文量[int]）
     private ResultSet publish2;                      //发文量完整数据，用于表格
     private ResultSet ref;                          //被引统计，格式（作者[string]，被引总计[int]）
-    private int min_h_index;                        //用于筛选核心作者的最低h指数
+    private int min_h_index = 5;                        //用于筛选核心作者的最低h指数
     private ResultSet co_publish;
     private GsonOption option1;
     private CategoryAxis xAxis1;
@@ -45,19 +50,40 @@ public class AuthorAnalysis implements Serializable {
     private GsonOption option2;
     private CategoryAxis xAxis2;
     private Bar bar2;
-    private List<Map> AuthorPublishdata ;
-
+    private List<Map> AuthorPublishdata;
+    private String minYear = "2010";
+    private String maxYear ="2015";
+   
 
     public AuthorAnalysis() {
         setAllData();
+        getHIdex();
     }
 
-    public void setMax_h_index(int min_h_index) {
+    public String getMinYear() {
+        return minYear;
+    }
+
+    public void setMinYear(String minYear) {
+        this.minYear = minYear;
+    }
+
+    public String getMaxYear() {
+        return maxYear;
+    }
+
+    public void setMaxYear(String maxYear) {
+        this.maxYear = maxYear;
+    }
+    
+    
+
+    public void setMin_h_index(int min_h_index) {
         this.min_h_index = min_h_index;
     }
 
     public void setAllData() {
-        min_h_index = 5;
+        min_h_index = 10;
         Connection conn = null;
         Statement stat = null;
         ResultSet local = null;
@@ -71,45 +97,6 @@ public class AuthorAnalysis implements Serializable {
             conn = JDBCUtils.getConn();
             stat = conn.createStatement();
             String sql;
-            //用于计算h指数
-            sql = "select j_author as 作者,paper_author.j_number as 论文编号,j_citation_frequency as 被引次数 "
-                    + " from journal_info,paper_author "
-                    + " where journal_info.j_number = paper_author.j_number "
-                    + " order by 作者,被引次数 DESC ";
-            local = stat.executeQuery(sql);
-            String currentAuthor = "";
-            int h_index = 0;
-            int row = 1;
-            Map<String, Integer> current = new HashMap<>();
-            while (local.next()) {
-                if (!local.getString(1).equals(currentAuthor)) {
-                    current.put(currentAuthor, h_index);
-                    currentAuthor = local.getString(1);
-                    row = 1;
-                    h_index = local.getInt(3) >= row ? 1 : 0;
-                    row++;
-                } else {
-                    if (local.getInt(3) >= row) {
-                        h_index = row++;
-                    }
-                }
-            }
-            current.put(currentAuthor, h_index);                //放入最后一个作者
-            hIndex = new ArrayList<>(current.entrySet());
-            Collections.sort(hIndex, (Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue() - o1.getValue());
-            /**
-             * 在此处对输出格式进一步处理 画图数据格式处理
-             */
-
-            sql = "call proce_core_author()";
-            local = stat.executeQuery(sql);                   //根据普赖斯公式选出的候选核心作者
-            core_author = new HashSet<>();
-            while (local.next()) {
-                if (current.get(local.getString(1)) >= min_h_index) {
-                    core_author.add(local.getString(1));
-                }
-            }
-
             //--start 发文量统计图---//
             sql = "select j_author as 作者, count(*) as 发文量 "
                     + " from journal_info a,paper_author b "
@@ -146,8 +133,8 @@ public class AuthorAnalysis implements Serializable {
                     + " group by b.j_author "
                     + " order by PublishCount desc";
             publish2 = stat.executeQuery(sql);
-           AuthorPublishdata = new ArrayList<>();
-           AuthorPublishdata = JDBCUtils.getResultList(publish2);
+            AuthorPublishdata = new ArrayList<>();
+            AuthorPublishdata = JDBCUtils.getResultList(publish2);
 
             //--start 被引统计 --//     
             sql = "select j_author as 作者, sum(j_citation_frequency) as 被引总计 "
@@ -190,9 +177,55 @@ public class AuthorAnalysis implements Serializable {
         option1.series(bar1);
 
     }
-    
-    public void getHIdex(){
-        
+
+    public void getHIdex() {
+
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet local = null;
+        String sql;
+        try {
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
+            sql = "select j_author as 作者,paper_author.j_number as 论文编号,j_citation_frequency as 被引次数 "
+                    + " from journal_info,paper_author "
+                    + " where journal_info.j_number = paper_author.j_number "
+                    + " order by 作者,被引次数 DESC ";
+            local = stat.executeQuery(sql);
+            String currentAuthor = "";
+            int h_index = 0;
+            int row = 1;
+            Map<String, Integer> current = new HashMap<>();
+            while (local.next()) {
+                if (!local.getString(1).equals(currentAuthor)) {
+                    current.put(currentAuthor, h_index);
+                    currentAuthor = local.getString(1);
+                    row = 1;
+                    h_index = local.getInt(3) >= row ? 1 : 0;
+                    row++;
+                } else {
+                    if (local.getInt(3) >= row) {
+                        h_index = row++;
+                    }
+                }
+            }
+            current.put(currentAuthor, h_index);                //放入最后一个作者
+            hIndex = new ArrayList<>(current.entrySet());
+            sql = "call proce_core_author()";
+            local = stat.executeQuery(sql);                   //根据普赖斯公式选出的候选核心作者
+            core_author = new HashSet<>();
+            while (local.next()) {
+                if (current.get(local.getString(1)) >= min_h_index) {
+                    core_author.add(local.getString(1));
+                }
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+            JDBCUtils.close(local, stat, conn);
+        }
+
     }
 
     public String getAuthorBeiYinData() {
@@ -209,6 +242,76 @@ public class AuthorAnalysis implements Serializable {
         return AuthorPublishdata;
     }
 
+    public String getHBar() {
+        Bar bar = new Bar();
+        CategoryAxis xAxis = new CategoryAxis();
+        GsonOption option = new GsonOption();
+        Collections.sort(hIndex, (Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) -> o2.getValue() - o1.getValue()); //根据h指数排序
+        for (Map.Entry<String, Integer> item : hIndex) {
+            xAxis.data(item.getKey());
+            bar.data(item.getValue());
+        }
+        option.xAxis(xAxis).series(bar);
+        return option.toString();
+    }
 
- 
+    public String getCoreAuthorInfo() {
+        Map<String, Map<String, Integer>> author_keyword = new HashMap();
+        Map<String, Integer> keywords = new HashMap<>();
+        Set<String> key = new HashSet<>();
+        Graph graph = new Graph();
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet rs = null;
+        String sql;
+        try {
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
+            sql = "select distinct j_orgin from journal_info";
+            rs = stat.executeQuery(sql);
+            String journalName ="";
+            if(rs.next()){
+                journalName = rs.getString(1);
+            }
+           
+            for (String author : core_author) {
+                Node node = new Node();
+                Normal normal=new Normal();
+                normal.show(true).position(Position.top);
+                node.name(author).symbolSize(25);
+                Link link = new Link();
+                link.source(journalName).target(author);
+                graph.data(node).links(link);
+                sql = "select j_author,keyword,count(*) "
+                        + "from paper_author,paper_keywords "
+                        + "where paper_author.j_number=paper_keywords.j_number and j_author = " + "'" + author + "' "
+                        + "group by j_author,keyword "
+                        + "order by count(*) desc";
+                rs = stat.executeQuery(sql);
+                keywords = new HashMap<>();
+                while (rs.next()) {
+                    keywords.put(rs.getString(2), rs.getInt(3));
+                    key.add(rs.getString(2));
+                    link = new Link();
+                    link.source(author).target(rs.getString(2));
+                    graph.links(link);
+                }
+                author_keyword.put(author, keywords);
+            }
+            for (String k : key) {
+                Node node = new Node();
+                node.name(k).symbolSize(2);
+                graph.data(node);
+            }
+
+        } catch (Exception e) {
+
+        } finally {
+            JDBCUtils.close(rs, stat, conn);
+        }
+
+        Gson gson = new Gson();
+        return gson.toJson(graph);
+    }
+
 }

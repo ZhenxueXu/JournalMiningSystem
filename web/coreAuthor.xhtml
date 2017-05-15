@@ -15,7 +15,7 @@
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100;height:520px;"></div>
+        <div id="main" style="width: 1100px;height:520px;"></div>
         <script type="text/javascript">
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
@@ -24,7 +24,8 @@
             option = null;
             option = {
                 title: {
-                    text: 'Graph 简单示例'
+                    text: '核心作者',
+                    left :'center'
                 },
                 tooltip: {},
                 //animationDurationUpdate: 0,
@@ -59,37 +60,49 @@
                         lineStyle: {
                             normal: {
                                 width: 0.5,
-                                curveness: 0.3,
                                 opacity: 0.7
                             }
                         },
                         label: {
                             normal: {
-                               show: true,
+                                show: true,
                                 position: 'top'
                             },
                             emphasis:{
                                 show:true,
                                 position:'top'
                             }
+                            
                         },
+//                        edgeLabel:{
+//                            normal:{
+//                                show:true,
+//                                position:'middle',
+//                                fromatter: function (params){
+//                                    return params.data.weight;
+//                                }
+//                            }
+//                            
+//                        },
+
                         force: {
-                            initLayout: 'none',
+                            initLayout: 'circular',
                             // repulsion: 20,
-                            edgeLength: 5,
-                            repulsion: 20,
-                            gravity: 0.3
+                            edgeLength: 10,
+                            repulsion: 50
+                                    //gravity: 0.1
                         },
                         data: [],
                         // links: [],
                         links: []
+
                     }
                 ]
             };
-            data = #{authorRelationship.data};
-            option.series[0].data = data.nodes;
-            option.series[0].links = data.links;
+            data = #{authorAnalysis.coreAuthorInfo};
             console.log(data);
+            option.series[0].data = data.data;
+            option.series[0].links = data.links;
             myChart.setOption(option);
 
 

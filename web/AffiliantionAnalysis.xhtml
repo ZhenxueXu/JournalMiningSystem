@@ -44,15 +44,12 @@
             var app = {};
             option = null;
             var data = #{affiliationAnalysis.option};
-            console.log(data);
             var myData = data.xAxis[0].data;
             //            var bar = data.series[0].data;
             var bar1 = data.series[2].data;
             var line = data.series[1].data;
             var timeLineData = new Array();
             var len = Math.ceil((myData.length) / 20);
-            console.log(len);
-            console.log(line.slice(0, 20));
             var i = 1;
             while (true) {
                 timeLineData[i - 1] = i;
@@ -62,8 +59,6 @@
 
                 i++;
             }
-            console.log(timeLineData);
-
 
 
             option = {
@@ -180,8 +175,6 @@
             };
             var n = 0;
             while (true) {
-
-
                 option.options.push({
                     xAxis: [{
                             type: 'category',

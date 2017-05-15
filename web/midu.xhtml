@@ -15,20 +15,25 @@
     </head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100;height:520px;"></div>
+        <div id="main" style="width: 1100px;height:520px;"></div>
         <script type="text/javascript">
-            // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
             var myChart = echarts.init(dom);
             var app = {};
             option = null;
+            var data = #{publishStatic.data};
+            var bar = data.series[3].data;
+            var mydata = data.xAxis[0].data;
+
             option = {
                 title: {
-                    text: 'Graph 简单示例'
+                    text: '各年篇密度',
+                    x: 'center'
+
                 },
-                tooltip: {},
-                //animationDurationUpdate: 0,
-                //animationEasingUpdate: 'quinticInOut',
+                tooltip: {
+                    trigger: 'axis'
+                },
                 toolbox: {
                     feature: {
                         dataView: {
@@ -36,61 +41,70 @@
                             readOnly: false,
                             title: '数据',
                             lang: ['数据视图', '关闭', '刷新']
+
+                        },
+                        magicType: {
+                            show: true,
+                            type: ['line', 'bar'],
+                            title : {
+                            line: '折线图切换',
+                            bar: '柱形图切换'
+                        }
+
                         },
                         restore: {
                             show: true,
-                            title: '刷新'
+                            title: '重置'
                         },
                         saveAsImage: {
                             show: true,
                             title: '保存'
+
                         }
                     }
                 },
-
-                series: [{
-                        type: 'graph',
-                        layout: 'force',
-                        modularity: true,
-                        roam: true,
-                        animation: true,
-                        draggable: false,
-                        focusNodeAdjacency: true,
-                        lineStyle: {
-                            normal: {
-                                width: 0.5,
-                                curveness: 0.3,
-                                opacity: 0.7
-                            }
+                grid: {
+                    containLabel: true
+                },
+                legend: {
+                    data: ['各年篇密度'],
+                    x: '200px',
+                    y: '14px'
+                },
+                xAxis: [{
+                        type: 'category',
+                        name: '年份',
+                        axisTick: {
+                            alignWithLabel: true
                         },
+                        axisLabel: {
+//                            rotate: -18,
+                            interval: 0
+                        },
+                        data: mydata
+                    }],
+                yAxis: [{
+                        type: 'value',
+                        name: '篇/页'
+
+                    }],
+                series: [{
+                        name: '各年篇密度',
+                        type: 'bar',
+                        barGap: 30,
+                        barWidth: '35%',
                         label: {
                             normal: {
-                               show: true,
+                                show: true,
                                 position: 'top'
-                            },
-                            emphasis:{
-                                show:true,
-                                position:'top'
                             }
                         },
-                        force: {
-                            initLayout: 'none',
-                            // repulsion: 20,
-                            edgeLength: 5,
-                            repulsion: 20,
-                            gravity: 0.3
-                        },
-                        data: [],
-                        // links: [],
-                        links: []
-                    }
-                ]
+                        data: bar
+                    }]
             };
-            data = #{authorRelationship.data};
-            option.series[0].data = data.nodes;
-            option.series[0].links = data.links;
-            console.log(data);
             myChart.setOption(option);
+
+
 
 
 

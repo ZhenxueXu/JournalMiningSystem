@@ -4,17 +4,17 @@ package info;
 import com.github.abel533.echarts.series.force.Link;
 
 public class GraphLink extends Link{
-    private float value;
+    private int value;
 
     public GraphLink() {
         super();
     }
 
-    public float getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(float value) {
+    public void setValue(int value) {
         this.value = value;
     }
     
