@@ -59,8 +59,7 @@ public class KeywordAnalysis implements Serializable {
         this.minYear = minYear;
     }
 
-    public String getMaxYear() {
-        getAllData();
+    public String getMaxYear() {        
         return maxYear;
     }
 

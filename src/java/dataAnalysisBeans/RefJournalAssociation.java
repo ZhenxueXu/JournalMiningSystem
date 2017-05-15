@@ -28,14 +28,15 @@ public class RefJournalAssociation implements Serializable {
     private List<List<String>> data;
     private List<AssociationRules> arlist = new ArrayList<>();
     private GsonOption option;
-    private double min_supCount = 0.1;
+    private double min_supCount = 0.15;
     private double min_confidence = 0.6;
     int total;
-    List<List<List<String>>> frequentItemsets = new ArrayList<>();       //频繁项集
-    List<Map<List<String>, Integer>> supAcount = new ArrayList<>();      //支持度计数
+    List<List<List<String>>> frequentItemsets ;       //频繁项集
+    List<Map<List<String>, Integer>> supAcount ;      //支持度计数
 
     public RefJournalAssociation() {
-        setData();
+         
+        
     }
 
     public double getMin_supCount() {
@@ -46,7 +47,7 @@ public class RefJournalAssociation implements Serializable {
         this.min_supCount = min_supCount;
     }
 
-    public double getMin_confidence() {
+    public double getMin_confidence() {       
         return min_confidence;
     }
 
@@ -95,7 +96,7 @@ public class RefJournalAssociation implements Serializable {
         apriori(min_supCount);
     }
 
-    public String apriori(double min_sup) {
+    public void apriori(double min_sup) {
 
         List<List<String>> L1 = new ArrayList<>();                           //一项频繁集                         
         Map<List<String>, Integer> count1 = new HashMap<>();                  //一项集支持度计数
@@ -126,6 +127,8 @@ public class RefJournalAssociation implements Serializable {
         } finally {
             JDBCUtils.close(rs, stat, conn);
         }
+        supAcount = new ArrayList<>(); 
+        frequentItemsets = new ArrayList<>();
         frequentItemsets.add(L1);
         supAcount.add(count1);
         int len = L1.size();
@@ -161,7 +164,7 @@ public class RefJournalAssociation implements Serializable {
             }
         }
         produceAssociationRules(min_confidence);
-        return null;
+        
     }
 
     public List<List<String>> getNextCandidateSet(List<List<String>> preFrequentSet) {
@@ -260,6 +263,7 @@ public class RefJournalAssociation implements Serializable {
     }
 
     public String getOption() {
+        setData();
         Gson gson = new Gson();
         System.out.println(gson.toJson(option));
         return gson.toJson(option);
