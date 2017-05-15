@@ -41,6 +41,7 @@ public class AuthorAnalysis implements Serializable {
     private Set<String> core_author;                //核心作者
     private ResultSet publish1;                      //发文量统计，格式（作者[string]，发文量[int]）
     private ResultSet publish2;                      //发文量完整数据，用于表格
+    private ResultSet Quote;
     private ResultSet ref;                          //被引统计，格式（作者[string]，被引总计[int]）
     private int min_h_index = 5;                        //用于筛选核心作者的最低h指数
     private ResultSet co_publish;
@@ -51,6 +52,7 @@ public class AuthorAnalysis implements Serializable {
     private CategoryAxis xAxis2;
     private Bar bar2;
     private List<Map> AuthorPublishdata;
+     private List<Map> AuthorQuotedata;
     private String minYear = "2010";
     private String maxYear ="2015";
    
@@ -164,6 +166,15 @@ public class AuthorAnalysis implements Serializable {
             }
             bar1.data(data);
             xAxis1.data(xdata);
+                        //--start 被引量统计表---//
+            sql = "select j_author as 作者, sum(j_citation_frequency) as 被引总计 "
+                    + " from journal_info,paper_author "
+                    + " where journal_info.j_number = paper_author.j_number "
+                    + " group by paper_author.j_author"
+                    + " order by 被引总计 desc ";
+            Quote = stat.executeQuery(sql);
+            AuthorQuotedata = new ArrayList<>();
+            AuthorQuotedata = JDBCUtils.getResultList(Quote);
             // -- star 合作发文量 --//
             sql = "select 合作人数 , count(*) as 发文量 from ("
                     + "     select count(*) as 合作人数, a.j_number as 编号"
@@ -250,6 +261,11 @@ public class AuthorAnalysis implements Serializable {
         return option2.toString();
     }
 
+    public List<Map> getAuthorQuotedata() {
+        return AuthorQuotedata;
+    }
+
+ 
     public List<Map> getAuthorPublishdata() {
         return AuthorPublishdata;
     }

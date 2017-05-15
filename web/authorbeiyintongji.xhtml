@@ -53,12 +53,14 @@
 
                     toolbox: {
                         feature: {
-                            dataView: {
+                            myTool: {
                                 show: true,
-                                readOnly: false,
-                                title: '数据',
-                                lang: ['数据视图', '关闭', '刷新']
+                                title: '数据模式',
+                                icon: 'image://../images/table.png',
+                                onclick: function () {
+                                    qclick()
 
+                                }
                             },
                             magicType: {
                                 show: true,
@@ -155,24 +157,25 @@
 
         <div id="form_div" align="center">
             <h:form id="form_style" style=" width: 880px">
-                <p:dataTable id="AuthorPublishfdata" var="authordata" value="#{authorAnalysis.authorPublishdata}"
+                <p:dataTable id="qdata" var="authordata" value="#{authorAnalysis.authorQuotedata}"
                              rows="10" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
 
-                    <p:column headerText="j_author" filterBy="#{authordata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
+                    <p:column headerText="作者" filterBy="#{authordata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
                         <h:outputText value="#{authordata.get('j_author')}" />
                     </p:column>
 
-                    <p:column headerText="PublishCount" filterBy="#{authordata.get('PublishCount')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
-                        <h:outputText value="#{authordata.get('PublishCount')}" />
+                    <p:column headerText="被引量" filterBy="#{authordata.get('被引总计')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
+                        <h:outputText value="#{authordata.get('被引总计')}" />
                     </p:column>
 
                 </p:dataTable>
 
 
-
+ 
             </h:form>
+             <a href="#" ><img  type="image" src="../images/skip.png" width="25px" height="25px"  onclick="qclick()"/></a>
         </div>
         <script>
             function qclick() {

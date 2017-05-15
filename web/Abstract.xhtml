@@ -50,78 +50,54 @@ and open the template in the editor.
             </div> 
         </div>
         <div id="tabel">
-            <h:form id="form_style" style=" width: 100%; height: 100%">
+            <h:form id="form_style" style=" width: 99%; height: 100%">
                 <p:dataTable id="alldata" var="tabledata" value="#{informationShow.tableData}"
-                             rows="10" paginator="true" paginatorPosition="bottom"
+                             rows="15" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15"  widgetVar="stable"
+                             rowsPerPageTemplate="30,40,50"  widgetVar="stable"
                              emptyMessage="未找到相关信息" filteredValue="#{informationShow.tableData}">
 
 
                     <f:facet name="header">
-                        <p:outputPanel>
+                        <p:outputPanel >
                             <h:outputText value="Search all fields:" />
                             <p:inputText id="globalFilter" onchange="PF('stable').filter()"  style="width:150px" placeholder="Enter keyword"/>
                         </p:outputPanel>
                     </f:facet>
-                    <p:column  headerText="ID" style=" width: 25px; text-align:  center ">
+                    <p:column  headerText="ID" style="width: 5px; padding: 1px; text-align:  center;font-size: 14px">
                         <h:outputText  value="#{tabledata.get('id')}" />
                     </p:column>
-                    <p:column style=" width: 100px; " headerText="作者" filterBy="#{tabledata.get('authors')}" sortBy="#{tabledata.get('authors')}" filterMatchMode="contains" >
+                    <p:column  headerText="作者" style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px" >
                         <h:outputText  value="#{tabledata.get('authors')}" />
                     </p:column>
-                    <p:column id="t3" headerText="标题" filterBy="#{tabledata.get('title')}" sortBy="#{tabledata.get('title')}" filterMatchMode="startsWith">
+                    <p:column id="t3" headerText="标题" style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('title')}" />
                     </p:column>
-                    <p:column id="t4" headerText="年份" sortBy="#{tabledata.get('year')}" filterMatchMode="startsWith">
+                    <p:column id="t4" headerText="年份"  style="width: 5px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('year')}" />
                     </p:column>
-                    <p:column id="t5" headerText="页数">
+                    <p:column id="t5" headerText="页数" style="width: 5px; padding: 1px; text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('pages')}" />
                     </p:column>
-                    <p:column id="t6" headerText="他引次数" sortBy="#{tabledata.get('others')}" filterMatchMode="startsWith">
+                    <p:column id="t6" headerText="他引次数" style="width: 5px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('others')}" />
                     </p:column>
-                    <p:column id="t7" headerText="被引次数" sortBy="#{tabledata.get('times')}" filterMatchMode="startsWith">
+                    <p:column id="t7" headerText="被引次数" style="width: 5px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('times')}" />
                     </p:column>
-                    <p:column id="t8" headerText="关键词" filterBy="#{tabledata.get('keywords')}" sortBy="#{tabledata.get('keywords')}" filterMatchMode="startsWith">
+                    <p:column id="t8" headerText="关键词" style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('keywords')}" />
                     </p:column>
-                    <p:column id="t9" headerText="摘要">
+                    <p:column id="t9" headerText="摘要" style="width: 50px; padding: 1px; text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('abstract')}" />
                     </p:column>
-                    <p:column id="t10" headerText="基金" filterBy="#{tabledata.get('funds')}" sortBy="#{tabledata.get('funds')}" filterMatchMode="startsWith">
+                    <p:column id="t10" headerText="基金" style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('funds')}" />
                     </p:column>
-                    <p:column id="t11" headerText="地址" filterBy="#{tabledata.get('address')}" sortBy="#{tabledata.get('address')}" filterMatchMode="startsWith">
+                    <p:column id="t11" headerText="地址" style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('address')}" />
                     </p:column>
                 </p:dataTable>
-                <h:commandButton value="Export as Excel">
-                                 <p:dataExporter type="xls" target="alldata" fileName="cars"/>
-                </h:commandButton>
-
-
-                <h:commandLink>
-                    <p:graphicImage name="/../images/table.png" width="24"/>
-                    <p:dataExporter type="xls" target="alldata" fileName="cars" />
-                </h:commandLink>
-
-                <h:commandLink>
-                    <p:graphicImage name="../images/table.png" width="24"/>
-                    <p:dataExporter type="pdf" target="alldata" fileName="cars"/>
-                </h:commandLink>
-
-                <h:commandLink>
-                    <p:graphicImage name="../images/table.png" width="24"/>
-                    <p:dataExporter type="csv" target="alldata" fileName="cars" />
-                </h:commandLink>
-
-                <h:commandLink>
-                    <p:graphicImage name="../images/table.png" width="24"/>
-                    <p:dataExporter type="xml" target="alldata" fileName="cars" />
-                </h:commandLink>
             </h:form>
 
         </div>
