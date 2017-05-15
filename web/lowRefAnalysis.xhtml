@@ -17,8 +17,8 @@
     <body>
          <h:form>
             <p:growl id="error" showDetail="true"/>
-            <p:outputLabel for="minTimes" value="最小引用频次:"/>
-            <p:inputText id="minTimes" value="#{highRefAnalysis.minTimes}" style=" width: 40px"/>             
+            <p:outputLabel for="minTimes" value="最大引用频次:"/>
+            <p:inputText id="minTimes" value="#{lowRefAnalysis.maxTimes}" style=" width: 40px"/>             
             <p:commandButton value="分析" update="minTimes"   oncomplete="location.reload();"/>       
         </h:form>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -73,7 +73,7 @@
                 },
                 options: []
             };
-            data = #{highRefAnalysis.data};
+            data = #{lowRefAnalysis.data};
             for (var i = 0; i < 6; i++) {
                 option.options.push({
                     series: [{

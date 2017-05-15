@@ -31,6 +31,17 @@ public class AuthorRelationship implements Serializable {
     private List<GraphLink> links;
     private List<Node> nodes;
     private Map<String,List> graphData;
+    private int minTime = 20;
+
+    public int getMinTime() {
+        return minTime;
+    }
+
+    public void setMinTime(int minTime) {
+        this.minTime = minTime;
+    }
+    
+    
 
     public AuthorRelationship() {
     }
@@ -54,7 +65,7 @@ public class AuthorRelationship implements Serializable {
                     + "from paper_author as a,journal_info as b "
                     + "where a.j_number = b.j_number "                 
                     + "group by a.j_author "
-//                    + "having times>1"
+                    + "having times>"+minTime +" "
                     + "order by times desc";
             rs = stat.executeQuery(sql);
             int max = -1;

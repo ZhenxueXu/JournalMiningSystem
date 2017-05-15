@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package dataAnalysisBeans;
 
 import JDBCUtils.JDBCUtils;
@@ -7,34 +12,37 @@ import com.google.gson.Gson;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-@Named(value = "highRefAnalysis")
+/**
+ *
+ * @author Think
+ */
+@Named(value = "lowRefAnalysis")
 @SessionScoped
-public class HighRefAnalysis implements Serializable {
+public class LowRefAnalysis implements Serializable {
 
-    private int minTimes = 20;
+    private int maxTimes = 5;
     private List<List<WordCloudData>> data;
     private GsonOption option;
-
-    public HighRefAnalysis() {
-        
-
+    
+    public LowRefAnalysis() {
     }
 
-    public int getMinTimes() {
+    public int getMaxTimes() {
         setData();
-        return minTimes;
+        return maxTimes;
     }
 
-    public void setMinTimes(int minTimes) {
-        this.minTimes = minTimes;
+    public void setMaxTimes(int maxTimes) {
+        this.maxTimes = maxTimes;
     }
     
-
-    public void setData() {
+     public void setData() {
         Connection conn = null;
         Statement stat = null;
         ResultSet rs = null;
@@ -46,7 +54,7 @@ public class HighRefAnalysis implements Serializable {
             stat = conn.createStatement();
             sql = "select keyword,count(*) "
                     + "from journal_info,paper_keywords "
-                    + "where j_citation_frequency>=" + minTimes + "  and journal_info.j_number = paper_keywords.j_number "
+                    + "where j_citation_frequency<=" + maxTimes + "  and journal_info.j_number = paper_keywords.j_number "
                     + "group by keyword "
                     + "order by count(*) desc ";
             rs = stat.executeQuery(sql);
@@ -57,7 +65,7 @@ public class HighRefAnalysis implements Serializable {
             data.add(list);
             sql = "select j_author,count(*) "
                     + "from journal_info,paper_author "
-                    + "where j_citation_frequency>=" + minTimes + "  and journal_info.j_number = paper_author.j_number  "
+                    + "where j_citation_frequency<=" + maxTimes + "  and journal_info.j_number = paper_author.j_number  "
                     + "group by j_author "
                     + "order by count(*) desc";
             rs = stat.executeQuery(sql);
@@ -69,7 +77,7 @@ public class HighRefAnalysis implements Serializable {
 
             sql = "select j_fund,count(*) "
                     + "from journal_info,paper_fund "
-                    + "where j_citation_frequency>=" + minTimes + "  and journal_info.j_number = paper_fund.j_number "
+                    + "where j_citation_frequency<=" + maxTimes + "  and journal_info.j_number = paper_fund.j_number "
                     + "group by j_fund "
                     + "order by count(*) desc";
             rs = stat.executeQuery(sql);
@@ -81,7 +89,7 @@ public class HighRefAnalysis implements Serializable {
 
             sql = "select j_address,count(*) "
                     + "from journal_info,paper_address "
-                    + "where j_citation_frequency>=" + minTimes + "  and journal_info.j_number = paper_address.j_number "
+                    + "where j_citation_frequency<=" + maxTimes + "  and journal_info.j_number = paper_address.j_number "
                     + "group by j_address "
                     + "order by count(*) desc";
             rs = stat.executeQuery(sql);
@@ -92,7 +100,7 @@ public class HighRefAnalysis implements Serializable {
             data.add(list);
             sql = "select r_year,count(*) as times "
                     + "from paper_references,journal_info "
-                    + "where paper_references.j_number = journal_info.j_number and journal_info.j_citation_frequency >=" + minTimes + "  and r_year<> 'null' "
+                    + "where paper_references.j_number = journal_info.j_number and journal_info.j_citation_frequency <=" + maxTimes + "  and r_year<> 'null' "
                     + "group by r_year "
                     + "order by times desc ";
             rs = stat.executeQuery(sql);
@@ -104,7 +112,7 @@ public class HighRefAnalysis implements Serializable {
 
             sql = "select r_journal,count(*) "
                     + "from paper_references,journal_info "
-                    + "where paper_references.j_number = journal_info.j_number and journal_info.j_citation_frequency >=" + minTimes + " and r_journal<>'' "
+                    + "where paper_references.j_number = journal_info.j_number and journal_info.j_citation_frequency <=" + maxTimes + " and r_journal<>'' "
                     + "group by r_journal "
                     + "order by count(*) desc";
             rs = stat.executeQuery(sql);
@@ -142,7 +150,5 @@ public class HighRefAnalysis implements Serializable {
         Gson gson = new Gson();
         return gson.toJson(data);
     }
-
     
-
 }

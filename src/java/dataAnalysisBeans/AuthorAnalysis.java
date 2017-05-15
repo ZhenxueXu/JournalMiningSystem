@@ -83,6 +83,11 @@ public class AuthorAnalysis implements Serializable {
         this.min_h_index = min_h_index;
     }
 
+    public int getMin_h_index() {
+        return min_h_index;
+    }
+    
+
     public void setAllData() {
         min_h_index = 10;
         Connection conn = null;
@@ -189,6 +194,7 @@ public class AuthorAnalysis implements Serializable {
 
     }
 
+    Map<String, Integer> current;
     public void getHIdex() {
 
 
@@ -207,7 +213,7 @@ public class AuthorAnalysis implements Serializable {
             String currentAuthor = "";
             int h_index = 0;
             int row = 1;
-            Map<String, Integer> current = new HashMap<>();
+            current = new HashMap<>();
             while (local.next()) {
                 if (!local.getString(1).equals(currentAuthor)) {
                     current.put(currentAuthor, h_index);
@@ -222,7 +228,24 @@ public class AuthorAnalysis implements Serializable {
                 }
             }
             current.put(currentAuthor, h_index);                //放入最后一个作者
-            hIndex = new ArrayList<>(current.entrySet());
+            hIndex = new ArrayList<>(current.entrySet());           
+
+        } catch (Exception e) {
+
+        } finally {
+            JDBCUtils.close(local, stat, conn);
+        }
+
+    }
+    
+    public void setCoreAuthor(){
+         Connection conn = null;
+        Statement stat = null;
+        ResultSet local = null;
+        String sql;
+        try{
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
             sql = "call proce_core_author()";
             local = stat.executeQuery(sql);                   //根据普赖斯公式选出的候选核心作者
             core_author = new HashSet<>();
@@ -231,13 +254,13 @@ public class AuthorAnalysis implements Serializable {
                     core_author.add(local.getString(1));
                 }
             }
-
-        } catch (Exception e) {
-
-        } finally {
+            
+        }catch(Exception e){
+            
+        }finally{
             JDBCUtils.close(local, stat, conn);
         }
-
+        
     }
 
     public String getAuthorBeiYinData() {
@@ -268,6 +291,7 @@ public class AuthorAnalysis implements Serializable {
     }
 
     public String getCoreAuthorInfo() {
+        setCoreAuthor();
         Map<String, Map<String, Integer>> author_keyword = new HashMap();
         Map<String, Integer> keywords = new HashMap<>();
         Set<String> key = new HashSet<>();
