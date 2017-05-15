@@ -32,7 +32,7 @@ public class InformationShow implements Serializable {
     }
     
     private  List<Map> tableData = new ArrayList<>();
-    public List<Map> getTable() {
+    public List<Map> getTableData() {
         Connection conn = null;
         Statement stat = null;
         ResultSet rs = null;

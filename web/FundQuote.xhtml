@@ -34,13 +34,12 @@
                     <p:column headerText="发文量" filterBy="#{quotedata.get('篇均被引次数')}" sortBy="#{quotedata.get('篇均被引次数')}" filterMatchMode="startsWith">
                         <h:outputText value="#{quotedata.get('篇均被引次数')}" />
                     </p:column>
-
                 </p:dataTable>
             </h:form>
+            <a href="#" ><img  type="image" src="../images/skip.png" width="25px" height="25px"  onclick="qclick()"/></a>
+
         </div>
-        <div>
-            <img type="image" src="../images/button2.png" width="110px" height="100px" onclick="ycit()"/>
-        </div>
+
 
         <script type="text/javascript" charset="utf-8" >
             //<![CDATA[
@@ -89,11 +88,21 @@
                                 show: true,
                                 title: '刷新'
                             },
+                            myTool: {
+                                show: true,
+                                title: '自定义扩展方法',
+                                icon: 'image://../images/table.png',
+                                onclick: function () {
+                                    qclick()
+                                }
+                            },
                             saveAsImage: {
                                 show: true,
                                 title: '保存'
                             }
                         }
+
+
                     },
                     tooltip: {
                         trigger: 'axis',
@@ -103,7 +112,7 @@
 
                     },
                     legend: {
-                        data: ['国家级基金发文量','省部级基金发文量'],
+                        data: ['国家级基金发文量', '省部级基金发文量'],
                         x: '190px',
                         y: '14px'
 
@@ -115,13 +124,10 @@
                     yAxis: [{
                             type: 'value',
                             name: '发文量',
-
                             position: 'right',
-
                         }, {
                             type: 'value',
                             name: '发文量',
-
                             position: 'left'
                         }],
                     xAxis: [{
@@ -137,7 +143,6 @@
                                     return name.length > 8 ? name.substr(0, 8) + "..." : name;
                                 }
                             },
-
                             data: []//myData
                         }],
                     series: [],
@@ -157,7 +162,6 @@
                         },
                         data: xdata[n]
                     },
-
                     series: [{
                             name: '国家级基金发文量',
                             type: 'bar',
@@ -169,7 +173,6 @@
                                     position: 'top'
                                 }
                             },
-
                             data: maindata1[n]
                         },
                         {
@@ -192,10 +195,8 @@
 
             myChart.setOption(option);
         </script>
-
         <script>
-            function ycit()
-            {
+            function qclick() {
                 var zt = document.getElementById("form_div").style.display;
                 if (zt == "none") {
                     document.getElementById("form_div").style.display = "block";
@@ -206,10 +207,8 @@
                 }
 
             }
+
         </script>
-
-
-
 
     </h:body>
 </html>
