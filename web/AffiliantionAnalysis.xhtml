@@ -36,6 +36,7 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
+              <a href="#" ><img  type="image" src="../images/skip.png" width="25px" height="25px"  onclick="qclick()"/></a>
         </div>
         <script type="text/javascript" charset="utf-8">
             // 基于准备好的dom，初始化echarts实例
@@ -83,11 +84,14 @@
                     },
                     toolbox: {
                         feature: {
-                            dataView: {
+                            myTool: {
                                 show: true,
-                                readOnly: false,
-                                title: '数据',
-                                lang: ['数据视图', '关闭', '刷新']
+                                title: '数据模式',
+                                icon: 'image://../images/table.png',
+                                onclick: function () {
+                                    qclick()
+
+                                }
                             },
                             restore: {
                                 show: true,
@@ -136,7 +140,20 @@
 
                         }
                     ],
-                    series: [{
+                    series: [
+                        {
+                            name: '机构被引总次数',
+                            type: 'bar',
+                            stack: '总量',
+                            barGap: 20,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top'
+                                }
+                            },
+                            data: []//bar1
+                        }, {
                             name: '机构被引篇均次数',
                             type: 'line',
                             yAxisIndex: 1,
@@ -156,18 +173,6 @@
                                     shadowOffsetY: 10
                                 }
                             }
-                        }, {
-                            name: '机构被引总次数',
-                            type: 'bar',
-                            stack: '总量',
-                            barGap: 20,
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top'
-                                }
-                            },
-                            data: []//bar1
                         }]
                 },
                 options: []
@@ -189,8 +194,19 @@
                             data: myData.slice(n * 20, (n + 1) * 20)
                         }],
 
-                    series: [
-                         {
+                    series: [{
+                            name: '机构被引总次数',
+                            type: 'bar',
+                            barGap: 20,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top'
+                                }
+                            },
+                            data: bar1.slice(20 * n, (n + 1) * 20)
+                        },
+                        {
                             name: '机构被引篇均次数',
                             type: 'line',
                             yAxisIndex: 1,
@@ -209,17 +225,6 @@
                                     shadowOffsetY: 10
                                 }
                             }
-                        },{
-                            name: '机构被引总次数',
-                            type: 'bar',
-                            barGap: 20,
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top'
-                                }
-                            },
-                            data: bar1.slice(20 * n, (n + 1) * 20)
                         }]
                 });
 
@@ -230,6 +235,22 @@
                 n++;
             }
             myChart.setOption(option);
-        </script>        
+        </script>   
+
+
+        <script>
+            function qclick() {
+                var zt = document.getElementById("form_div").style.display;
+                if (zt == "none") {
+                    document.getElementById("form_div").style.display = "block";
+                    document.getElementById("main").style.display = "none";
+                } else {
+                    document.getElementById("main").style.display = "block";
+                    document.getElementById("form_div").style.display = "none";
+                }
+
+            }
+
+        </script>
     </body>
 </html>

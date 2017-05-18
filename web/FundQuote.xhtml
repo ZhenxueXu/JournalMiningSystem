@@ -36,10 +36,9 @@
                     </p:column>
                 </p:dataTable>
             </h:form>
-        </div>
-        <div>
             <a href="#" ><img  type="image" src="../images/skip.png" width="25px" height="25px"  onclick="qclick()"/></a>
         </div>
+     
 
 
         <script type="text/javascript" charset="utf-8" >
@@ -77,36 +76,31 @@
                         width: '87%',
                         data: timeLinedata
                     },
-  toolbox: {
+                    toolbox: {
                         feature: {
-                            dataView: {
-                                show: true,
-                                readOnly: false,
-                                title: '数据',
-                                lang: ['数据视图', '关闭', '刷新']
-                            },
-                            restore: {
-                                show: true,
-                                title: '刷新'
-                            },
                             myTool: {
                                 show: true,
-                                title: '自定义扩展方法',
+                                title: '数据模式',
                                 icon: 'image://../images/table.png',
                                 onclick: function () {
-                                    qqclick()
+                                    qclick()
 
                                 }
                             },
+
+          
+                            restore: {
+                                show: true,
+                                title: '重置'
+                            },
+
                             saveAsImage: {
                                 show: true,
                                 title: '保存'
+
                             }
                         }
-
-
                     },
-
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -116,9 +110,7 @@
                     },
                     legend: {
 
-                        data: ['基金总被引次数','篇均被引次数'],
-
-         
+                        data: ['基金总被引次数', '篇均被引次数'],
 
                         x: '190px',
                         y: '14px'
@@ -131,14 +123,13 @@
                     yAxis: [{
                             type: 'value',
 
-                      name: '篇均被引/次',
+                            name: '篇均被引/次',
 
                             position: 'right',
                         }, {
                             type: 'value',
 
                             name: '总被引/次',
-
 
                             position: 'left'
                         }],
