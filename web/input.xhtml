@@ -10,7 +10,8 @@
     <h:body style=" width: 95%; height: 100%">
         <div  align="center">
             <h:form >
-                <p:fileUpload  fileUploadListener="#{uploadFileBean.handleFileUpload}" mode="advanced" dragDropSupport="false" update="messages"  previewWidth="60"  style=" background-color:  #2F4F4F; background-image: none; color:  #2F4F4F; font-size: 15px"  cancelLabel="取消" uploadLabel="上传" label="选择"  />
+                <p:fileUpload  fileUploadListener="#{uploadFileBean.handleFileUpload}" mode="advanced" dragDropSupport="false" update="messages"  previewWidth="60" 
+                               style=" background-color:  #2F4F4F; background-image: none; color:  #2F4F4F; font-size: 15px"  cancelLabel="取消" uploadLabel="上传" label="选择"  />
                 <p:growl id="messages" showDetail="true" /><br/>
                 <h:commandButton value="解析文件到数据库"  action="#{uploadFileBean.fileToDB()}" type="submit" style=" font-size: 15px; height: 30px; width: 150px"/>
             </h:form>
