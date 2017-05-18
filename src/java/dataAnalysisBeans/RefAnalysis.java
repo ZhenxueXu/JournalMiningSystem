@@ -60,70 +60,6 @@ public class RefAnalysis implements Serializable {
                 xAxis.data(year_citation.getString(1));
                 line.data(year_citation.getInt(2));
             }
-
-            //频次分布图数据处理
-            sql = "select j_number,j_title,j_citation_frequency from journal_info order by j_citation_frequency  desc limit 1";
-            local = stat.executeQuery(sql);
-            int max = 1;
-            if (local.next()) {
-                max = local.getInt(3);
-
-            }
-            int i = 1;
-            int group = 1;
-
-            if (max <= 100) {
-                while (max % 5 != 0) {
-                    max++;
-                }
-                group = max / 5;
-                for (int j = 0; j < max; j = j + 5) {
-                    if (j == 0) {
-                        Axis.data("0-5");
-                    } else {
-                        Axis.data((j + 1) + "-" + (j + 5));
-                    }
-                }
-
-            } else if (max > 100 && max <= 200) {
-                while (max % 10 != 0) {
-                    max++;
-                }
-                group = max / 10;
-                for (int j = 0; j < max; j = j + 10) {
-                    if (j == 0) {
-                        Axis.data("0-10");
-                    } else {
-                        Axis.data((j + 1) + "-" + (j + 10));
-                    }
-                }
-            } else {
-                while (max % 20 != 0) {
-                    max++;
-                }
-                group = max / 20;
-                for (int j = 0; j < max; j = j + 20) {
-                    if (j == 0) {
-                        Axis.data("0-20");
-                    } else {
-                        Axis.data((j + 1) + "-" + (j + 20));
-                    }
-                }
-            }
-            times = new int[group];
-            sql = "select j_number,j_title,j_citation_frequency from journal_info order by j_citation_frequency ";  //用来处理频次分布，高引，低引
-            citationSort = stat.executeQuery(sql);
-            while (citationSort.next()) {
-                if (max <= 100) {
-                    times[(citationSort.getInt(3) - 1) / 5]++;
-                } else if (max > 100 && max <= 200) {
-                    times[(citationSort.getInt(3) - 1) / 10]++;
-                } else {
-                    times[(citationSort.getInt(3) - 1) / 20]++;
-                }
-                //line1.data(citationSort.getInt(2));
-            }
-
         } catch (Exception e) {
 
         } finally {
@@ -139,6 +75,39 @@ public class RefAnalysis implements Serializable {
         option2.xAxis(Axis).series(pie);
         System.out.println(option2.toString());
 
+    }
+
+    public String getFrequency() {
+        Connection conn = null;
+        Statement stat = null;
+        ResultSet rs = null;
+        String sql;
+        CategoryAxis xAxis = new CategoryAxis();
+        Line line = new Line();
+        GsonOption option = new GsonOption();
+        try {
+            conn = JDBCUtils.getConn();
+            stat = conn.createStatement();
+            sql = "select j_citation_frequency,count(*) "
+                    + "from journal_info "
+                    + "group by j_citation_frequency "
+                    + "order by j_citation_frequency ";
+            rs = stat.executeQuery(sql);
+            while(rs.next()){
+                xAxis.data(rs.getInt(1));
+                line.data(rs.getInt(2));
+            }
+            option.series(line).xAxis(xAxis);
+
+        } catch (Exception e) {
+
+        } finally {
+            JDBCUtils.close(rs, stat, conn);
+        }
+       
+        
+
+        return option.toString();
     }
 
     public String getBoxdata() {
@@ -186,7 +155,7 @@ public class RefAnalysis implements Serializable {
         int count = 0;
         List<List<Integer>> outitem = new ArrayList<>();
         for (List<Integer> item : boxdata) {
-            
+
             List<Double> boxitem = new ArrayList<>();
             if (item.size() < 5) {
                 //utitem.addAll(item);
@@ -200,33 +169,33 @@ public class RefAnalysis implements Serializable {
                 double IQR = (Q3 - Q1) * 1.5;
                 int min = item.get(0);
                 int max = item.get(item.size() - 1);
-                double Q4,Q5;
+                double Q4, Q5;
                 if (min < Q1 - IQR) {
                     boxitem.add(Q1 - IQR);
-                   Q4 = Q1-IQR;
+                    Q4 = Q1 - IQR;
                 } else {
                     boxitem.add(min / 1.0);
                     Q4 = min;
                 }
-                 for (int n : item) {
-                    if (n <Q4) {
+                for (int n : item) {
+                    if (n < Q4) {
                         List<Integer> j = new ArrayList<>();
                         j.add(count);
                         j.add(n);
                         outitem.add(j);
                     }
-                       
+
                 }
                 boxitem.add(Q1 / 1.0);
                 boxitem.add(mid / 1.0);
                 boxitem.add(Q3 / 1.0);
                 if (max > Q3 + IQR) {
-                        boxitem.add(Q3 + IQR);
-                        Q5 = Q3 + IQR;
-                    } else {
-                        boxitem.add(max / 1.0);
-                        Q5 = max;
-                    }
+                    boxitem.add(Q3 + IQR);
+                    Q5 = Q3 + IQR;
+                } else {
+                    boxitem.add(max / 1.0);
+                    Q5 = max;
+                }
                 for (int n : item) {
                     if (n > Q5) {
                         List<Integer> j = new ArrayList<>();
@@ -234,7 +203,7 @@ public class RefAnalysis implements Serializable {
                         j.add(n);
                         outitem.add(j);
                     }
-                       
+
                 }
 
             }

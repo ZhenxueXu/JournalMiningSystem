@@ -17,9 +17,9 @@
         <h:form>
             <p:growl id="error" showDetail="true"/>
             <p:outputLabel for="minSup" value="最小支持度："/>            
-            <h:inputText id="minSup" value="#{refJournalAssociation.min_supCount}" style=" width: 30px"/> &nbsp;&nbsp;
+            <p:inputText id="minSup" value="#{refJournalAssociation.min_supCount}" style=" width: 30px"/> &nbsp;&nbsp;
             <p:outputLabel for="minSup" value="最小置信度："/>            
-            <h:inputText id="minConf" value="#{refJournalAssociation.min_confidence}" style=" width: 30px"/> &nbsp;&nbsp;
+            <p:inputText id="minConf" value="#{refJournalAssociation.min_confidence}" style=" width: 30px"/> &nbsp;&nbsp;
             <p:commandButton value="分析" update="minSup,minConf"  oncomplete="location.reload();"/>            
             
         </h:form>

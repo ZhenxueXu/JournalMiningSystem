@@ -24,92 +24,84 @@
 
             option = null;
             option = {
-                title: [
-                    {
-                        text: '被引频次分布',
-                        left: 'center'
-                    }
-                ],
                 tooltip: {
                     trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
+                    position: function (pt) {
+                        return [pt[0], '10%'];
                     }
+                },
+                title: {
+                    left: 'center',
+                    text: '被引频次分布'
                 },
                 toolbox: {
                     feature: {
-                        dataView: {
-                            show: true,
-                            readOnly: false,
-                            title: '数据',
-                            lang: ['数据视图', '关闭', '刷新']
-
+                        dataZoom: {
+                            yAxisIndex: 'none'
                         },
-                        magicType: {
-                            show: true,
-                            type: ['line', 'bar'],
-                            title: {
-                                line: '折线图切换',
-                                bar: '柱形图切换'
-                            }
-
-                        },
-                        restore: {
-                            show: true,
-                            title: '重置'
-                        },
-                        saveAsImage: {
-                            show: true,
-                            title: '保存'
-
-                        }
+                        restore: {},
+                        saveAsImage: {}
                     }
                 },
-                grid: {
-
-                    containLabel: true
+                xAxis: {
+                    name:'被引频次',
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
                 },
-                xAxis: [{
-                        type: 'category',
-                        name: '频次',
-                        axisTick: {
-                            alignWithLabel: true
-                        },
-                        axisLabel: {
-                            interval: 0
-                        },
-                        data: []
-                    }],
-                yAxis: [{
-                        type: 'value',
-                        name: '数量',
-
-                    }],
-                legend: {
-                    data: ['被引频次'],
-                    x: '200px',
-                    y: '14px'
+                yAxis: {
+                    name:'论文篇数/篇',
+                    type: 'value',
+                    boundaryGap: [0, '100%']
                 },
+                dataZoom: [{
+                        type: 'inside',
+                        start: 0,
+                        end: 100
+                    }, {
+                        start: 0,
+                        end: 100,
+                        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                        handleSize: '80%',
+                        handleStyle: {
+                            color: '#fff',
+                            shadowBlur: 3,
+                            shadowColor: 'rgba(0, 0, 0, 0.6)',
+                            shadowOffsetX: 2,
+                            shadowOffsetY: 2
+                        }
+                    }],
                 series: [
                     {
-                        name: '总数量',
-                        type: 'bar',
-                        barGap: 30,
-                        barWidth: '35%',
-                        label: {
+                        name: '论文篇数',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'none',
+                        sampling: 'average',
+                        itemStyle: {
                             normal: {
-                                show: true,
-                                position: 'top'
+                                color: 'rgb(255, 70, 131)'
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: 'rgb(255, 158, 68)'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgb(255, 70, 131)'
+                                    }])
                             }
                         },
                         data: []
                     }
                 ]
             };
-            data = #{refAnalysis.option2};
-            option.series[0].data = data.series[0].data[0];
-            option.xAxis[0].data = data.xAxis[0].data;
-            console.log(option);
+            data = #{refAnalysis.frequency};
+            option.series[0].data = data.series[0].data;
+            option.xAxis.data = data.xAxis[0].data;
+           
             myChart.setOption(option);
 
 
