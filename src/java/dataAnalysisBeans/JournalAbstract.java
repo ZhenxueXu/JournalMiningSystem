@@ -2,6 +2,7 @@ package dataAnalysisBeans;
 
 import JDBCUtils.JDBCUtils;
 import java.sql.*;
+import java.text.DecimalFormat;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 
@@ -89,6 +90,8 @@ public class JournalAbstract {
                 refTimes = rs.getInt(1);
             }
             aveRefTimes = ((double)refTimes) / paperCount;
+            DecimalFormat df = new DecimalFormat("#.##");
+            aveRefTimes = Double.parseDouble(df.format(aveRefTimes));
             //计算h指数
             sql = "select j_number, j_citation_frequency from journal_info order by j_citation_frequency DESC";
             rs = stat.executeQuery(sql);

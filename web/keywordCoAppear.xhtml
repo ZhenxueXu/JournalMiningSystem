@@ -17,8 +17,8 @@
     <body>
         <h:form>
             <p:growl id="error" showDetail="true"/>
-            <p:outputLabel for="minTimes" value="最小共现次数 : "/>
-            <p:inputText id="minTimes" value="#{keywordCoAppearAnalysis.minTimes}" style=" width: 40px"/>             
+            <p:outputLabel for="minTimes" value="最小共现次数 : "/> 
+            <p:inputText id="minTimes" value="#{keywordCoAppearAnalysis.minTimes}" style=" width: 40px"/>  &nbsp;           
             <p:commandButton value="分析" update="minTimes"   oncomplete="location.reload();"/>       
         </h:form>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->

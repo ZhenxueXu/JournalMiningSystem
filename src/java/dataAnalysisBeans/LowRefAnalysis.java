@@ -100,7 +100,7 @@ public class LowRefAnalysis implements Serializable {
             data.add(list);
             sql = "select r_year,count(*) as times "
                     + "from paper_references,journal_info "
-                    + "where paper_references.j_number = journal_info.j_number and journal_info.j_citation_frequency <=" + maxTimes + "  and r_year<> 'null' "
+                    + "where r_year regexp'[0-9][0-9][0-9][0-9]' and paper_references.j_number = journal_info.j_number and journal_info.j_citation_frequency <=" + maxTimes + "  and r_year<> 'null' "
                     + "group by r_year "
                     + "order by times desc ";
             rs = stat.executeQuery(sql);
