@@ -10,114 +10,99 @@
         <!-- 引入 echarts.js -->
         <script src="js/echarts.js"></script>
         <script src="js/jquery-1.9.1.min.js"></script>
-        <script src="js/worldcloud.js"></script>
+        <script src="js/echarts-graph-modularity.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/charts.css"/>
         <script src="js/esl.js"></script>
     </h:head>
     <body>
+        <h:form>
+             <p:growl id="error" showDetail="true"/>
+            <p:outputLabel for="author" value="需要查询的作者"/>
+            <p:inputText id="author" value="#{authorRelationship.serchname}" style=" width: 40px"/>         
+            <p:commandButton value="分析" update="author" oncomplete="location.reload()" />  
+        </h:form>
+        
+       
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="width: 1100px;height:520px;"></div>
         <script type="text/javascript">
-            //<![CDATA[
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");
             var myChart = echarts.init(dom);
             var app = {};
             option = null;
-            var maskImage = new Image();
-            var timeLinedata = #{keywordAnalysis.yearData};
-            var data = #{keywordAnalysis.trendData};
-
             option = {
-                baseOption: {
-                    title: {
-                        text: ""
-
-                    },
-                    timeline: {
-                        axisType: 'category',
-                        playInterval: 5000,
-                        x: 52,
-                        y: 475,
-                        width: '87%',
-                        data: timeLinedata
-                    },
-                    tooltip: {
-                        show: true
-                    },
-                    toolbox: {
-                        feature: {
-                            dataView: {
-                                show: true,
-                                readOnly: false,
-                                title: '数据',
-                                lang: ['数据视图', '关闭', '刷新']
-                            },
-                            restore: {
-                                show: true,
-                                title: '刷新'
-                            },
-                            saveAsImage: {
-                                show: true,
-                                title: '保存'
-                            }
-                        }
-                    },
-                    series: []
+                title: {
+                    text: ''
                 },
-                options: []
-            };
+                tooltip: {},
+                //animationDurationUpdate: 0,
+                //animationEasingUpdate: 'quinticInOut',
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: '数据',
+                            lang: ['数据视图', '关闭', '刷新']
+                        },
+                        restore: {
+                            show: true,
+                            title: '刷新'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: '保存'
+                        }
+                    }
+                },
 
-            for (var i = 0; i < data.length; i++) {
-                option.options.push({
-                    series: [{
-                            type: 'wordCloud',
-                            shape: 'diamond',
-                            maskImage: maskImage,
-                            left: 'center',
-                            top: 'center',
-                            width: '100%',
-                            height: '100%',
-                            right: null,
-                            bottom: null,
-                            //sizeRange: [12, 50],
-                            rotationRange: [0, 0],
-                            rotationStep: 45,
-                            gridSize: 8,
-                            textPadding: 0,
-                            autoSize: {
-                                enable: true,
-                                minSize: 8
+                series: [{
+                        type: 'graph',
+                        layout: 'force',
+                        modularity: true,
+                        roam: true,
+                        animation: true,
+                        draggable: false,
+                        focusNodeAdjacency: true,
+                        lineStyle: {
+                            normal: {
+                                width: 0.5,
+                                curveness: 0.3,
+                                opacity: 0.7
+                            }
+                        },
+                        label: {
+                            normal: {
+                               show: false,
+                                position: 'top'
                             },
-
-                            textStyle: {
-                                normal: {
-                                    fontFamily: 'sans-serif',
-                                    fontWeight: 'bold',
-                                    color: function () {
-                                        return 'rgb(' + [
-                                            Math.round(Math.random() * 160),
-                                            Math.round(Math.random() * 160),
-                                            Math.round(Math.random() * 160)
-                                        ].join(',') + ')';
-                                    }
-                                },
-                                emphasis: {
-                                    shadowBlur: 10,
-                                    shadowColor: '#333'
-                                }
-                            },
-
-                            data: data[i]
-                        }]
-                }
-                );
-            }            
-            maskImage.onload = function () {
-                myChart.setOption(option);
+                            emphasis:{
+                                show:true,
+                                position:'top'
+                            }
+                        },
+                        force: {
+                            initLayout: 'none',
+                            // repulsion: 20,
+                            edgeLength: 5,
+                            repulsion: 20,
+                            gravity: 0.3
+                        },
+                        data: [],
+                        // links: [],
+                        links: []
+                    }
+                ]
             };
-            maskImage.src = "images/tree.jpg";
-            //]]>
+            data = #{authorRelationship.graphData};
+            option.series[0].data = data.nodes;
+            option.series[0].links = data.links;
+            console.log(data);
+            myChart.setOption(option);
+            
+
+
 
         </script>
     </body>

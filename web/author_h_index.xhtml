@@ -164,17 +164,17 @@
 
         <div id="form_div" align="center">
             <h:form id="form_style" style=" width: 880px">
-                <p:dataTable id="adata" var="tabledata" value="#{authorAnalysis.HBar}"
+                <p:dataTable id="adata" var="tabledata" value="#{authorAnalysis.gethIndex()}"
                              rows="10" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15">
 
-                    <p:column headerText="作者" filterBy="#{tabledata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
-                        <h:outputText value="#{authordata.get('j_author')}" />
+                    <p:column headerText="作者" filterBy="#{tabledata.key}" sortBy="#{tabledata.key}" filterMatchMode="contains">
+                        <h:outputText value="#{tabledata.key}" />
                     </p:column>
 
-                    <p:column headerText="PublishCount" filterBy="#{authordata.get('PublishCount')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
-                        <h:outputText value="#{authordata.get('PublishCount')}" />
+                    <p:column headerText="h指数" filterBy="#{tabledata.value}" sortBy="#{tabledata.value}" filterMatchMode="startsWith">
+                        <h:outputText value="#{tabledata.value}" />
                     </p:column>
                 </p:dataTable>
             </h:form>

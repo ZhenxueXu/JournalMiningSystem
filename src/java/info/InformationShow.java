@@ -29,10 +29,12 @@ public class InformationShow implements Serializable {
      * Creates a new instance of InformationShow
      */
     public InformationShow() {
+        setTableData();
     }
     
     private  List<Map> tableData = new ArrayList<>();
-    public List<Map> getTableData() {
+    public void setTableData() {
+        tableData = new ArrayList<>();
         Connection conn = null;
         Statement stat = null;
         ResultSet rs = null;
@@ -136,7 +138,13 @@ public class InformationShow implements Serializable {
         } finally {
             JDBCUtils.close(rs, stat, conn);
         }
+        
+    }
+
+    public List<Map> getTableData() {
         return tableData;
     }
+    
+    
     
 }

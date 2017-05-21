@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -238,6 +239,9 @@ public class RefJournalAssociation implements Serializable {
                     double confidence;
                     support = supAcount.get(len - 1).get(tempLine) / 1.0 / total;
                     confidence = supAcount.get(len - 1).get(tempLine) / 1.0 / supAcount.get(subSet.size() - 1).get(subSet);
+                    DecimalFormat df = new DecimalFormat("#.####");
+                    support = Double.parseDouble(df.format(support));
+                    confidence = Double.parseDouble(df.format(confidence));
                     tempLine.removeAll(subSet);
                     if (confidence >= min_conf) {
                         AssociationRules ar = new AssociationRules(subSet + " => " + tempLine, support, confidence);
