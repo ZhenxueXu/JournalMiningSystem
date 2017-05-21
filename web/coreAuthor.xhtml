@@ -12,14 +12,24 @@
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/echarts-graph-modularity.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/charts.css"/>
+        <script src="js/worldcloud.js"></script>
         <script src="js/esl.js"></script>
     </h:head>
     <body>
         <h:form>
+            <h:panelGrid columns="5">
+                <p:outputLabel for="minTimes" value="最小H指数:"/>
+                <p:inputText id="minTimes" value="#{authorAnalysis.min_h_index}" style=" width: 40px"/>    
+                <p:outputLabel for="authors" value="作者:"/>
+                <h:selectOneMenu id="authors" value="#{authorAnalysis.coreAuthor}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all">
+                    <f:selectItem itemLabel="全部" itemValue="全部" />
+                    <f:selectItems value="#{authorAnalysis.core_author}" />
+                </h:selectOneMenu>
+                <p:commandButton value="分析" update="minTimes"   oncomplete="location.reload();"/> 
+
+            </h:panelGrid>
             <p:growl id="error" showDetail="true"/>
-            <p:outputLabel for="minTimes" value="最小H指数:"/>
-            <p:inputText id="minTimes" value="#{authorAnalysis.min_h_index}" style=" width: 40px"/>             
-            <p:commandButton value="分析" update="minTimes"   oncomplete="location.reload();"/>       
+
         </h:form>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="width: 1100px;height:520px;"></div>
@@ -31,8 +41,8 @@
             option = null;
             option = {
                 title: {
-                    text: '核心作者',
-                    left :'center'
+                    text: '',
+                    left: 'center'
                 },
                 tooltip: {},
                 //animationDurationUpdate: 0,
@@ -55,8 +65,13 @@
                         }
                     }
                 },
+                series: []
 
-                series: [{
+            };
+            data = #{authorAnalysis.data};
+            console.log(data);
+            if (data.name == '图') {
+                series= [{
                         type: 'graph',
                         layout: 'force',
                         modularity: true,
@@ -72,14 +87,14 @@
                         },
                         label: {
                             normal: {
-                                show: true,
+                                show: false,
                                 position: 'top'
                             },
-                            emphasis:{
-                                show:true,
-                                position:'top'
+                            emphasis: {
+                                show: true,
+                                position: 'top'
                             }
-                            
+
                         },
 //                        edgeLabel:{
 //                            normal:{
@@ -99,21 +114,64 @@
                             repulsion: 50
                                     //gravity: 0.1
                         },
-                        data: [],
+                        data: data.data,
                         // links: [],
-                        links: []
+                        links: data.links
 
                     }
-                ]
-            };
-            data = #{authorAnalysis.coreAuthorInfo};
-            console.log(data);
-            option.series[0].data = data.data;
-            option.series[0].links = data.links;
-            myChart.setOption(option);
+                ];
+                option.series = series;
+                myChart.setOption(option);
+            }
+            if (data.name == '云') {
+                var maskImage = new Image();
+                series2= [{
+                        type: 'wordCloud',
+                        shape: 'diamond',
+                        maskImage: maskImage,
+                        left: 'center',
+                        top: 'center',
+                        width: '100%',
+                        height: '90%',
+                        right: null,
+                        bottom: null,
+                        //sizeRange: [12, 50],
+                        rotationRange: [0, 0],
+                        rotationStep: 45,
+                        gridSize: 8,
+                        textPadding: 0,
+                        autoSize: {
+                            enable: true,
+                            minSize: 8
+                        },
+                        textStyle: {
+                            normal: {
+                                fontFamily: 'sans-serif',
+                                fontWeight: 'bold',
+                                color: function () {
+                                    return 'rgb(' + [
+                                        Math.round(Math.random() * 160),
+                                        Math.round(Math.random() * 160),
+                                        Math.round(Math.random() * 160)
+                                    ].join(',') + ')';
+                                }
+                            },
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowColor: '#333'
+                            }
+                        },
+                        data: data.data[0]
+                    }];
+                option.series = series2;
+                maskImage.onload = function () {
+                    myChart.setOption(option);
+                };
+                maskImage.src = "images/tree.jpg";
 
 
-
+            }
+            
         </script>
     </body>
 </html>
