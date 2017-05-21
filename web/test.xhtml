@@ -16,12 +16,13 @@
     </h:head>
     <body>
         <div>
-            <p:slider maxValue="100"></p:slider>            
-                    <h:outputText id="displayRange" value="#{test2.minYear}and#{test2.maxYear}" /> 
-                    <p:slider for="txt1,txt2" display="displayRange" style="width: 400px; height: 40px" range="true" displayTemplate="{min}and{max}" minValue= "2005" maxValue="2018"/>
-                </p:panelGrid>
-                <h:inputHidden id="txt1" value="#{test2.minYear}"/>
-                <h:inputHidden id="txt2" value="#{test2.maxYear}"/>
+            <h:form>
+                <h:panelGrid columns="1" style="margin-bottom: 10px">
+                    <h:outputText id="displayRange" value="Between 20 and 40" />
+                    <p:slider for="txt6,txt7" display="displayRange" style="width: 400px" range="true" displayTemplate="Between {min} and {max}" />
+                </h:panelGrid>
+                <h:inputHidden id="txt6" value="20" />
+                <h:inputHidden id="txt7" value="40" />
             </h:form>
         </div>
 

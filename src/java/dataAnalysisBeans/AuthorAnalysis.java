@@ -239,7 +239,7 @@ public class AuthorAnalysis implements Serializable {
                 }
             }
             current.put(currentAuthor, h_index);                //放入最后一个作者
-            hIndex = new ArrayList<>(current.entrySet());           
+            hIndex = new ArrayList<>(current.entrySet());     
 
         } catch (Exception e) {
 
@@ -365,5 +365,15 @@ public class AuthorAnalysis implements Serializable {
         Gson gson = new Gson();
         return gson.toJson(graph);
     }
+
+    public List<Map.Entry<String, Integer>> gethIndex() {
+        return hIndex;
+    }
+
+    public void sethIndex(List<Map.Entry<String, Integer>> hIndex) {
+        this.hIndex = hIndex;
+    }
+    
+    
 
 }
