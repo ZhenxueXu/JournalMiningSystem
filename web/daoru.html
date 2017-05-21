@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <title>设计工作室专题动画模板</title>
+        <!--WOW动态css-->
+        <link href="css/animate.min.css" rel="stylesheet" type="text/css">
+        <!--幻灯片JS-->
+        <link rel="stylesheet" href="css/jquery.fullPage.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div id="fullpage">
+            <div class="section">
+                <div class="sq_center_2"><img src="images/index/nei.png"></div>
+                <!--从这里开始-->
+                <div class="sq_start">从这里开始</div>
+                <div class="sq_mouse">
+                    <img src="images/index/shubiao.png">
+                    <div class="sq_m_small"></div>
+                </div>
+                <div class="bg">
+                    <img src="images/index/FirstScreen.jpg" alt="第一屏">
+                </div>
+            </div>
+            <div class="section">
+                <!--<div class="bg" style="z-index:3"><img src="images/index/2zhezhao.png"></div>-->
+                <div class="sq_tow_screen">
+                    <p>利用文献计量学、关联规则、共现分析等合理的数据挖掘的方法</p>
+                    <p>完美地挖掘出期刊论文各项属性数据的隐藏的信息与知识</p>
+                     <p>为您的管理与决策提供巨大的帮助</p>
+                </div>
+                <div class="sq_zw"><img src="images/index/zhewen.jpg"></div>
+                <div class="bg">
+                    <img src="images/index/FirstScreen2.jpg" alt="第二屏">
+                </div>
+            </div>
+            <div class="section">
+                <!--<div class="bg" style="z-index:3"><img src="images/index/2zhehzoa.jpg.png"></div>-->
+                <div class="sq_three">
+                    WORK
+                    <div class="sq_three_s1">
+                        <span class="sq_three_s1_span"></span>
+                        <span class="sq_three_s1_span1"></span>
+                    </div>
+                </div>
+
+                <div class="sq_three_s2" style="z-index: 6">
+                    <div class="wrapper">
+                        <div class="box">
+                            <div class="product1">                           
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="product2">                           
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="product3">                           
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="product4">                           
+                            </div>
+                        </div>
+
+                        <div class="box">
+                            <div class="product5" >
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="product6" >
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="product7" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sq_three_s3">
+                    <div class="sq_three_all">大量的图表组合，更好的展现各类数据</div>
+                </div>
+                <div class="bg">
+                    <img src="images/index/FirstScreen3.jpg" alt="第三屏">
+                </div>
+            </div>
+            <div class="section">
+                <div class="bg" style="z-index:3"><img src="images/index/2zhehzoa.jpg"></div>
+                <div class="sq_four">
+                    <img src="images/index/ready.png">
+                </div>
+                <div class="sq_four_all">We are ready,you?</div>
+                <div class="sq_four2"><img src="images/index/go.png"></div>
+                <div class="bg">
+                    <img src="images/index/FirstScreen4.jpg" alt="第四屏">
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/jquery.fullPage.min.js"></script>
+        <script type="text/javascript" src="js/style.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('#fullpage').fullpage({
+                    'verticalCentered': false,
+                    anchors: ['page1', 'page2', 'page3', 'page4'],
+                    'navigation': true, //是否显示导航栏
+                    'navigationPosition': 'left'  //导航栏的位置
+                });
+
+
+                var back = $(".sq_concat_back").find("div");
+ 
+                back.hover(function () {
+                    $(this).children("img").attr("src", img[back.index(this)]);
+                }, function () {
+                    $(this).children("img").attr("src", imgs[back.index(this)]);
+                });
+
+                var sq_img = $(".sq_three_s2 ul").find("li");
+                sq_img.hover(function () {
+                    $(this).children("div").children(".sq_three_re").children(".sq_z_back").css({"opacity": "0.7"});
+                    $(this).children("div").children(".sq_solid").css("background", "#6d9eeb");
+                    $(this).children("div").children(".sq_three_re").children(".sq_z_left").animate({
+                        "opacity": "1",
+                        "left": "38%"
+                    }, 500);
+                    $(this).children("div").children(".sq_three_re").children(".sq_z_right").animate({
+                        "opacity": "1",
+                        "right": "45%"
+                    }, 500);
+                }, function () {
+                    $(this).children("div").children(".sq_three_re").children(".sq_z_back").css("opacity", "0");
+                    $(this).children("div").children(".sq_solid").css("background", "#959595");
+                    $(this).children("div").children(".sq_three_re").children(".sq_z_left").animate({
+                        "opacity": "0",
+                        "left": "0"
+                    }, 500);
+                    $(this).children("div").children(".sq_three_re").children(".sq_z_right").animate({
+                        "opacity": "0",
+                        "right": "0"
+                    }, 500);
+                });
+            });
+        </script>
+    </body>
+</html>
