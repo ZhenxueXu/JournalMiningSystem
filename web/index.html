@@ -6,7 +6,7 @@
         <script  src="js/jquery-1.8.3.min.js"></script>
         <link rel="Stylesheet" type="text/css" href="css/loginDialog.css" />
     </head>
-    <body>
+    <body onload="">
         <div>
             <header id="header">
                 <hgroup>
@@ -35,7 +35,6 @@
                         <div class="nav-slide-o"></div>
                         <div class="nav-slide-o">
                             <ul>
-                                <li><a href="Abstract.xhtml" target="board"  id="11"  onclick="change(1, 11)"><span>发文概述</span></a></li>
                                 <li><a href="publishCount.xhtml" target="board" id="12" onclick="change(1, 12)"><span>各年发文量</span></a></li>
                                 <li><a href="PublishStatic.xhtml" target="board" id="13" onclick="change(1, 13)"><span>各年页数统计</span></a></li>
                                 <li><a href="midu.xhtml" target="board" id="14" onclick="change(1, 14)"><span>各年篇密度</span></a></li>
@@ -97,15 +96,13 @@
                     &nbsp;&nbsp;<a  id="72"></a>
                 </div>
                 <div class="iframe_css">
-                    <iframe  name="board"   frameborder="0"  style="height: 100%;width: 100%; overflow: no-display;text-overflow:ellipsis;"></iframe>      
-
+                    <iframe  name="board"  src="Abstract.xhtml"  frameborder="0"  style="height: 100%;width: 100%; overflow: no-display;text-overflow:ellipsis;"></iframe>      
                 </div>
             </div>
         </div>
         <div id="Box">
-            
-                数据导入<a href="javascript:void(0)" title="关闭窗口" class="close_btn" id="closeBtn">×</a>
-                <iframe  name="board" src="input.xhtml" frameborder="0"  style="height: 100%;width: 100%; overflow: scroll" scrolling="yes"></iframe> 
+            <a id="shujut">数据导入</a><a href="javascript:void(0)" title="关闭窗口"  class="close_btn" id="closeBtn">×</a>
+                <iframe  name="board" src="input.xhtml"  frameborder="0"  style="height: 100%;width: 100%; overflow: scroll"></iframe> 
           
         </div>
         <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
@@ -148,16 +145,12 @@
         </script>
         <script type="text/javascript">
             function change(a, b) {
-
                 var name1 = document.getElementById(a).innerHTML;
-
                 if (b == 9) {
                     var name2 = " ";
                 } else {
                     var name2 = document.getElementById(b).innerHTML;
                 }
-
-
                 document.getElementById(71).innerHTML = name1;
                 document.getElementById(72).innerHTML = name2;
             }

@@ -22,11 +22,9 @@
             <p:outputLabel for="keyword" value="查询关键词 : "/> 
             <p:inputText id="keyword" value="#{keywordCoAppearAnalysis.serchName}" style=" width: 80px"/>  &nbsp;   
             <p:commandButton value="分析" update="minTimes,keyword"   oncomplete="location.reload();"/>   
-                    
-            
         </h:form>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100px;height:520px;"></div>
+        <div id="main"></div>
         <script type="text/javascript">
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");

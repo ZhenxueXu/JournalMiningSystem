@@ -1,10 +1,22 @@
 
 .mask{margin:0;padding:0;border:none;width:100%;height:100%;background:#333;opacity:0.6;filter:alpha(opacity=60);z-index:9999;position:fixed;top:0;left:0;display:none;}
 #Box{position:absolute;left:460px;top:150px;
-     background: #fff;width:500px;
-     height:300px;
+     width:500px;
+     height:295px;
      z-index:10000;
      display:none;
-     border: 2px  #3a4f54  solid ;}
-
+     background: #f7f5fa;
+     border-radius: 3px;
+    border-width: 3px;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+     font-size: 10px; 
+     
+}
+#shujut{
+    font-size: 20px;
+    position:  absolute;
+    left: 210px;
+    top: 8px;
+}
 .close_btn{font-family:arial;font-size:30px;color: #F8F8F8;text-decoration:none;float:right;padding-right:4px;}

@@ -15,7 +15,7 @@
     <h:body>
 
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100px;height:520px;"></div>
+        <div id="main"></div>
         <script type="text/javascript" charset="utf-8" >
             //<![CDATA[
             // 基于准备好的dom，初始化echarts实例
@@ -159,22 +159,18 @@
         <div id="form_div" align="center" style=" display:  none">
             <h:form id="form_style" style=" width: 880px">
                 <p:dataTable id="AuthorPublishfdata" var="authordata" value="#{authorAnalysis.authorPublishdata}"
-                             rows="10" paginator="true" paginatorPosition="bottom"
+                             rows="11" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15">
+                             >
 
                     <p:column headerText="作者" filterBy="#{authordata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
                         <h:outputText value="#{authordata.get('j_author')}" />
                     </p:column>
 
-                    <p:column headerText="发文量" filterBy="#{authordata.get('PublishCount')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
+                    <p:column headerText="发文量" filterBy="#{authordata.get('PublishCount')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="contains">
                         <h:outputText value="#{authordata.get('PublishCount')}" />
                     </p:column>
-
                 </p:dataTable>
-
-
-
             </h:form>
             <a href="#" ><img  type="image" src="../images/skip.png" width="25px" height="25px"  onclick="qclick()"/></a>
         </div>

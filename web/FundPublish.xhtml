@@ -15,7 +15,7 @@
     <h:body>
 
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100px;height:520px;"></div>
+        <div id="main"></div>
         <script type="text/javascript" charset="utf-8" >
             //<![CDATA[
             // 基于准备好的dom，初始化echarts实例
@@ -157,15 +157,15 @@
         <div id="form_div" align="center">
             <h:form id="form_style" style=" width: 880px">
                 <p:dataTable id="FundPublishfdata" var="publishdata" value="#{fundAnalysis.publish}"
-                             rows="10" paginator="true" paginatorPosition="bottom"
+                             rows="11" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15">
+                             >
 
-                    <p:column headerText="j_author" filterBy="#{publishdata.get('j_fund')}" sortBy="#{publishdata.get('j_fund')}" filterMatchMode="contains">
+                    <p:column headerText="作者" filterBy="#{publishdata.get('j_fund')}" sortBy="#{publishdata.get('j_fund')}" filterMatchMode="contains">
                         <h:outputText value="#{publishdata.get('j_fund')}" />
                     </p:column>
 
-                    <p:column headerText="发文量" filterBy="#{publishdata.get('发文量')}" sortBy="#{publishdata.get('发文量')}" filterMatchMode="startsWith">
+                    <p:column headerText="发文量" filterBy="#{publishdata.get('发文量')}" sortBy="#{publishdata.get('发文量')}" filterMatchMode="contains">
                         <h:outputText value="#{publishdata.get('发文量')}" />
                     </p:column>
 
