@@ -15,15 +15,76 @@
         <script src="js/esl.js"></script>
     </h:head>
     <body>
-        <div>
-            <p:slider maxValue="100"></p:slider>            
-                    <h:outputText id="displayRange" value="#{test2.minYear}and#{test2.maxYear}" /> 
-                    <p:slider for="txt1,txt2" display="displayRange" style="width: 400px; height: 40px" range="true" displayTemplate="{min}and{max}" minValue= "2005" maxValue="2018"/>
-                </p:panelGrid>
-                <h:inputHidden id="txt1" value="#{test2.minYear}"/>
-                <h:inputHidden id="txt2" value="#{test2.maxYear}"/>
-            </h:form>
-        </div>
+        <h:form>
+            <p:growl id="growl" showDetail="true" />
+
+            <h3 style="margin-top: 0">InputText Slider</h3>
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <p:inputText id="txt1" value="#{sliderView.number1}" />
+                <p:slider for="txt1" />
+            </h:panelGrid>
+
+            <h3 style="margin-top: 0">InputNumber Slider</h3>
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <p:inputNumber id="nmb1" value="#{sliderView.number8}" symbol=" €" />
+                <p:slider for="nmb1" />
+            </h:panelGrid>
+
+            <h3>Hidden Input Slider with Display Value</h3>
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <h:outputText id="output" value="Set ratio to %#{sliderView.number2}" />
+                <h:inputHidden id="txt2" value="#{sliderView.number2}" />
+                <p:slider for="txt2" display="output" style="width: 200px" displayTemplate="Set ratio to %{value}" />
+            </h:panelGrid>
+
+            <h3>Slider with Step Factor</h3>
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <p:inputText id="txt3" value="#{sliderView.number3}" />
+                <p:slider for="txt3" step="10" />
+            </h:panelGrid>
+
+            <h3>Vertical Slider</h3>
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <p:inputText id="txt4" value="#{sliderView.number4}" />
+                <p:slider for="txt4" type="vertical" />
+            </h:panelGrid>
+
+            <h3>Ajax Slider</h3>
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <p:inputText id="txt5" value="#{sliderView.number5}" />
+                <p:slider for="txt5">
+                    <p:ajax event="slideEnd" listener="#{sliderView.onSlideEnd}" update="growl" />
+                </p:slider>
+            </h:panelGrid>
+
+            <h3>Range Slider</h3>
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <h:outputText id="displayRange" value="Between #{sliderView.number6} and #{sliderView.number7}" />
+                <p:slider for="txt6,txt7" display="displayRange" style="width: 400px" range="true" displayTemplate="Between {min} and {max}" />
+            </h:panelGrid>
+            <h:inputHidden id="txt6" value="#{sliderView.number6}" />
+            <h:inputHidden id="txt7" value="#{sliderView.number7}" />
+
+            <p:separator />
+
+            <p:commandButton value="Submit" update="display" oncomplete="PF('dlg').show();" />
+
+            <p:dialog header="Slider Values" showEffect="fade" hideEffect="fade" widgetVar="dlg">
+                <h:panelGrid id="display" columns="1" cellpadding="5">
+                    <h:outputText value="Number 1: #{sliderView.number1}" />
+
+                    <h:outputText value="Number 2: #{sliderView.number2}" />
+
+                    <h:outputText value="Number 3: #{sliderView.number3}" />
+
+                    <h:outputText value="Number 4: #{sliderView.number4}" />
+
+                    <h:outputText value="Number 5: #{sliderView.number5}" />
+
+                    <h:outputText value="Range: [#{sliderView.number6},#{sliderView.number7}]" />
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
 
     </body>
 </html>

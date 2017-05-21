@@ -19,25 +19,41 @@
             <p:growl id="error" showDetail="true"/>
             <p:inputText id="minYear" value="#{keywordAnalysis.minYear}" style=" width: 40px"/> &nbsp;至&nbsp;
             <p:inputText id="maxYear" value="#{keywordAnalysis.maxYear}" style=" width: 40px"/>年 &nbsp;
-            <p:commandButton value="分析" update="maxYear,minYear"  oncomplete="location.reload();" style=""/>         
+            <p:commandButton value="分析" update="maxYear,minYear"  oncomplete="location.reload();" style=""/>  
+            <h:panelGrid columns="1" style="margin-bottom: 10px">
+                <h:outputText id="displayRange" value="Between #{keywordAnalysis.minYear} and #{keywordAnalysis.maxYear}" />
+                <p:slider for="txt6,txt7" display="displayRange" style="width: 400px" range="true" displayTemplate="Between {min} and {max}" />
+            </h:panelGrid>
+            <h:inputHidden id="txt6" value="#{keywordAnalysis.minYear}" />
+            <h:inputHidden id="txt7" value="#{keywordAnalysis.maxYear}" />
+            
+    <p:dialog header="Slider Values" showEffect="fade" hideEffect="fade" widgetVar="dlg">
+        <h:panelGrid id="display" columns="1" cellpadding="1">
+
+            <h:outputText value="Range: [#{keywordAnalysis.minYear},#{keywordAnalysis.maxYear}]" />
+        </h:panelGrid>
+    </p:dialog>
         </h:form>
+
         <button id="divButton"  onclick="showTrend()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"  ><span  class="ui-button-text ui-c">逐年分析</span> </button>
-<!--        <style>
-            #divButton{
-                border: 1px solid #168dd9;
-                color: #FFF; box-shadow: 0 1px 0 #53bcff inset, 0 1px 2px rgba(0,0,0,0.2);  
-                background: -webkit-linear-gradient(top, #27abff 0%,#059eff 100%);
-                border-bottom-right-radius: 4px;
-                border-bottom-left-radius: 4px;
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
-                cursor: pointer;
-                text-shadow: 0 -1px 0 #1584de;
-                zoom: 1;
-                font-family: Arial,Helvetica,sans-serif;
-                padding: 1px 6px;
-            }
-        </style>-->
+
+
+        <!--        <style>
+                    #divButton{
+                        border: 1px solid #168dd9;
+                        color: #FFF; box-shadow: 0 1px 0 #53bcff inset, 0 1px 2px rgba(0,0,0,0.2);  
+                        background: -webkit-linear-gradient(top, #27abff 0%,#059eff 100%);
+                        border-bottom-right-radius: 4px;
+                        border-bottom-left-radius: 4px;
+                        border-top-left-radius: 4px;
+                        border-top-right-radius: 4px;
+                        cursor: pointer;
+                        text-shadow: 0 -1px 0 #1584de;
+                        zoom: 1;
+                        font-family: Arial,Helvetica,sans-serif;
+                        padding: 1px 6px;
+                    }
+                </style>-->
 
         <!--        <button  type="button" value="趋势分析" onclick="showTrend()"/>-->
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
