@@ -12,16 +12,19 @@
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/esl.js"></script>
         <link rel="stylesheet" type="text/css" href="css/charts.css"/>
+        <link rel="stylesheet" type="text/css" href="css/tablestyle.css"/>
     </h:head>
     <body>
         <h:form>
             <p:growl id="error" showDetail="true"/>
-            <p:outputLabel for="minSup" value="最小支持度："/>            
-            <p:inputText id="minSup" value="#{refJournalAssociation.min_supCount}" style=" width: 30px"/> &nbsp;&nbsp;
-            <p:outputLabel for="minSup" value="最小置信度："/>            
-            <p:inputText id="minConf" value="#{refJournalAssociation.min_confidence}" style=" width: 30px"/> &nbsp;&nbsp;
+            <h:panelGrid columns="2">
+                <p:outputLabel for="minSup" value="最小支持度："/>            
+                <p:inputText id="minSup" value="#{refJournalAssociation.min_supCount}" style=" width: 50px"/> 
+                <p:outputLabel for="minSup" value="最小置信度："/>            
+                <p:inputText id="minConf" value="#{refJournalAssociation.min_confidence}" style=" width: 50px"/> 
+            </h:panelGrid>
             <p:commandButton value="分析" update="minSup,minConf"  oncomplete="location.reload();"/>            
-            
+
         </h:form>
 
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
@@ -44,11 +47,14 @@
                 },
                 toolbox: {
                     feature: {
-                        dataView: {
+                        myTool: {
                             show: true,
-                            readOnly: false,
-                            title: '数据',
-                            lang: ['数据视图', '关闭', '刷新']
+                            title: '数据模式',
+                            icon: 'image://../images/table.png',
+                            onclick: function () {
+                                qclick();
+
+                            }
                         },
                         restore: {
                             show: true,
@@ -91,7 +97,42 @@
                 series: data.series
             };
             myChart.setOption(option);
+        </script>
 
+        <div id="form_div" align="center">
+            <h:form id="form_style" style=" width: 880px">
+                <p:dataTable id="qdata" var="associate" value="#{refJournalAssociation.arlist}"
+                             rows="10" paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15">
+
+                    <p:column headerText="关联规则" filterBy="#{associate.rule}"  filterMatchMode="contains">
+                        <h:outputText value="#{associate.rule}" />
+                    </p:column>
+
+                    <p:column headerText="支持度" filterBy="#{associate.support}" sortBy="#{associate.support}" filterMatchMode="startsWith">
+                        <h:outputText value="#{associate.support}" />
+                    </p:column>
+                    <p:column headerText="置信度" filterBy="#{associate.confidence}" sortBy="#{associate.confidence}" filterMatchMode="startsWith">
+                        <h:outputText value="#{associate.confidence}" />
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+            <a href="#" ><img  type="image" src="../images/skip.png" width="25px" height="25px"  onclick="qclick()"/></a>
+        </div>
+        <script>
+            function qclick() {
+                var zt = document.getElementById("form_div").style.display;
+                if (zt == "none") {
+                    document.getElementById("form_div").style.display = "block";
+                    document.getElementById("main").style.display = "none";
+                } else {
+                    document.getElementById("main").style.display = "block";
+                    document.getElementById("form_div").style.display = "none";
+                }
+
+            }
 
         </script>
     </body>

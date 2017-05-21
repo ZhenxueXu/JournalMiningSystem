@@ -15,12 +15,21 @@
         <script src="js/esl.js"></script>
     </h:head>
     <body>
-        <h:form>
+        <h:form >
             <p:growl id="error" showDetail="true"/>
-            <p:outputLabel for="minTimes" value="作者最小引频次数:"/>
-            <p:inputText id="minTimes" value="#{authorRelationship.minTime}" style=" width: 40px"/>             
-            <p:commandButton value="分析" update="minTimes"   oncomplete="location.reload();"/>       
+            <h:panelGrid columns="2">
+                <p:outputLabel for="minTimes" value="作者最小引频次数"/>
+                <p:inputText id="minTimes" value="#{authorRelationship.minTime}" style=" width: 80px"/> 
+                <p:outputLabel for="author" value="需要查询的作者"/>
+                <p:inputText id="author" value="#{authorRelationship.serchname}" style=" width: 80px"/> 
+               
+            </h:panelGrid>
+            <p:commandButton value="分析" update="minTimes,author" oncomplete="location.reload()" style=" " /> 
+
+
         </h:form>
+
+
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
         <div id="main" style="width: 1100px;height:520px;"></div>
         <script type="text/javascript">
@@ -72,12 +81,12 @@
                         },
                         label: {
                             normal: {
-                               show: false,
+                                show: false,
                                 position: 'top'
                             },
-                            emphasis:{
-                                show:true,
-                                position:'top'
+                            emphasis: {
+                                show: true,
+                                position: 'top'
                             }
                         },
                         force: {
@@ -93,11 +102,12 @@
                     }
                 ]
             };
-            data = #{authorRelationship.data};
+            data = #{authorRelationship.graphData};
             option.series[0].data = data.nodes;
             option.series[0].links = data.links;
             console.log(data);
             myChart.setOption(option);
+
 
 
 
