@@ -20,13 +20,10 @@
             <p:inputText id="minYear" value="#{keywordAnalysis.minYear}" style=" width: 40px"/> &nbsp;至&nbsp;
             <p:inputText id="maxYear" value="#{keywordAnalysis.maxYear}" style=" width: 40px"/>年 &nbsp;
             <p:commandButton value="分析" update="maxYear,minYear"  oncomplete="location.reload();" style=""/>  
-            <p:dialog header="Slider Values" showEffect="fade" hideEffect="fade" widgetVar="dlg">
-                <h:panelGrid id="display" columns="1" cellpadding="1">
-                    <h:outputText value="Range: [#{keywordAnalysis.minYear},#{keywordAnalysis.maxYear}]" />
-                </h:panelGrid>
-            </p:dialog>
+
         </h:form>
         <button id="divButton"  onclick="showTrend()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"  ><span  class="ui-button-text ui-c">逐年分析</span> </button>
+
         <div id="main"></div>
         <script type="text/javascript">
             // 基于准备好的dom，初始化echarts实例
@@ -101,7 +98,7 @@
                         },
 
                         data: [{
-                                name: 'Farrah Abraham',
+                                name: '关键字',
                                 value: 366,
                                 textStyle: {
                                     normal: {},
