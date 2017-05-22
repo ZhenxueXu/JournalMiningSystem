@@ -273,14 +273,16 @@ html, body {
 .nav-slide-o li a span{position: relative;z-index: 1;}
 .nav-slide-o {display: none;}
 .content{
-    position: relative;
+    position: absolute;
+    left: 17.3%;
     float: right;
-    width: 83%;
-    height: 550px;
+    width: 82%;
+    height: 84%;
 }
 .iframe_css{
     position: relative;
     right: 0px;
+    top:1%;
     height: 100% !important;
     left: 0px;
     

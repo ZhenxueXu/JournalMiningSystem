@@ -15,18 +15,16 @@
         <script src="js/esl.js"></script>
     </h:head>
     <body>
-        <h:form style="display:  inline" >
+        <h:form style="display: inline; top: 1px;" >
             <p:growl id="error" showDetail="true"/>
             <p:inputText id="minYear" value="#{keywordAnalysis.minYear}" style=" width: 40px"/> &nbsp;至&nbsp;
             <p:inputText id="maxYear" value="#{keywordAnalysis.maxYear}" style=" width: 40px"/>年 &nbsp;
             <p:commandButton value="分析" update="maxYear,minYear"  oncomplete="location.reload();" style=""/>  
-        </h:form>
 
+        </h:form>
         <button id="divButton"  onclick="showTrend()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"  ><span  class="ui-button-text ui-c">逐年分析</span> </button>
 
-        <!--        <button  type="button" value="趋势分析" onclick="showTrend()"/>-->
-        <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100px;height:520px;"></div>
+        <div id="main"></div>
         <script type="text/javascript">
             // 基于准备好的dom，初始化echarts实例
             var dom = document.getElementById("main");

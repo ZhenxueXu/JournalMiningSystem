@@ -14,7 +14,7 @@
     </h:head>
     <body>
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100px;height:520px;"></div>
+        <div id="main"></div>
         <script type="text/javascript">
             //<![CDATA[
             // 基于准备好的dom，初始化echarts实例
@@ -158,15 +158,15 @@
         <div id="form_div" align="center">
             <h:form id="form_style" style=" width: 880px">
                 <p:dataTable id="qdata" var="authordata" value="#{authorAnalysis.authorQuotedata}"
-                             rows="10" paginator="true" paginatorPosition="bottom"
+                             rows="11" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15">
+                             >
 
                     <p:column headerText="作者" filterBy="#{authordata.get('j_author')}" sortBy="#{authordata.get('j_author')}" filterMatchMode="contains">
                         <h:outputText value="#{authordata.get('j_author')}" />
                     </p:column>
 
-                    <p:column headerText="被引量" filterBy="#{authordata.get('被引总计')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="startsWith">
+                    <p:column headerText="被引量" filterBy="#{authordata.get('被引总计')}" sortBy="#{authordata.get('PublishCount')}" filterMatchMode="contains">
                         <h:outputText value="#{authordata.get('被引总计')}" />
                     </p:column>
 

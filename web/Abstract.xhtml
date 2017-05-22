@@ -50,25 +50,24 @@ and open the template in the editor.
             </div> 
         </div>
         <div id="tabel">
-            <h:form id="form_style" style=" width: 99%; height: 100%">
+            <h:form id="form_style" style=" width: 98%; height: 100%">
                 <p:dataTable id="alldata" var="tabledata" value="#{informationShow.tableData}"
-                             rows="15" paginator="true" paginatorPosition="bottom"
+                             rows="11" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="30,40,50"  widgetVar="stable"
-                             emptyMessage="未找到相关信息" filteredValue="#{informationShow.tableData}">
-                    <f:facet name="header">
+                             rowsPerPageTemplate="11,30,40,50" >
+<!--                    <f:facet name="header">
                         <p:outputPanel >
                             <h:outputText value="Search all fields:" />
                             <p:inputText id="globalFilter" onchange="PF('stable').filter()"  style="width:150px" placeholder="Enter keyword"/>
                         </p:outputPanel>
-                    </f:facet>
-                    <p:column  headerText="ID" sortBy="#{tabledata.id}" style="width: 5px; padding: 1px; text-align:  center;font-size: 14px">
+                    </f:facet>-->
+                    <p:column  headerText="ID" sortBy="#{tabledata.id}" style="width: 5px; height: 19px; padding: 0.5px; text-align:  center;font-size: 14px">
                         <h:outputText  value="#{tabledata.get('id')}" />
                     </p:column>
-                    <p:column  headerText="作者"  style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px" >
+                    <p:column  headerText="作者" filterBy="#{tabledata.authors}"  filterMatchMode="contains" style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px" >
                         <h:outputText  value="#{tabledata.get('authors')}" />
                     </p:column>
-                    <p:column id="t3" headerText="标题" style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px">
+                    <p:column id="t3" headerText="标题" filterBy="#{tabledata.title}"  filterMatchMode="contains"  style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('title')}" />
                     </p:column>
                     <p:column id="t4" headerText="年份" sortBy="#{tabledata.year}" style="width: 10px; padding: 1px;  text-align:  center;font-size: 14px">
@@ -83,7 +82,7 @@ and open the template in the editor.
                     <p:column id="t7" headerText="被引次数" sortBy="#{tabledata.times}" style="width: 10px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('times')}" />
                     </p:column>
-                    <p:column id="t8" headerText="关键词" style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px">
+                    <p:column id="t8" headerText="关键词" filterBy="#{tabledata.keywords}"  filterMatchMode="contains"  style="width: 30px; padding: 1px;  text-align:  center;font-size: 14px">
                         <h:outputText value="#{tabledata.get('keywords')}" />
                     </p:column>
                     <p:column id="t9" headerText="摘要" style="width: 50px; padding: 1px; text-align:  center;font-size: 14px">

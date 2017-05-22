@@ -2,6 +2,7 @@
     text-overflow :ellipsis;
     top: 10px;
     margin: auto;
+    width: 1050px;height:520px;
 }
 #divButton{
     border: 1px solid #168dd9;

@@ -8,12 +8,12 @@
         <link rel="stylesheet" type="text/css" href="css/input.css"></link>
     </h:head>
     <h:body style=" width: 95%; height: 100%">
-        <div  align="center">
-            <h:form >
+        <div id="m" align="center"> 
+            <h:form style=" left: 6px">
                 <p:fileUpload  fileUploadListener="#{uploadFileBean.handleFileUpload}" mode="advanced" dragDropSupport="false" update="messages"  previewWidth="60" 
-                               style=" background-color:  #2F4F4F; background-image: none; color:  #2F4F4F; font-size: 15px"  cancelLabel="取消" uploadLabel="上传" label="选择"  />
+                               style=" background-color: #4e6a71; background-image: none; color:  #4e6a71; font-size: 15px"  cancelLabel="取消" uploadLabel="上传" label="选择"  />
                 <p:growl id="messages" showDetail="true" /><br/>
-                <p:commandButton value="解析文件到数据库"  action="#{uploadFileBean.fileToDB()}" type="submit" style=" font-size: 15px"/>
+                <p:commandButton value="解析文件到数据库"   action="#{uploadFileBean.fileToDB()}" type="submit"  style=" font-size: 15px;  background-color:  steelblue!important"/>
             </h:form>
         </div>
     </h:body>

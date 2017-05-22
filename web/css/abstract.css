@@ -2,7 +2,6 @@
 .main{
     position: absolute;
    width: 100%;
-   
     top: 2%;
 }
 .row{
@@ -42,7 +41,7 @@
 
 #tabel{
     position:  absolute;
-    top: 14%;
+    top: 15%;
 }
 
 
@@ -50,13 +49,10 @@
     
     word-wrap: break-word;
     overflow: hidden;
-    height: 18px;
+    height: 30px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding-bottom: 1px;
-    padding-left: 1px;
-    padding-right: 1px;
-    padding-top: 1px;
+    padding:0.5px;
     font-size: 4px;
 
 }

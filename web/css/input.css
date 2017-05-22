@@ -1,3 +1,5 @@
+
+
 .ui-fileupload .start {
     display: none;
 }
@@ -7,12 +9,9 @@
 .ui-fileupload .progress {
     display: none;
 }
-
-
 .fileupload-content{
     display: none;
 }
-
 .fileupload-buttonbar{
     visibility: hidden;
 }
@@ -23,4 +22,5 @@
 
 .fileinput-button{
     visibility: visible;
+    
 }

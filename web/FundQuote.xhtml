@@ -15,23 +15,23 @@
     <h:body>
 
         <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-        <div id="main" style="width: 1100px;height:520px;"></div>
+        <div id="main"></div>
 
         <div id="form_div" align="center" style=" display:  none">
             <h:form id="form_style" style=" width: 880px">
                 <p:dataTable id="FundQuotedata" var="quotedata" value="#{fundAnalysis.quote}"
-                             rows="10" paginator="true" paginatorPosition="bottom"
+                             rows="11" paginator="true" paginatorPosition="bottom"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="5,10,15">
+                            >
 
-                    <p:column headerText="j_author" filterBy="#{quotedata.get('j_fund')}" sortBy="#{quotedata.get('j_fund')}" filterMatchMode="contains">
+                    <p:column headerText="作者" filterBy="#{quotedata.get('j_fund')}" sortBy="#{quotedata.get('j_fund')}" filterMatchMode="contains">
                         <h:outputText value="#{quotedata.get('j_fund')}" />
                     </p:column>
 
-                    <p:column headerText="发文量" filterBy="#{quotedata.get('被引次数')}" sortBy="#{quotedata.get('被引次数')}" filterMatchMode="startsWith">
+                    <p:column headerText="被引量" filterBy="#{quotedata.get('被引次数')}" sortBy="#{quotedata.get('被引次数')}" filterMatchMode="contains">
                         <h:outputText value="#{quotedata.get('被引次数')}" />
                     </p:column>
-                    <p:column headerText="发文量" filterBy="#{quotedata.get('篇均被引次数')}" sortBy="#{quotedata.get('篇均被引次数')}" filterMatchMode="startsWith">
+                    <p:column headerText="被引量" filterBy="#{quotedata.get('篇均被引次数')}" sortBy="#{quotedata.get('篇均被引次数')}" filterMatchMode="contains">
                         <h:outputText value="#{quotedata.get('篇均被引次数')}" />
                     </p:column>
                 </p:dataTable>
@@ -109,9 +109,7 @@
 
                     },
                     legend: {
-
                         data: ['基金总被引次数', '篇均被引次数'],
-
                         x: '190px',
                         y: '14px'
 
