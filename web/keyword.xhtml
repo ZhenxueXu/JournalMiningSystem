@@ -17,8 +17,15 @@
     <body>
         <h:form style="display: inline; top: 1px;" >
             <p:growl id="error" showDetail="true"/>
-            <p:inputText id="minYear" value="#{keywordAnalysis.minYear}" style=" width: 40px"/> &nbsp;至&nbsp;
-            <p:inputText id="maxYear" value="#{keywordAnalysis.maxYear}" style=" width: 40px"/>年 &nbsp;
+            <h:selectOneMenu id="maxYear" value="#{keywordAnalysis.minYear}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all">
+                
+                <f:selectItems value="#{keywordAnalysis.menu}" />
+            </h:selectOneMenu> &nbsp;至&nbsp;
+            <h:selectOneMenu id="minYear" value="#{keywordAnalysis.maxYear}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all">
+                
+                <f:selectItems value="#{keywordAnalysis.menu}" />
+            </h:selectOneMenu>年 &nbsp;
+            
             <p:commandButton value="分析" update="maxYear,minYear"  oncomplete="location.reload();" style=""/>  
 
         </h:form>
