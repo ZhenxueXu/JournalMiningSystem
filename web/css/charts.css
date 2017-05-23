@@ -14,5 +14,39 @@
     border-top-right-radius: 4px;
     cursor: pointer;
     text-shadow: 0 -1px 0 #1584de;
-   
+
+}
+
+/*position:absolute;left:21%;top:21%;
+width:58%;
+height:58%;*/
+
+#tipbox{     z-index:10000;
+             display:none;
+             border-color: #000;
+             border-radius: 3px;
+             border-width: 5px;
+             -webkit-border-radius: 5px;
+             -moz-border-radius: 5px;
+             font-size: 10px; 
+
+             overflow:hidden;
+             position:absolute;
+             left:21%;top:21%;
+             width:40%;
+             height:40%;
+             background:#000; opacity: 0.5!important;
+             filter:alpha(opacity=60);opacity:1;}
+#tipbox img{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 2%;
+    left: 94%;
+}
+#tipbox .main{
+    padding:10px;
+    color: #FFF;
+    font-size: 15px;
+
 }

@@ -47,9 +47,8 @@ html, body {
     text-shadow: 0 -1px 0 #000;
 }
 
-#header h1.site_title a {
-    color: #fff;
-    text-decoration: none;
+#header h1.site_title img {
+    display: inline-block; vertical-align: middle;
 }
 
 #header h2.section_title {
@@ -285,10 +284,10 @@ html, body {
     top:1%;
     height: 100% !important;
     left: 0px;
-    
-/*    overflow-x:  scroll;*/
-   
-    
+
+    /*    overflow-x:  scroll;*/
+
+
 }
 .second_header{
     position: relative;
@@ -316,7 +315,7 @@ html, body {
 
 }
 .second_header img{
-   display: inline-block; width: 25px; vertical-align: -4px;
+    display: inline-block; width: 25px; vertical-align: -4px;
 }
 
 /*#divid{

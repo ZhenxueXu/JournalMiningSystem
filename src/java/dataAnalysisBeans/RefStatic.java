@@ -41,8 +41,6 @@ public class RefStatic implements Serializable {
     public String getMinYear() {
         return minYear;
     }
-    
-    
 
     public void setMinYear(String minYear) {
         this.minYear = minYear;
@@ -54,15 +52,6 @@ public class RefStatic implements Serializable {
 
     public void setMaxYear(String maxYear) {
         this.maxYear = maxYear;
-    }
-    Map<String,String> menu;
-
-    public Map<String, String> getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Map<String, String> menu) {
-        this.menu = menu;
     }
 
     public RefStatic() {
@@ -78,12 +67,6 @@ public class RefStatic implements Serializable {
             if (rs.next()) {
                 minYear = rs.getString(1);
                 maxYear = rs.getString(2);
-            }
-            sql="select distinct j_year from journal_info order by j_year";
-            menu = new HashMap<>();
-            rs = stat.executeQuery(sql);
-            while(rs.next()){
-                menu.put(rs.getString(1), rs.getString(1));
             }
 
         } catch (Exception e) {
