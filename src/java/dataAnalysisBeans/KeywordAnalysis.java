@@ -13,9 +13,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 关键字分析
@@ -30,16 +28,6 @@ public class KeywordAnalysis implements Serializable {
     private String maxYear;
     List<String> yearData;
     List<List<WordCloudData>> trendData;
-    Map<String,String> menu;
-
-    public Map<String, String> getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Map<String, String> menu) {
-        this.menu = menu;
-    }
-    
 
     public KeywordAnalysis() {
         Connection conn = null;
@@ -54,12 +42,6 @@ public class KeywordAnalysis implements Serializable {
             if (rs.next()) {
                 minYear = rs.getString(1);
                 maxYear = rs.getString(2);
-            }
-            sql="select distinct j_year from journal_info order by j_year";
-            menu = new HashMap<>();
-            rs = stat.executeQuery(sql);
-            while(rs.next()){
-                menu.put(rs.getString(1), rs.getString(1));
             }
 
         } catch (Exception e) {

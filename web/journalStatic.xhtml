@@ -17,15 +17,8 @@
     <body>
         <h:form>
             <p:growl id="error" showDetail="true"/>
-            <h:selectOneMenu id="maxYear" value="#{refStatic.minYear}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all">
-                
-                <f:selectItems value="#{refStatic.menu}" />
-            </h:selectOneMenu> &nbsp;至&nbsp;
-            <h:selectOneMenu id="minYear" value="#{refStatic.maxYear}" class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all">
-                
-                <f:selectItems value="#{refStatic.menu}" />
-            </h:selectOneMenu>年 &nbsp;
-            
+            <p:inputText id="minYear" value="#{refStatic.minYear}"  style=" width: 60px" /> 年&nbsp;至&nbsp;
+            <p:inputText id="maxYear" value="#{refStatic.maxYear}" style=" width: 60px"/>年 &nbsp;
             <p:commandButton value="分析" update="maxYear,minYear"  oncomplete="location.reload();"/>             
             <button type ="button" value="" onclick="showTrend()" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" ><span class="ui-button-text ui-c">逐年分析</span></button>
         </h:form>
