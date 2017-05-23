@@ -32,10 +32,10 @@ height:58%;*/
 
              overflow:hidden;
              position:absolute;
-             left:21%;top:21%;
+             left:29%;top:21%;
              width:40%;
-             height:40%;
-             background:#000; opacity: 0.5!important;
+             height:42%;
+             background: #333 ; opacity: 0.5!important;
              filter:alpha(opacity=60);opacity:1;}
 #tipbox img{
     position: absolute;
@@ -44,8 +44,20 @@ height:58%;*/
     top: 2%;
     left: 94%;
 }
-#tipbox .main{
-    padding:10px;
+#tipbox h{
+    position: absolute;
+    left: 43%;
+    top: 4%;
+    font-size: 20px;
+    color:  #FFF;
+}
+#tipbox  a{
+    position:  absolute;
+    top: 20%;
+    left: 10%;
+    right: 10%;
+    
+    padding:5px;
     color: #FFF;
     font-size: 15px;
 
