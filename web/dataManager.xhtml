@@ -5,11 +5,17 @@
     <h:head>
         <title>数据管理</title>
     </h:head>
-    <h:body>
-        <h:form>
-            <h:button outcome="input.xhtml" value="上传"/>
-            <h:commandButton  value="清空" action="#{deleteData.delete()}"/>
+
+    <h:body  style=" width: 95%; height: 100%">
+        <div align="center" style="vertical-align: middle">
+         <h:form >
+             <br/><br/><br/><br/><br/><br/>
+            <h:button outcome="input.xhtml" value="上传" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="height: 30px;width: 100px; margin-right: 30px"/>
+            <h:commandButton  value="清空" action="#{deleteData.delete()}" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="height: 30px;width: 100px; margin-left: 30px"/>
         </h:form>
+        </div>
+       
+
         
         
     </h:body>

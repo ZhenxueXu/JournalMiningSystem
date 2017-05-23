@@ -47,13 +47,13 @@
                     }
                 },
                 xAxis: {
-                    name:'被引频次',
+                    name: '被引频次',
                     type: 'category',
                     boundaryGap: false,
                     data: []
                 },
                 yAxis: {
-                    name:'论文篇数/篇',
+                    name: '论文篇数/篇',
                     type: 'value',
                     boundaryGap: [0, '100%']
                 },
@@ -104,7 +104,7 @@
             data = #{refAnalysis.frequency};
             option.series[0].data = data.series[0].data;
             option.xAxis.data = data.xAxis[0].data;
-           
+
             myChart.setOption(option);
 
 

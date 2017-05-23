@@ -11,6 +11,7 @@ package dataAnalysisBeans;
 import JDBCUtils.JDBCUtils;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.code.Position;
+import com.github.abel533.echarts.data.WordCloudData;
 import com.github.abel533.echarts.json.GsonOption;
 import com.github.abel533.echarts.series.Bar;
 import com.github.abel533.echarts.series.Graph;
@@ -52,15 +53,25 @@ public class AuthorAnalysis implements Serializable {
     private CategoryAxis xAxis2;
     private Bar bar2;
     private List<Map> AuthorPublishdata;
-     private List<Map> AuthorQuotedata;
+    private List<Map> AuthorQuotedata;
     private String minYear = "2010";
-    private String maxYear ="2015";
-   
+    private String maxYear = "2015";
+    private String coreAuthor = "";
 
+    public String getCoreAuthor() {
+
+        return coreAuthor;
+    }
+
+    public void setCoreAuthor(String coreAuthor) {
+        this.coreAuthor = coreAuthor;
+    }
 
     public AuthorAnalysis() {
         setAllData();
         getHIdex();
+        setCoreAuthor();
+
     }
 
     public String getMinYear() {
@@ -78,8 +89,6 @@ public class AuthorAnalysis implements Serializable {
     public void setMaxYear(String maxYear) {
         this.maxYear = maxYear;
     }
-    
-    
 
     public void setMin_h_index(int min_h_index) {
         this.min_h_index = min_h_index;
@@ -88,7 +97,6 @@ public class AuthorAnalysis implements Serializable {
     public int getMin_h_index() {
         return min_h_index;
     }
-    
 
     public void setAllData() {
         min_h_index = 10;
@@ -171,7 +179,7 @@ public class AuthorAnalysis implements Serializable {
             }
             bar1.data(data);
             xAxis1.data(xdata);
-                        //--start 被引量统计表---//
+            //--start 被引量统计表---//
             sql = "select j_author as 作者, sum(j_citation_frequency) as 被引总计 "
                     + " from journal_info,paper_author "
                     + " where journal_info.j_number = paper_author.j_number "
@@ -206,8 +214,8 @@ public class AuthorAnalysis implements Serializable {
     }
 
     Map<String, Integer> current;
-    public void getHIdex() {
 
+    public void getHIdex() {
 
         Connection conn = null;
         Statement stat = null;
@@ -239,7 +247,7 @@ public class AuthorAnalysis implements Serializable {
                 }
             }
             current.put(currentAuthor, h_index);                //放入最后一个作者
-            hIndex = new ArrayList<>(current.entrySet());     
+            hIndex = new ArrayList<>(current.entrySet());
 
         } catch (Exception e) {
 
@@ -248,13 +256,13 @@ public class AuthorAnalysis implements Serializable {
         }
 
     }
-    
-    public void setCoreAuthor(){
-         Connection conn = null;
+
+    public void setCoreAuthor() {
+        Connection conn = null;
         Statement stat = null;
         ResultSet local = null;
         String sql;
-        try{
+        try {
             conn = JDBCUtils.getConn();
             stat = conn.createStatement();
             sql = "call proce_core_author()";
@@ -265,13 +273,22 @@ public class AuthorAnalysis implements Serializable {
                     core_author.add(local.getString(1));
                 }
             }
-            
-        }catch(Exception e){
-            
-        }finally{
+
+        } catch (Exception e) {
+
+        } finally {
             JDBCUtils.close(local, stat, conn);
         }
-        
+
+    }
+
+    public Map<String, String> getCore_author() {
+        setCoreAuthor();
+        Map<String, String> authors = new HashMap<>();
+        for (String item : core_author) {
+            authors.put(item, item);
+        }
+        return authors;
     }
 
     public String getAuthorBeiYinData() {
@@ -288,7 +305,6 @@ public class AuthorAnalysis implements Serializable {
         return AuthorQuotedata;
     }
 
- 
     public List<Map> getAuthorPublishdata() {
         return AuthorPublishdata;
     }
@@ -306,9 +322,11 @@ public class AuthorAnalysis implements Serializable {
         return option.toString();
     }
 
-    public String getCoreAuthorInfo() {
+    private Map<String, Map<String, Integer>> author_keyword;
+
+    public Graph getCoreAuthorInfo() {
         setCoreAuthor();
-        Map<String, Map<String, Integer>> author_keyword = new HashMap();
+        author_keyword = new HashMap();
         Map<String, Integer> keywords = new HashMap<>();
         Set<String> key = new HashSet<>();
         Graph graph = new Graph();
@@ -321,14 +339,14 @@ public class AuthorAnalysis implements Serializable {
             stat = conn.createStatement();
             sql = "select distinct j_orgin from journal_info";
             rs = stat.executeQuery(sql);
-            String journalName ="";
-            if(rs.next()){
+            String journalName = "";
+            if (rs.next()) {
                 journalName = rs.getString(1);
             }
-           
+
             for (String author : core_author) {
                 Node node = new Node();
-                Normal normal=new Normal();
+                Normal normal = new Normal();
                 normal.show(true).position(Position.top);
                 node.name(author).symbolSize(25);
                 Link link = new Link();
@@ -363,7 +381,7 @@ public class AuthorAnalysis implements Serializable {
         }
 
         Gson gson = new Gson();
-        return gson.toJson(graph);
+        return graph;
     }
 
     public List<Map.Entry<String, Integer>> gethIndex() {
@@ -373,7 +391,29 @@ public class AuthorAnalysis implements Serializable {
     public void sethIndex(List<Map.Entry<String, Integer>> hIndex) {
         this.hIndex = hIndex;
     }
-    
-    
+
+    public String getData() {
+        
+        Gson gson = new Gson();        
+        if (coreAuthor.equals("全部") || coreAuthor.equals("")) {
+            return gson.toJson(getCoreAuthorInfo().name("图"));
+        } else {
+            return gson.toJson(getSingleAuthor().name("云"));
+        }
+    }
+
+    public Graph getSingleAuthor() {
+
+        Graph wordCloud  = new Graph();
+        List<WordCloudData> list = new ArrayList<>();
+        Gson gson = new Gson();
+        for (Map.Entry<String, Integer> item : author_keyword.get(coreAuthor).entrySet()) {
+            list.add(new WordCloudData(item.getKey(), item.getValue()));
+        }
+        wordCloud.data(list);
+      
+
+        return  wordCloud;
+    }
 
 }
